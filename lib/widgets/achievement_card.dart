@@ -36,26 +36,28 @@ class AchievementCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Flex(
-                    direction: Axis.vertical,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Name Achievement Name Achievement Name Achievement Name Achievement',
-                        maxLines: 1,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        'Description',
-                        maxLines: 2,
-                        softWrap: true,
-                        style: TextStyle(fontSize: 12, color: Colors.black45),
-                      ),
-                    ],
+                  Flexible(
+                    child: Flex(
+                      direction: Axis.vertical,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name Achievement Name Achievement Name Achievement Name Achievement',
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Description',
+                          maxLines: 2,
+                          softWrap: true,
+                          style: TextStyle(fontSize: 12, color: Colors.black45),
+                        ),
+                      ],
+                    ),
                   ),
                   Flex(
                       direction: Axis.horizontal,
@@ -70,7 +72,16 @@ class AchievementCard extends StatelessWidget {
                               fontStyle: FontStyle.italic,
                               color: Colors.black45),
                         ),
-                        SizedBox(width: 5),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2),
+                          child: Text(
+                            '-',
+                            style: TextStyle(
+                                fontSize: 10,
+                                fontStyle: FontStyle.italic,
+                                color: Colors.black45),
+                          ),
+                        ),
                         Text(
                           'Finish Date',
                           textAlign: TextAlign.end,
