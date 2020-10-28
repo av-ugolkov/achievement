@@ -15,62 +15,72 @@ class AchievementCard extends StatelessWidget {
             flex: 1,
             child: _isHaveImage
                 ? Center(child: Image.asset(''))
-                : Center(child: Icon(Icons.not_interested)),
+                : Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black54,
+                      ),
+                      child: Icon(
+                        Icons.not_interested,
+                        color: Colors.grey[300],
+                        size: 55,
+                      ),
+                    ),
+                  ),
           ),
           Expanded(
             flex: 5,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Flex(
-                      direction: Axis.vertical,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Flex(
+                    direction: Axis.vertical,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name Achievement Name Achievement Name Achievement Name Achievement',
+                        maxLines: 1,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Description',
+                        maxLines: 2,
+                        softWrap: true,
+                        style: TextStyle(fontSize: 12, color: Colors.black45),
+                      ),
+                    ],
+                  ),
+                  Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Text(
-                          'Name Achievement',
-                          maxLines: 1,
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
+                          'Create Date',
+                          textAlign: TextAlign.end,
                           style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                              fontSize: 10,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black45),
                         ),
+                        SizedBox(width: 5),
                         Text(
-                          'Description',
-                          maxLines: 2,
-                          softWrap: true,
-                          style: TextStyle(fontSize: 12, color: Colors.black45),
+                          'Finish Date',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.black45),
                         ),
-                      ],
-                    ),
-                    Flex(
-                        direction: Axis.horizontal,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            'Create Date',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black45),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Finish Date',
-                            textAlign: TextAlign.end,
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black45),
-                          ),
-                        ]),
-                  ],
-                ),
+                      ]),
+                ],
               ),
             ),
           ),
