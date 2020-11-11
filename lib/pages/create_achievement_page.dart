@@ -20,7 +20,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
   final _controllerHeaderAchiv = TextEditingController();
   final _controllerDescriptionAchiv = TextEditingController();
 
-  Uint8List _imageBytes;
+  Uint8List _imageBytes = Uint8List(0);
   ImagePicker _imagePicker = new ImagePicker();
 
   @override
@@ -105,7 +105,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
               Container(
                 height: 100,
                 child: IconButton(
-                  icon: _imageBytes == null
+                  icon: _imageBytes.isEmpty
                       ? Icon(Icons.photo)
                       : Image.memory(_imageBytes),
                   onPressed: () async {
@@ -154,11 +154,14 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
     if (_formKey.currentState.validate()) {
       var id = await DbAchievement.db.getLastId();
 
-      var imagePath = path.join(utils.docsDir.path, "avatar");
-      File file = File(imagePath);
-      file.writeAsBytes(_imageBytes.toList());
-      file.create();
-
+      var imagePath = '';
+      if (_imageBytes.isNotEmpty) {
+        imagePath =
+            path.join(utils.docsDir.path, "${id}_${_imageBytes.hashCode}");
+        File file = File(imagePath);
+        file.writeAsBytes(_imageBytes.toList());
+        file.create();
+      }
       var achievement = AchievementModel(
           id,
           _controllerHeaderAchiv.text,
