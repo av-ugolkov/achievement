@@ -16,6 +16,7 @@ class CreateAchievementPage extends StatefulWidget {
 class _CreateAchievementPageState extends State<CreateAchievementPage> {
   DateTime _finishDateAchievement;
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _controllerHeaderAchiv = TextEditingController();
   final _controllerDescriptionAchiv = TextEditingController();
@@ -40,6 +41,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Создать достижение'),
         centerTitle: true,
@@ -76,7 +78,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
                 cursorHeight: 20,
                 validator: (value) {
                   if (value.length == 0) {
-                    return 'пустой заголовок';
+                    return 'Заголовок не может быть пустым';
                   }
                   return null;
                 },
@@ -115,7 +117,6 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
                       _imageBytes = await galleryImage.readAsBytes();
                       setState(() {});
                     }
-                    //Navigator.of(context).pop();
                   },
                   iconSize: 100,
                 ),
@@ -123,6 +124,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
               SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () async {
+                  FocusScope.of(context).unfocus();
                   var selectDate = await showDatePicker(
                       context: context,
                       initialDate: DateTime.now(),
@@ -172,7 +174,7 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
       DbAchievement.db.insertAchievement(achievement);
       Navigator.pop(context);
     } else {
-      //_showMessage(message: 'Form is not valid! Please review and correct');
+      _showMessage(message: 'Form is not valid! Please review and correct');
     }
   }
 
@@ -180,6 +182,23 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(radius),
       borderSide: BorderSide(color: color),
+    );
+  }
+
+  void _showMessage({String message}) {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 5),
+        backgroundColor: Colors.red,
+        content: Text(
+          message,
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 18.0,
+          ),
+        ),
+      ),
     );
   }
 }
