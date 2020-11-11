@@ -1,12 +1,22 @@
+import 'dart:io';
+
+import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class AchievementCard extends StatelessWidget {
-  final bool _isHaveImage = false;
+  bool _isHaveImage = false;
+  AchievementModel _achievementModel;
+
+  AchievementCard(AchievementModel achievement) {
+    _achievementModel = achievement;
+    _isHaveImage = _achievementModel.imagePath.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 75,
+      height: 78,
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(),
       child: Row(
@@ -14,7 +24,7 @@ class AchievementCard extends StatelessWidget {
           Expanded(
             flex: 1,
             child: _isHaveImage
-                ? Center(child: Image.asset(''))
+                ? Center(child: Image.file(File(_achievementModel.imagePath)))
                 : Center(
                     child: Container(
                       decoration: BoxDecoration(
@@ -43,7 +53,7 @@ class AchievementCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name Achievement Name Achievement Name Achievement Name Achievement',
+                          _achievementModel.header,
                           maxLines: 1,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
@@ -51,7 +61,7 @@ class AchievementCard extends StatelessWidget {
                               fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          'Description',
+                          _achievementModel.description,
                           maxLines: 2,
                           softWrap: true,
                           style: TextStyle(fontSize: 12, color: Colors.black45),
@@ -64,32 +74,8 @@ class AchievementCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Text(
-                          'Create Date',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.black45),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 2),
-                          child: Text(
-                            '-',
-                            style: TextStyle(
-                                fontSize: 10,
-                                fontStyle: FontStyle.italic,
-                                color: Colors.black45),
-                          ),
-                        ),
-                        Text(
-                          'Finish Date',
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.black45),
-                        ),
+                        dateTime(FormateDate.yearNumMonthDay(
+                            _achievementModel.finishDate)),
                       ]),
                 ],
               ),
@@ -97,6 +83,15 @@ class AchievementCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Text dateTime(String dateString) {
+    return Text(
+      dateString,
+      textAlign: TextAlign.end,
+      style: TextStyle(
+          fontSize: 10, fontStyle: FontStyle.italic, color: Colors.black45),
     );
   }
 }
