@@ -36,12 +36,13 @@ class _AchievementPageState extends State<AchievementPage> {
                       var achievement = snapshot.data[index];
                       return GestureDetector(
                           onTap: () {
-                            print('onTap ${achievement.header}');
+                            Navigator.pushNamed(
+                                context, '/view_achievement_page',
+                                arguments: achievement);
                           },
                           onLongPress: () async {
                             var id = await DbAchievement.db
                                 .deleteAchievement(achievement.id);
-                            print('deleteAchievement $id');
                             setState(() {});
                           },
                           child: AchievementCard(achievement));
