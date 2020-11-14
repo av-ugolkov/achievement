@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
-class CreateAchievementPage extends StatefulWidget {
+class CreateEditAchievementPage extends StatefulWidget {
   @override
-  _CreateAchievementPageState createState() => _CreateAchievementPageState();
+  _CreateEditAchievementPageState createState() =>
+      _CreateEditAchievementPageState();
 }
 
-class _CreateAchievementPageState extends State<CreateAchievementPage> {
+class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   DateTime _finishDateAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -23,6 +24,8 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
 
   Uint8List _imageBytes = Uint8List(0);
   ImagePicker _imagePicker = new ImagePicker();
+
+  bool _isRemind = false;
 
   @override
   void initState() {
@@ -145,6 +148,14 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
                   ],
                 ),
               ),
+              Checkbox(
+                value: _isRemind,
+                onChanged: (value) {
+                  setState(() {
+                    _isRemind = !_isRemind;
+                  });
+                },
+              )
             ],
           ),
         ),
@@ -170,7 +181,8 @@ class _CreateAchievementPageState extends State<CreateAchievementPage> {
           _controllerDescriptionAchiv.text,
           imagePath,
           DateTime.now(),
-          _finishDateAchievement);
+          _finishDateAchievement,
+          _isRemind);
       DbAchievement.db.insertAchievement(achievement);
       Navigator.pop(context);
     } else {

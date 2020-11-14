@@ -64,6 +64,7 @@ class ViewAchievementPage extends StatelessWidget {
               Text(FormateDate.yearMonthDay(_achievementModel.finishDate))
             ],
           ),
+          Text(_achievementModel.isRemind ? 'isRemind' : '!isRemind')
         ],
       ),
     );
