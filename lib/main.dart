@@ -1,5 +1,6 @@
 import 'dart:io';
-import 'package:achievement/pages/create_achievement_page.dart';
+import 'package:achievement/pages/create_edit_achievement_page.dart';
+import 'package:achievement/pages/splash_page.dart';
 import 'package:achievement/pages/view_achievement_page.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,14 +26,15 @@ class MyApp extends StatelessWidget {
       title: 'Achievement',
       initialRoute: '/',
       routes: {
-        '/create_achievement_page': (context) => CreateAchievementPage(),
+        '/achievement_page': (context) => AchievementPage(),
+        '/create_achievement_page': (context) => CreateEditAchievementPage(),
         '/view_achievement_page': (context) => ViewAchievementPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: AchievementPage(),
+      home: SplashPage(),
     );
   }
 }
