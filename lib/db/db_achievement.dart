@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:achievement/user/config.dart';
+import 'package:achievement/model/achievement_model.dart';
 
-import '../model/achievement_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -40,10 +40,10 @@ class DbAchievement {
   }
 
   void _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    await db
+    /*await db
         .execute("ALTER TABLE $_achievemntTable ADD COLUMN $_isRemind INTEGER");
 
-    await db.setVersion(newVersion);
+    await db.setVersion(newVersion);*/
   }
 
   void _downgradeDB(Database db, int oldVersion, int newVersion) async {

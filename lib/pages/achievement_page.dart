@@ -40,12 +40,14 @@ class _AchievementPageState extends State<AchievementPage> {
                                 context, '/view_achievement_page',
                                 arguments: achievement);
                           },
-                          onLongPress: () async {
-                            var id = await DbAchievement.db
-                                .deleteAchievement(achievement.id);
-                            setState(() {});
+                          onLongPress: () {
+                            setState(() async {
+                              var id = await DbAchievement.db
+                                  .deleteAchievement(achievement.id);
+                              print('delete achievement $id');
+                            });
                           },
-                          child: AchievementCard(achievement));
+                          child: achievementCard(achievement));
                     });
               } else {
                 return Container();

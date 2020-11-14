@@ -1,3 +1,3 @@
 class Config {
-  static const int version = 2;
+  static const int version = 1;
 }

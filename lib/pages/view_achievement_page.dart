@@ -5,12 +5,10 @@ import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class ViewAchievementPage extends StatelessWidget {
-  AchievementModel _achievementModel;
-
   @override
   Widget build(BuildContext context) {
     RouteSettings settings = ModalRoute.of(context).settings;
-    _achievementModel = settings.arguments;
+    AchievementModel achievementModel = settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text('Достижение'),
@@ -32,11 +30,11 @@ class ViewAchievementPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _achievementModel.header,
+                  achievementModel.header,
                   style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  _achievementModel.description,
+                  achievementModel.description,
                   style: TextStyle(fontSize: 18, color: Colors.black54),
                 ),
               ],
@@ -46,25 +44,25 @@ class ViewAchievementPage extends StatelessWidget {
           Container(
             width: 100,
             height: 100,
-            child: _achievementModel.imagePath.isEmpty
+            child: achievementModel.imagePath.isEmpty
                 ? Icon(
                     Icons.not_interested,
                     color: Colors.grey[300],
                     size: 100,
                   )
                 : Image.file(
-                    File(_achievementModel.imagePath),
+                    File(achievementModel.imagePath),
                   ),
           ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(FormateDate.yearMonthDay(_achievementModel.createDate)),
-              Text(FormateDate.yearMonthDay(_achievementModel.finishDate))
+              Text(FormateDate.yearMonthDay(achievementModel.createDate)),
+              Text(FormateDate.yearMonthDay(achievementModel.finishDate))
             ],
           ),
-          Text(_achievementModel.isRemind ? 'isRemind' : '!isRemind')
+          Text(achievementModel.isRemind ? 'isRemind' : '!isRemind')
         ],
       ),
     );
