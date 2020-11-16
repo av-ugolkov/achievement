@@ -1,3 +1,5 @@
+import 'package:achievement/model/remind_model.dart';
+
 class AchievementModel {
   int id;
   String header;
@@ -5,10 +7,10 @@ class AchievementModel {
   String imagePath;
   DateTime createDate;
   DateTime finishDate;
-  bool isRemind;
+  RemindModel remind;
 
   AchievementModel(this.id, this.header, this.description, this.imagePath,
-      this.createDate, this.finishDate, this.isRemind);
+      this.createDate, this.finishDate, this.remind);
 
   AchievementModel.fromMap(Map<String, dynamic> achievement) {
     id = achievement['id'];
@@ -19,7 +21,7 @@ class AchievementModel {
         DateTime.fromMillisecondsSinceEpoch(achievement['create_date']);
     finishDate =
         DateTime.fromMillisecondsSinceEpoch(achievement['finish_date']);
-    isRemind = achievement['is_remind'] == 1;
+    remind = achievement['remind'];
   }
 
   Map<String, dynamic> toMap() {
@@ -30,7 +32,7 @@ class AchievementModel {
     map['image_path'] = imagePath;
     map['create_date'] = createDate.millisecondsSinceEpoch;
     map['finish_date'] = finishDate.millisecondsSinceEpoch;
-    map['is_remind'] = isRemind ? 1 : 0;
+    map['remind'] = remind;
     return map;
   }
 }
