@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_file.dart';
 import 'package:achievement/db/db_remind.dart';
@@ -14,16 +13,17 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    DbFile.db.initDB(
-      onCreate: (db, version) {
-        DbAchievement.db.createTable();
-        DbRemind.db.createTable();
-        _nextPage();
-      },
-      onOpen: (db) {
-        _nextPage();
+    _initState();
+  }
+
+  Future<void> _initState() async {
+    await DbFile.db.initDB(
+      onCreate: (db, version) async {
+        await DbAchievement.db.createTable(db);
+        await DbRemind.db.createTable(db);
       },
     );
+    _nextPage();
   }
 
   void _nextPage() {

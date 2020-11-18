@@ -1,4 +1,5 @@
 import 'package:achievement/model/achievement_model.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'db_file.dart';
 
@@ -17,8 +18,8 @@ class DbAchievement {
 
   static final DbAchievement db = DbAchievement._();
 
-  Future<void> createTable() async {
-    await DbFile.db.execute(
+  Future<void> createTable(Database db) async {
+    await db.execute(
       'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER, $_remind INTEGER)',
     );
   }
@@ -37,7 +38,7 @@ class DbAchievement {
     await db.setVersion(newVersion);
   }*/
 
-  Future<List<AchievementModel>> getAchievements() async {
+  Future<List<AchievementModel>> getList() async {
     final List<Map<String, dynamic>> achievemntMapList =
         await DbFile.db.query(_nameTable);
     final List<AchievementModel> achievementsList = [];
@@ -48,10 +49,9 @@ class DbAchievement {
   }
 
   Future<int> getLastId() async {
-    final List<Map<String, dynamic>> achievemntMapList =
-        await DbFile.db.query(_nameTable);
+    final List<Map<String, dynamic>> list = await DbFile.db.query(_nameTable);
     int id = 0;
-    achievemntMapList.forEach((achievement) {
+    list.forEach((achievement) {
       if (achievement['id'] >= id) {
         id = achievement['id'] + 1;
       }
@@ -59,18 +59,17 @@ class DbAchievement {
     return id;
   }
 
-  Future<AchievementModel> insertAchievement(
-      AchievementModel achievement) async {
+  Future<AchievementModel> insert(AchievementModel achievement) async {
     achievement.id = await DbFile.db.insert(_nameTable, achievement.toMap());
     return achievement;
   }
 
-  Future<int> updateAchievement(AchievementModel achievement) async {
+  Future<int> update(AchievementModel achievement) async {
     return await DbFile.db.update(_nameTable, achievement.toMap(),
         where: '$_id = ?', whereArgs: [achievement.id]);
   }
 
-  Future<int> deleteAchievement(int id) async {
+  Future<int> delete(int id) async {
     return await DbFile.db
         .delete(_nameTable, where: '$_id = ?', whereArgs: [id]);
   }

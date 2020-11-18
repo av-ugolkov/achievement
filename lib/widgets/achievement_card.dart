@@ -4,7 +4,7 @@ import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
-Widget achievementCard(AchievementModel achievement) {
+Container achievementCard(AchievementModel achievement) {
   return Container(
     height: 78,
     padding: const EdgeInsets.all(5.0),
@@ -64,8 +64,14 @@ Widget achievementCard(AchievementModel achievement) {
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      dateTime(
-                          FormateDate.yearNumMonthDay(achievement.finishDate)),
+                      Text(
+                        FormateDate.yearNumMonthDay(achievement.finishDate),
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontSize: 10,
+                            fontStyle: FontStyle.italic,
+                            color: Colors.black45),
+                      ),
                     ]),
               ],
             ),
@@ -73,14 +79,5 @@ Widget achievementCard(AchievementModel achievement) {
         ),
       ],
     ),
-  );
-}
-
-Text dateTime(String dateString) {
-  return Text(
-    dateString,
-    textAlign: TextAlign.end,
-    style: TextStyle(
-        fontSize: 10, fontStyle: FontStyle.italic, color: Colors.black45),
   );
 }

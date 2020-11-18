@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,18 @@ class ViewAchievementPage extends StatelessWidget {
               Text(FormateDate.yearMonthDay(achievementModel.finishDate))
             ],
           ),
-          Text(achievementModel.isRemind ? 'isRemind' : '!isRemind')
+          Checkbox(value: achievementModel.remind != null, onChanged: null),
+          Container(
+            child: (achievementModel.remind == RemindModel.empty)
+                ? null
+                : Row(
+                    children: [
+                      Text(achievementModel.remind.hour.toString()),
+                      Text(':'),
+                      Text(achievementModel.remind.minute.toString())
+                    ],
+                  ),
+          )
         ],
       ),
     );

@@ -9,9 +9,6 @@ import 'package:sqflite/sqflite.dart';
 class DbFile {
   DbFile._();
 
-  final String id = 'id';
-  String get nameTable => null;
-
   static final DbFile db = DbFile._();
   static Database _database;
 
@@ -34,10 +31,6 @@ class DbFile {
     Directory dir = await getApplicationDocumentsDirectory();
     String path = dir.path + '/Achievement.db';
     return path;
-  }
-
-  Future<void> execute(String sql) async {
-    await _database.execute(sql);
   }
 
   Future<void> setVersion(int version) async {

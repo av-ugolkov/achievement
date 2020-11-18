@@ -1,3 +1,4 @@
+import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/widgets/achievement_card.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class AchievementPage extends StatefulWidget {
 class _AchievementPageState extends State<AchievementPage> {
   @override
   Widget build(BuildContext context) {
-    var achievements = DbAchievement.db.getAchievements();
+    var achievements = DbAchievement.db.getList();
 
     return Scaffold(
         appBar: AppBar(
@@ -42,8 +43,11 @@ class _AchievementPageState extends State<AchievementPage> {
                           },
                           onLongPress: () {
                             setState(() async {
-                              var id = await DbAchievement.db
-                                  .deleteAchievement(achievement.id);
+                              if (achievement.remind != null) {
+                                await DbRemind.db.delete(achievement.remind.id);
+                              }
+                              var id =
+                                  await DbAchievement.db.delete(achievement.id);
                               print('delete achievement $id');
                             });
                           },

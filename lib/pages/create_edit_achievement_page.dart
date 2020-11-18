@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
@@ -26,6 +28,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   ImagePicker _imagePicker = new ImagePicker();
 
   bool _isRemind = false;
+  RemindModel _remind = RemindModel.empty;
 
   @override
   void initState() {
@@ -155,6 +158,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     _isRemind = !_isRemind;
                   });
                 },
+              ),
+              Row(
+                children: [],
               )
             ],
           ),
@@ -175,6 +181,14 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         file.writeAsBytes(_imageBytes.toList());
         file.create();
       }
+      if (_isRemind) {
+        _remind.id = await DbRemind.db.getLastId();
+        _remind.hour = 12;
+        _remind.minute = 30;
+      } else {
+        _remind = RemindModel.empty;
+      }
+
       var achievement = AchievementModel(
           id,
           _controllerHeaderAchiv.text,
@@ -182,8 +196,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           imagePath,
           DateTime.now(),
           _finishDateAchievement,
-          _isRemind);
-      DbAchievement.db.insertAchievement(achievement);
+          _remind);
+      DbAchievement.db.insert(achievement);
       Navigator.pop(context);
     } else {
       _showMessage(message: 'Form is not valid! Please review and correct');
