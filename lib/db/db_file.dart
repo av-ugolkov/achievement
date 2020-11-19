@@ -37,7 +37,16 @@ class DbFile {
     await _database.setVersion(version);
   }
 
-  Future<List<Map<String, dynamic>>> query(String table) async {
+  Future<List<Map<String, dynamic>>> query(String table,
+      {bool distinct,
+      List<String> columns,
+      String where,
+      List<dynamic> whereArgs,
+      String groupBy,
+      String having,
+      String orderBy,
+      int limit,
+      int offset}) async {
     return await _database.query(table);
   }
 

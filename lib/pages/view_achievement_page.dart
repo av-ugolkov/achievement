@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/formate_date.dart';
@@ -63,20 +64,32 @@ class ViewAchievementPage extends StatelessWidget {
               Text(FormateDate.yearMonthDay(achievementModel.finishDate))
             ],
           ),
-          Checkbox(value: achievementModel.remind != null, onChanged: null),
+          Checkbox(value: achievementModel.remindId != null, onChanged: null),
           Container(
-            child: (achievementModel.remind == RemindModel.empty)
+            child: (achievementModel.remindId == -1)
                 ? null
-                : Row(
-                    children: [
-                      Text(achievementModel.remind.hour.toString()),
-                      Text(':'),
-                      Text(achievementModel.remind.minute.toString())
-                    ],
-                  ),
+                : _remindWidget(achievementModel.remindId),
           )
         ],
       ),
+    );
+  }
+
+  Widget _remindWidget(int id) {
+    var remind = DbRemind.db.getRemind(id);
+    return FutureBuilder(
+      future: remind,
+      builder: (context, snapshot) {
+        return !snapshot.hasData
+            ? Container()
+            : Row(
+                children: [
+                  Text(snapshot.data.hour.toString()),
+                  Text(':'),
+                  Text(snapshot.data.minute.toString())
+                ],
+              );
+      },
     );
   }
 }

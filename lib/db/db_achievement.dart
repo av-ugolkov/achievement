@@ -14,13 +14,13 @@ class DbAchievement {
   final String _imagePath = 'image_path';
   final String _createDate = 'create_date';
   final String _finishDate = 'finish_date';
-  final String _remind = 'remind';
+  final String _remindId = 'remind_id';
 
   static final DbAchievement db = DbAchievement._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER, $_remind INTEGER)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER, $_remindId INTEGER)',
     );
   }
 

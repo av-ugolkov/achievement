@@ -185,6 +185,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         _remind.id = await DbRemind.db.getLastId();
         _remind.hour = 12;
         _remind.minute = 30;
+        DbRemind.db.insert(_remind);
       } else {
         _remind = RemindModel.empty;
       }
@@ -196,7 +197,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           imagePath,
           DateTime.now(),
           _finishDateAchievement,
-          _remind);
+          _remind.id);
       DbAchievement.db.insert(achievement);
       Navigator.pop(context);
     } else {

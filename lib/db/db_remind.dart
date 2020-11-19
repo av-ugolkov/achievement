@@ -19,7 +19,7 @@ class DbRemind {
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_period TEXT, $_days TEXT, $_months TEXT, $_hour INTEGER, $_minute INTEGER)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_period INTEGER, $_days TEXT, $_months TEXT, $_hour INTEGER, $_minute INTEGER)',
     );
   }
 
@@ -32,6 +32,15 @@ class DbRemind {
       }
     });
     return id;
+  }
+
+  Future<RemindModel> getRemind(int id) async {
+    if (id == -1) return RemindModel.empty;
+
+    final List<Map<String, dynamic>> list =
+        await DbFile.db.query(_nameTable, where: '$_id = ?', whereArgs: [id]);
+    RemindModel remind = RemindModel.fromMap(list[0]);
+    return remind;
   }
 
   Future<RemindModel> insert(RemindModel remind) async {
