@@ -14,7 +14,11 @@ Container achievementCard(AchievementModel achievement) {
         Expanded(
           flex: 1,
           child: achievement.imagePath.isNotEmpty
-              ? Center(child: Image.file(File(achievement.imagePath)))
+              ? Center(
+                  child: Image.file(
+                    File(achievement.imagePath),
+                  ),
+                )
               : Center(
                   child: Container(
                     decoration: BoxDecoration(

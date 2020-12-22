@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
+import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class CreateEditAchievementPage extends StatefulWidget {
@@ -28,6 +31,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   ImagePicker _imagePicker = new ImagePicker();
 
   bool _isRemind = false;
+  TypeRemind _typeRemind = TypeRemind.none;
   RemindModel _remind = RemindModel.empty;
 
   @override
@@ -66,22 +70,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
             children: [
               TextFormField(
                 controller: _controllerHeaderAchiv,
-                //autofocus: true,
                 maxLength: 100,
                 decoration: InputDecoration(
-                  enabledBorder: _outlineInputBorder(15, Colors.black54),
-                  focusedBorder: _outlineInputBorder(15, Colors.blue),
-                  errorBorder: _outlineInputBorder(15, Colors.red),
-                  focusedErrorBorder: _outlineInputBorder(15, Colors.blue),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      _controllerHeaderAchiv.clear();
-                    },
-                    child: Icon(Icons.close, color: Colors.red),
-                  ),
+                  labelText: 'Заголовок',
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -6),
                 ),
                 style: TextStyle(fontSize: 18),
-                cursorHeight: 20,
+                cursorHeight: 22,
                 validator: (value) {
                   if (value.length == 0) {
                     return 'Заголовок не может быть пустым';
@@ -89,27 +84,18 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 8),
               TextFormField(
                 controller: _controllerDescriptionAchiv,
-                maxLines: 5,
+                minLines: 1,
+                maxLines: 3,
                 maxLength: 250,
                 decoration: InputDecoration(
-                  enabledBorder: _outlineInputBorder(15, Colors.black54),
-                  focusedBorder: _outlineInputBorder(15, Colors.blue),
-                  errorBorder: _outlineInputBorder(15, Colors.red),
-                  focusedErrorBorder: _outlineInputBorder(15, Colors.blue),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      _controllerDescriptionAchiv.clear();
-                    },
-                    child: Icon(Icons.close, color: Colors.red),
-                  ),
+                  labelText: 'Описание',
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -10),
                 ),
                 style: TextStyle(fontSize: 14),
-                cursorHeight: 16,
+                cursorHeight: 18,
               ),
-              SizedBox(height: 8),
               Container(
                 height: 100,
                 child: IconButton(
@@ -127,8 +113,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   iconSize: 100,
                 ),
               ),
-              SizedBox(height: 8),
-              ElevatedButton(
+              TextButton(
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   var selectDate = await showDatePicker(
@@ -145,23 +130,39 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.date_range),
+                    Icon(
+                      Icons.date_range,
+                      color: Colors.black87,
+                    ),
                     SizedBox(width: 10),
-                    Text('${FormateDate.yearMonthDay(_finishDateAchievement)}'),
+                    Text(
+                      '${FormateDate.yearMonthDay(_finishDateAchievement)}',
+                      style: TextStyle(color: Colors.black87),
+                    ),
                   ],
                 ),
               ),
-              Checkbox(
-                value: _isRemind,
-                onChanged: (value) {
-                  setState(() {
-                    _isRemind = !_isRemind;
-                  });
-                },
-              ),
               Row(
-                children: [],
-              )
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Включить напоминание'),
+                  Checkbox(
+                    value: _isRemind,
+                    onChanged: (value) async {
+                      _typeRemind = await _getTypeRepeat(context);
+                      setState(() {
+                        _isRemind = _typeRemind != TypeRemind.none;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Container(
+                  child: (_typeRemind == TypeRemind.week)
+                      ? _weekRemind()
+                      : (_typeRemind == TypeRemind.custom)
+                          ? _customRemind()
+                          : Container())
             ],
           ),
         ),
@@ -205,13 +206,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     }
   }
 
-  OutlineInputBorder _outlineInputBorder(double radius, Color color) {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(radius),
-      borderSide: BorderSide(color: color),
-    );
-  }
-
   void _showMessage({String message}) {
     _scaffoldKey.currentState.showSnackBar(
       SnackBar(
@@ -226,6 +220,57 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Future<TypeRemind> _getTypeRepeat(BuildContext context) async {
+    TypeRemind typeRemind = TypeRemind.none;
+    if (_typeRemind == TypeRemind.none) {
+      await showModalBottomSheet(
+          context: context,
+          builder: (BuildContext bc) {
+            return Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      title: new Text('Выбрать дни недели'),
+                      onTap: () {
+                        typeRemind = TypeRemind.week;
+                        Navigator.pop(context);
+                      }),
+                  new ListTile(
+                    title: new Text('Выбрать произвольные дни'),
+                    onTap: () {
+                      typeRemind = TypeRemind.custom;
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+            );
+          });
+    }
+    return typeRemind;
+  }
+
+  Container _weekRemind() {
+    List<RemindDay> checkBoxs = List<RemindDay>();
+    for (var i = 0; i < 7; ++i) {
+      DateTime date = DateTime(1, 1, i + 1);
+      RemindDay checkBox =
+          RemindDay(title: '${DateFormat.EEEE().format(date)}');
+      checkBoxs.add(checkBox);
+    }
+    return Container(
+      child: Column(
+        children: checkBoxs,
+      ),
+    );
+  }
+
+  Container _customRemind() {
+    return Container(
+      child: Text('custom'),
     );
   }
 }

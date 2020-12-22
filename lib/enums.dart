@@ -16,3 +16,5 @@ enum Month {
   november,
   december
 }
+
+enum TypeRemind { none, week, custom }
