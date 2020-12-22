@@ -257,8 +257,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     List<RemindDay> checkBoxs = List<RemindDay>();
     for (var i = 0; i < 7; ++i) {
       DateTime date = DateTime(1, 1, i + 1);
-      RemindDay checkBox =
-          RemindDay(title: '${DateFormat.EEEE().format(date)}');
+      RemindDay checkBox = RemindDay(title: '${FormateDate.weekDayName(date)}');
       checkBoxs.add(checkBox);
     }
     return Container(
