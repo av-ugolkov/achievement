@@ -145,16 +145,21 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Включить напоминание'),
-                  Checkbox(
-                    value: _isRemind,
-                    onChanged: (value) async {
-                      _typeRemind = await _getTypeRepeat(context);
+                  Text('Напоминать'),
+                  DropdownButton(
+                    value: _typeRemind,
+                    onChanged: (value) {
                       setState(() {
-                        _isRemind = _typeRemind != TypeRemind.none;
+                        _typeRemind = value;
                       });
                     },
-                  ),
+                    items: TypeRemind.values.map<DropdownMenuItem>((value) {
+                      return DropdownMenuItem(
+                        child: Text(_getStringRemind(value)),
+                        value: value,
+                      );
+                    }).toList(),
+                  )
                 ],
               ),
               Container(
@@ -168,6 +173,17 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         ),
       ),
     );
+  }
+
+  String _getStringRemind(TypeRemind typeRemind) {
+    switch (typeRemind) {
+      case TypeRemind.week:
+        return 'по дням недели';
+      case TypeRemind.custom:
+        return 'по выборочным дням';
+      default:
+        return 'нет';
+    }
   }
 
   void _submitForm() async {
@@ -221,36 +237,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         ),
       ),
     );
-  }
-
-  Future<TypeRemind> _getTypeRepeat(BuildContext context) async {
-    TypeRemind typeRemind = TypeRemind.none;
-    if (_typeRemind == TypeRemind.none) {
-      await showModalBottomSheet(
-          context: context,
-          builder: (BuildContext bc) {
-            return Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      title: new Text('Выбрать дни недели'),
-                      onTap: () {
-                        typeRemind = TypeRemind.week;
-                        Navigator.pop(context);
-                      }),
-                  new ListTile(
-                    title: new Text('Выбрать произвольные дни'),
-                    onTap: () {
-                      typeRemind = TypeRemind.custom;
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            );
-          });
-    }
-    return typeRemind;
   }
 
   Container _weekRemind() {

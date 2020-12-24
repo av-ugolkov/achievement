@@ -22,35 +22,44 @@ class _RemindDayState extends State<RemindDay> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Container(
-          width: 200,
-          child: Text(_title),
-        ),
-        Checkbox(
-            value: _isSelect,
-            onChanged: (value) {
-              setState(() {
-                _isSelect = value;
-              });
-            }),
-        TextButton(
-          onPressed: _isSelect
-              ? () async {
-                  var newTime = await showTimePicker(
-                      context: context, initialTime: _time);
+    return Container(
+      height: 35,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 100,
+            child: Text(_title),
+          ),
+          Container(
+            width: 50,
+            child: Checkbox(
+                value: _isSelect,
+                onChanged: (value) {
                   setState(() {
-                    if (newTime != null) {
-                      _time = newTime;
-                    }
+                    _isSelect = value;
                   });
-                }
-              : null,
-          child: Text(_time.format(context)),
-        )
-      ],
+                }),
+          ),
+          Container(
+            width: 100,
+            child: TextButton(
+              onPressed: _isSelect
+                  ? () async {
+                      var newTime = await showTimePicker(
+                          context: context, initialTime: _time);
+                      setState(() {
+                        if (newTime != null) {
+                          _time = newTime;
+                        }
+                      });
+                    }
+                  : null,
+              child: Text(_time.format(context)),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
