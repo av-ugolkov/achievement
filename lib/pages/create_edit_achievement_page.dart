@@ -7,7 +7,8 @@ import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
-import 'package:achievement/widgets/remind_day_widget.dart';
+import 'package:achievement/widgets/remind_custom_day_widget.dart';
+import 'package:achievement/widgets/remind_week_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   bool _isRemind = false;
   TypeRemind _typeRemind = TypeRemind.none;
   RemindModel _remind = RemindModel.empty;
+
+  List<RemindCustomDay> _remindCustomDay = List<RemindCustomDay>();
 
   @override
   void initState() {
@@ -240,10 +243,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _weekRemind() {
-    List<RemindDay> checkBoxs = List<RemindDay>();
+    List<RemindWeekDay> checkBoxs = List<RemindWeekDay>();
     for (var i = 0; i < 7; ++i) {
       DateTime date = DateTime(1, 1, i + 1);
-      RemindDay checkBox = RemindDay(title: '${FormateDate.weekDayName(date)}');
+      RemindWeekDay checkBox =
+          RemindWeekDay(title: '${FormateDate.weekDayName(date)}');
       checkBoxs.add(checkBox);
     }
     return Container(
@@ -255,7 +259,28 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
   Container _customRemind() {
     return Container(
-      child: Text('custom'),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: _remindCustomDay),
+          IconButton(
+              icon: Icon(Icons.add_circle_outline),
+              onPressed: () {
+                setState(() {
+                  var newRemindCustom = RemindCustomDay(_removeCustomDay);
+                  _remindCustomDay.add(newRemindCustom);
+                });
+              }),
+        ],
+      ),
     );
+  }
+
+  void _removeCustomDay(RemindCustomDay remindCustomDay) {
+    setState(() {
+      _remindCustomDay.remove(remindCustomDay);
+    });
   }
 }
