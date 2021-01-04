@@ -11,7 +11,6 @@ import 'package:achievement/widgets/remind_custom_day_widget.dart';
 import 'package:achievement/widgets/remind_week_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:path/path.dart' as path;
 
 class CreateEditAchievementPage extends StatefulWidget {
@@ -21,7 +20,7 @@ class CreateEditAchievementPage extends StatefulWidget {
 }
 
 class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
-  DateTime _finishDateAchievement;
+  DateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -40,7 +39,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   @override
   void initState() {
     super.initState();
-    _finishDateAchievement = DateTime.now().add(Duration(days: 1));
+    _dateRangeAchievement = DateTimeRange(
+        start: DateTime.now(), end: DateTime.now().add(Duration(days: 1)));
   }
 
   @override
@@ -99,6 +99,44 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 style: TextStyle(fontSize: 14),
                 cursorHeight: 18,
               ),
+              TextButton(
+                onPressed: () async {
+                  FocusScope.of(context).unfocus();
+                  var selectDate = await showDateRangePicker(
+                      context: context,
+                      initialDateRange: _dateRangeAchievement,
+                      firstDate: DateTime(0),
+                      lastDate: DateTime(9999));
+                  setState(() {
+                    if (selectDate != null) {
+                      _dateRangeAchievement = selectDate;
+                      if (_remindCustomDay.length > 0) {
+                        _remindCustomDay.removeWhere((remind) =>
+                            remind.remindDateTime
+                                    .compareTo(_dateRangeAchievement.start) <
+                                0 ||
+                            remind.remindDateTime
+                                    .compareTo(_dateRangeAchievement.end) >
+                                0);
+                      }
+                    }
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.date_range,
+                      color: Colors.black87,
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      '${FormateDate.yearMonthDay(_dateRangeAchievement.start)}   -   ${FormateDate.yearMonthDay(_dateRangeAchievement.end)}',
+                      style: TextStyle(color: Colors.black87),
+                    ),
+                  ],
+                ),
+              ),
               Container(
                 height: 100,
                 child: IconButton(
@@ -114,35 +152,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     }
                   },
                   iconSize: 100,
-                ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  FocusScope.of(context).unfocus();
-                  var selectDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.now(),
-                      lastDate: DateTime(DateTime.now().year + 100));
-                  setState(() {
-                    if (selectDate != null) {
-                      _finishDateAchievement = selectDate;
-                    }
-                  });
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.date_range,
-                      color: Colors.black87,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      '${FormateDate.yearMonthDay(_finishDateAchievement)}',
-                      style: TextStyle(color: Colors.black87),
-                    ),
-                  ],
                 ),
               ),
               Row(
@@ -215,8 +224,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           _controllerHeaderAchiv.text,
           _controllerDescriptionAchiv.text,
           imagePath,
-          DateTime.now(),
-          _finishDateAchievement,
+          _dateRangeAchievement.start,
+          _dateRangeAchievement.end,
           _remind.id);
       DbAchievement.db.insert(achievement);
       Navigator.pop(context);
@@ -269,7 +278,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               icon: Icon(Icons.add_circle_outline),
               onPressed: () {
                 setState(() {
-                  var newRemindCustom = RemindCustomDay(_removeCustomDay);
+                  var newRemindCustom =
+                      RemindCustomDay(_dateRangeAchievement, _removeCustomDay);
                   _remindCustomDay.add(newRemindCustom);
                 });
               }),
