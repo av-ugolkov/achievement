@@ -275,7 +275,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: _remindCustomDay),
           IconButton(
-              icon: Icon(Icons.add_circle_outline),
+              icon: Icon(
+                Icons.add_circle_outlined,
+                size: 32,
+              ),
               onPressed: () {
                 setState(() {
                   var newRemindCustom =
