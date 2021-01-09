@@ -2,23 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RemindWeekDay extends StatefulWidget {
-  String _title;
+  final String title;
 
-  RemindWeekDay({@required String title}) {
-    _title = title;
-  }
+  RemindWeekDay({Key key, this.title}) : super(key: key);
 
   @override
-  _RemindWeekDayState createState() => _RemindWeekDayState(_title);
+  _RemindWeekDayState createState() => _RemindWeekDayState();
 }
 
 class _RemindWeekDayState extends State<RemindWeekDay> {
-  String _title;
   bool _isSelect = false;
   TimeOfDay _time = TimeOfDay(hour: 12, minute: 0);
-  _RemindWeekDayState(String title) {
-    _title = title;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +23,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
         children: [
           Container(
             width: 100,
-            child: Text(_title),
+            child: Text(widget.title),
           ),
           Container(
             width: 50,

@@ -111,13 +111,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     if (selectDate != null) {
                       _dateRangeAchievement = selectDate;
                       if (_remindCustomDay.length > 0) {
-                        _remindCustomDay.removeWhere((remind) =>
-                            remind.remindDateTime
-                                    .compareTo(_dateRangeAchievement.start) <
-                                0 ||
-                            remind.remindDateTime
-                                    .compareTo(_dateRangeAchievement.end) >
-                                0);
+                        _remindCustomDay.removeWhere((remind) {
+                          var start = remind.remindDateTime
+                              .compareTo(_dateRangeAchievement.start);
+                          var end = remind.remindDateTime
+                              .compareTo(_dateRangeAchievement.end);
+                          return start < 0 || end > 0;
+                        });
                       }
                     }
                   });
@@ -281,8 +281,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               ),
               onPressed: () {
                 setState(() {
-                  var newRemindCustom =
-                      RemindCustomDay(_dateRangeAchievement, _removeCustomDay);
+                  var newRemindCustom = RemindCustomDay(
+                    dateRangeAchiv: _dateRangeAchievement,
+                    callbackRemove: _removeCustomDay,
+                  );
                   _remindCustomDay.add(newRemindCustom);
                 });
               }),

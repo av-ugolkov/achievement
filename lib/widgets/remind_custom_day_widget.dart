@@ -3,39 +3,40 @@ import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class RemindCustomDay extends StatefulWidget {
-  DateTimeRange _dateRangeAchiv;
-  DateTime get startAchiv => _dateRangeAchiv.start;
-  DateTime get finishAchiv => _dateRangeAchiv.end;
+  final DateTimeRange dateRangeAchiv;
+  DateTime get startAchiv => dateRangeAchiv.start;
+  DateTime get endAchiv => dateRangeAchiv.end;
 
-  DateTime _remindDateTime;
-  DateTime get remindDateTime => _remindDateTime;
-  TypeRepition _typeRepition = TypeRepition.none;
+  final Function(RemindCustomDay) callbackRemove;
 
-  Function(RemindCustomDay) _callbackRemove;
+  final _RemindCustomDayState _remindCustomDayState = _RemindCustomDayState();
+  DateTime get remindDateTime => _remindCustomDayState.remindDateTime;
 
-  RemindCustomDay(
-      DateTimeRange dateRangeAchiv, Function(RemindCustomDay) callbackRemove) {
-    _dateRangeAchiv = dateRangeAchiv;
-    _callbackRemove = callbackRemove;
-
-    _remindDateTime = startAchiv.add(Duration(days: 1));
-  }
+  RemindCustomDay({Key key, this.dateRangeAchiv, this.callbackRemove})
+      : super(key: key);
 
   @override
-  _RemindCustomDayState createState() => _RemindCustomDayState();
+  _RemindCustomDayState createState() {
+    return _remindCustomDayState;
+  }
 }
 
 class _RemindCustomDayState extends State<RemindCustomDay> {
+  TypeRepition _typeRepition = TypeRepition.none;
+  DateTime remindDateTime;
+
   @override
   void initState() {
     super.initState();
+    remindDateTime = widget.startAchiv.add(Duration(days: 1));
   }
 
   @override
   Widget build(BuildContext context) {
+    remindDateTime = widget.remindDateTime;
     return GestureDetector(
       onLongPress: () {
-        widget._callbackRemove?.call(widget);
+        widget.callbackRemove?.call(widget);
       },
       child: Container(
         height: 35,
@@ -49,24 +50,24 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
               onPressed: () async {
                 var newRemindDate = await showDatePicker(
                     context: context,
-                    initialDate: widget._remindDateTime,
-                    firstDate: widget._dateRangeAchiv.start,
-                    lastDate: widget._dateRangeAchiv.end);
+                    initialDate: remindDateTime,
+                    firstDate: widget.startAchiv,
+                    lastDate: widget.endAchiv);
 
                 if (newRemindDate != null) {
                   setState(() {
-                    widget._remindDateTime = DateTime(
+                    remindDateTime = DateTime(
                         newRemindDate.year,
                         newRemindDate.month,
                         newRemindDate.day,
-                        widget._remindDateTime.hour,
-                        widget._remindDateTime.minute);
+                        remindDateTime.hour,
+                        remindDateTime.minute);
                   });
                 }
               },
               shape: UnderlineInputBorder(),
               child: Text(
-                FormateDate.yearMonthDay(widget._remindDateTime),
+                FormateDate.yearMonthDay(remindDateTime),
                 style: TextStyle(
                   color: Colors.black87,
                 ),
@@ -79,15 +80,14 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
               onPressed: () async {
                 var newTimeOfDay = await showTimePicker(
                     context: context,
-                    initialTime:
-                        TimeOfDay.fromDateTime(widget._remindDateTime));
+                    initialTime: TimeOfDay.fromDateTime(remindDateTime));
 
                 if (newTimeOfDay != null) {
                   setState(() {
-                    widget._remindDateTime = DateTime(
-                        widget._remindDateTime.year,
-                        widget._remindDateTime.month,
-                        widget._remindDateTime.day,
+                    remindDateTime = DateTime(
+                        remindDateTime.year,
+                        remindDateTime.month,
+                        remindDateTime.day,
                         newTimeOfDay.hour,
                         newTimeOfDay.minute);
                   });
@@ -95,17 +95,17 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
               },
               shape: UnderlineInputBorder(),
               child: Text(
-                FormateDate.hour24Minute(widget._remindDateTime),
+                FormateDate.hour24Minute(remindDateTime),
                 style: TextStyle(
                   color: Colors.black87,
                 ),
               ),
             ),
             DropdownButton(
-              value: widget._typeRepition,
+              value: _typeRepition,
               onChanged: (value) {
                 setState(() {
-                  widget._typeRepition = value;
+                  _typeRepition = value;
                 });
               },
               items: TypeRepition.values.map<DropdownMenuItem>((value) {
