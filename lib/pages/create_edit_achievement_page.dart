@@ -138,10 +138,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 ),
               ),
               Container(
-                height: 100,
+                height: 50,
                 child: IconButton(
                   icon: _imageBytes.isEmpty
-                      ? Icon(Icons.photo)
+                      ? Icon(
+                          Icons.photo,
+                          size: 50,
+                        )
                       : Image.memory(_imageBytes),
                   onPressed: () async {
                     var galleryImage = await _imagePicker.getImage(
