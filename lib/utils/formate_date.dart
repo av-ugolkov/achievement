@@ -2,6 +2,11 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 class FormateDate {
+  static final String _currentLocale = 'ru_RU';
+
+  static final FormateDate _inst = FormateDate._();
+  Map<String, DateFormat> _dateFormat;
+
   FormateDate._() {
     initializeDateFormatting();
     _dateFormat = {
@@ -16,12 +21,6 @@ class FormateDate {
           DateFormat(DateFormat.HOUR24_MINUTE, _currentLocale)
     };
   }
-
-  static final String _currentLocale = 'ru_RU';
-
-  static final FormateDate _inst = FormateDate._();
-
-  Map<String, DateFormat> _dateFormat;
 
   static String yearMonthDay(DateTime dateTime) {
     return _inst._dateFormat[DateFormat.YEAR_MONTH_DAY].format(dateTime);
