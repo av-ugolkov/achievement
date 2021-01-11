@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:achievement/pages/create_edit_achievement_page.dart';
 import 'package:achievement/pages/splash_page.dart';
 import 'package:achievement/pages/view_achievement_page.dart';
+import 'package:achievement/utils/local_notification.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'pages/achievement_page.dart';
@@ -13,6 +14,8 @@ void main() {
   startApp() async {
     Directory docsDir = await getApplicationDocumentsDirectory();
     utils.docsDir = docsDir;
+
+    LocalNotification.init();
     runApp(MyApp());
   }
 
