@@ -4,13 +4,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 class LocalNotification {
   static LocalNotification _inst;
 
+  final String channel = 'Achievement';
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  static void init() {
-    _inst = LocalNotification._();
+  static void init({SelectNotificationCallback selectNotification}) {
+    _inst = LocalNotification._(selectNotification);
   }
 
-  LocalNotification._() {
+  LocalNotification._(SelectNotificationCallback selectNotification) {
     var initSettingAndroid = AndroidInitializationSettings('icon_achievement');
     var initSettingIOS = IOSInitializationSettings();
 
@@ -19,19 +21,7 @@ class LocalNotification {
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     flutterLocalNotificationsPlugin.initialize(initSetting,
-        onSelectNotification: onSelectNotification);
-  }
-
-  Future onSelectNotification(String payload) async {
-    print(payload);
-    /*showDialog(
-        context: _context,
-        builder: (_) {
-          return AlertDialog(
-            title: Text('My payload'),
-            content: Text('Payload: $payload'),
-          );
-        });*/
+        onSelectNotification: selectNotification);
   }
 
   /*Future _showNotificationWithSound() async {
@@ -88,13 +78,12 @@ class LocalNotification {
     );
   }*/
 
-  static showNotification() async {
-    await _inst._showNotification();
+  static createNotification() async {
+    await _inst._createNotification();
   }
 
-  _showNotification() async {
-    var android = AndroidNotificationDetails(
-        '0', 'ch_achievement ', 'description',
+  Future<void> _createNotification() async {
+    var android = AndroidNotificationDetails('0', channel, 'description',
         priority: Priority.high, importance: Importance.max);
     var iOS = IOSNotificationDetails();
     var platform = new NotificationDetails(android: android, iOS: iOS);
@@ -108,7 +97,7 @@ class LocalNotification {
         DateTime.now().add(Duration(seconds: 5));
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
-      'channel name',
+      channel,
       'channel description',
       icon: 'flutter_devs',
       largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
@@ -136,7 +125,7 @@ class LocalNotification {
       summaryText: 'summaryText',
     );
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        '0', 'big text channel name', 'big text channel description',
+        '0', channel, 'big text channel description',
         styleInformation: bigPictureStyleInformation);
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: null);
@@ -148,7 +137,7 @@ class LocalNotification {
   Future<void> showNotificationMediaStyle() async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
-      'media channel name',
+      channel,
       'media channel description',
       color: Colors.red,
       enableLights: true,
@@ -161,7 +150,11 @@ class LocalNotification {
         0, 'notification title', 'notification body', platformChannelSpecifics);
   }
 
-  Future<void> cancelNotification() async {
-    await flutterLocalNotificationsPlugin.cancel(0);
+  Future<void> cancelAllNotification() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  Future<void> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/widgets/achievement_card.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/db/db_achievement.dart';
@@ -10,6 +11,25 @@ class AchievementPage extends StatefulWidget {
 }
 
 class _AchievementPageState extends State<AchievementPage> {
+  @override
+  void initState() {
+    super.initState();
+    LocalNotification.init(selectNotification: onSelectNotification);
+  }
+
+  Future<void> onSelectNotification(String payload) async {
+    var achievements = await DbAchievement.db.getList();
+
+    switch (payload) {
+      case 'open':
+        var index = int.tryParse(payload);
+        openViewAchievementPage(achievements[index]);
+        break;
+      default:
+        print('Ошибка команды');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var achievements = DbAchievement.db.getList();
@@ -37,9 +57,7 @@ class _AchievementPageState extends State<AchievementPage> {
                       var achievement = snapshot.data[index];
                       return GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(
-                                context, '/view_achievement_page',
-                                arguments: achievement);
+                            openViewAchievementPage(achievement);
                           },
                           onLongPress: () {
                             setState(() async {
@@ -61,5 +79,9 @@ class _AchievementPageState extends State<AchievementPage> {
             }
           },
         ));
+  }
+
+  void openViewAchievementPage(AchievementModel model) {
+    Navigator.pushNamed(context, '/view_achievement_page', arguments: model);
   }
 }
