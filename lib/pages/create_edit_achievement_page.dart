@@ -128,11 +128,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     Icon(
                       Icons.date_range,
                       color: Colors.black87,
+                      size: 22,
                     ),
-                    SizedBox(width: 10),
+                    SizedBox(width: 4),
                     Text(
                       '${FormateDate.yearMonthDay(_dateRangeAchievement.start)}   -   ${FormateDate.yearMonthDay(_dateRangeAchievement.end)}',
-                      style: TextStyle(color: Colors.black87),
+                      style: TextStyle(fontSize: 12, color: Colors.black87),
                     ),
                   ],
                 ),

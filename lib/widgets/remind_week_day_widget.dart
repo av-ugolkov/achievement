@@ -17,7 +17,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 35,
+      height: 30,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -49,7 +49,10 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
                       });
                     }
                   : null,
-              child: Text(_time.format(context)),
+              child: Text(
+                _time.format(context),
+                style: TextStyle(fontSize: 14),
+              ),
             ),
           )
         ],
