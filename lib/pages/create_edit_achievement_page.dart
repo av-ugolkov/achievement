@@ -34,7 +34,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   TypeRemind _typeRemind = TypeRemind.none;
   RemindModel _remind = RemindModel.empty;
 
-  List<RemindCustomDay> _remindCustomDay = List<RemindCustomDay>();
+  List<RemindCustomDay> _remindCustomDay = <RemindCustomDay>[];
 
   @override
   void initState() {
@@ -161,7 +161,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Напоминать'),
+                  Text(
+                    'Напоминать',
+                    style: TextStyle(fontSize: 14),
+                  ),
                   DropdownButton(
                     value: _typeRemind,
                     onChanged: (value) {
@@ -171,7 +174,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     },
                     items: TypeRemind.values.map<DropdownMenuItem>((value) {
                       return DropdownMenuItem(
-                        child: Text(_getStringRemind(value)),
+                        child: Text(
+                          _getStringRemind(value),
+                          style: TextStyle(fontSize: 14),
+                        ),
                         value: value,
                       );
                     }).toList(),
@@ -256,7 +262,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _weekRemind() {
-    List<RemindWeekDay> checkBoxs = List<RemindWeekDay>();
+    List<RemindWeekDay> checkBoxs = [];
     for (var i = 0; i < 7; ++i) {
       DateTime date = DateTime(1, 1, i + 1);
       RemindWeekDay checkBox =

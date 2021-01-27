@@ -46,7 +46,7 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
             FlatButton(
               height: 20,
               minWidth: 30,
-              padding: EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 4),
               onPressed: () async {
                 var newRemindDate = await showDatePicker(
                     context: context,
@@ -70,13 +70,14 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
                 FormateDate.yearMonthDay(remindDateTime),
                 style: TextStyle(
                   color: Colors.black87,
+                  fontSize: 13,
                 ),
               ),
             ),
             FlatButton(
               height: 20,
               minWidth: 30,
-              padding: EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 4),
               onPressed: () async {
                 var newTimeOfDay = await showTimePicker(
                     context: context,
@@ -98,6 +99,7 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
                 FormateDate.hour24Minute(remindDateTime),
                 style: TextStyle(
                   color: Colors.black87,
+                  fontSize: 13,
                 ),
               ),
             ),
@@ -110,7 +112,10 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
               },
               items: TypeRepition.values.map<DropdownMenuItem>((value) {
                 return DropdownMenuItem(
-                  child: Text(_getStringRepition(value)),
+                  child: Text(
+                    _getStringRepition(value),
+                    style: TextStyle(fontSize: 13),
+                  ),
                   value: value,
                 );
               }).toList(),
