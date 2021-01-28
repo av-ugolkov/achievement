@@ -68,7 +68,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       body: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(38.0),
+          padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
               TextFormField(
@@ -222,8 +222,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       }
       if (_isRemind) {
         _remind.id = await DbRemind.db.getLastId();
-        _remind.hour = 12;
-        _remind.minute = 30;
+        _remind.typeRemind = _typeRemind;
         DbRemind.db.insert(_remind);
       } else {
         _remind = RemindModel.empty;

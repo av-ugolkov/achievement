@@ -41,7 +41,7 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
       child: Container(
         height: 35,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             FlatButton(
               height: 20,
@@ -114,7 +114,10 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
                 return DropdownMenuItem(
                   child: Text(
                     _getStringRepition(value),
-                    style: TextStyle(fontSize: 13),
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 13,
+                    ),
                   ),
                   value: value,
                 );
@@ -128,6 +131,8 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
 
   String _getStringRepition(TypeRepition typeRepition) {
     switch (typeRepition) {
+      case TypeRepition.week:
+        return 'каждую неделю';
       case TypeRepition.month:
         return 'каждый месяц';
       case TypeRepition.year:
