@@ -1,9 +1,11 @@
 import 'package:achievement/enums.dart';
+import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class RemindCustomDay extends StatefulWidget {
   final DateTimeRange dateRangeAchiv;
+  final DayModel dayModel;
   DateTime get startAchiv => dateRangeAchiv.start;
   DateTime get endAchiv => dateRangeAchiv.end;
 
@@ -12,7 +14,8 @@ class RemindCustomDay extends StatefulWidget {
   final _RemindCustomDayState _remindCustomDayState = _RemindCustomDayState();
   DateTime get remindDateTime => _remindCustomDayState.remindDateTime;
 
-  RemindCustomDay({Key key, this.dateRangeAchiv, this.callbackRemove})
+  RemindCustomDay(
+      {Key key, this.dateRangeAchiv, this.callbackRemove, this.dayModel})
       : super(key: key);
 
   @override

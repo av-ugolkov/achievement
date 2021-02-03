@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
@@ -79,15 +80,18 @@ class ViewAchievementPage extends StatelessWidget {
     return FutureBuilder(
       future: remind,
       builder: (context, snapshot) {
-        return !snapshot.hasData
-            ? Container()
-            : Row(
-                children: [
-                  Text(snapshot.data.hour.toString()),
-                  Text(':'),
-                  Text(snapshot.data.minute.toString())
-                ],
-              );
+        if (snapshot.hasData) {
+          var reminds = snapshot.data as RemindModel;
+          return Row(
+            children: [
+              Text("Нужно сделать отображение напоминаний"),
+              /*Text(reminds.id.toString()),
+              Text(':'),
+              Text(reminds.id.toString())*/
+            ],
+          );
+        } else
+          return Container();
       },
     );
   }

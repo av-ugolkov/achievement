@@ -1,10 +1,11 @@
+import 'package:achievement/model/remind_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RemindWeekDay extends StatefulWidget {
-  final String title;
+  final DayModel dayModel;
 
-  RemindWeekDay({Key key, this.title}) : super(key: key);
+  RemindWeekDay({Key key, this.dayModel}) : super(key: key);
 
   @override
   _RemindWeekDayState createState() => _RemindWeekDayState();
@@ -23,7 +24,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
         children: [
           Container(
             width: 100,
-            child: Text(widget.title),
+            child: Text(widget.dayModel.day),
           ),
           Container(
             width: 50,
@@ -32,6 +33,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
                 onChanged: (value) {
                   setState(() {
                     _isSelect = value;
+                    _setTime(_isSelect ? _time : null);
                   });
                 }),
           ),
@@ -45,6 +47,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
                       setState(() {
                         if (newTime != null) {
                           _time = newTime;
+                          _setTime(_time);
                         }
                       });
                     }
@@ -58,5 +61,10 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
         ],
       ),
     );
+  }
+
+  void _setTime(TimeOfDay time) {
+    widget.dayModel.hour = time?.hour;
+    widget.dayModel.minute = time?.minute;
   }
 }

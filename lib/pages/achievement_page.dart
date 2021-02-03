@@ -60,13 +60,16 @@ class _AchievementPageState extends State<AchievementPage> {
                             openViewAchievementPage(achievement);
                           },
                           onLongPress: () {
-                            setState(() async {
-                              if (achievement.remindId != -1) {
-                                await DbRemind.db.delete(achievement.remindId);
-                              }
-                              var id =
-                                  await DbAchievement.db.delete(achievement.id);
-                              print('delete achievement $id');
+                            setState(() {
+                              Future.sync(() async {
+                                if (achievement.remindId != -1) {
+                                  await DbRemind.db
+                                      .delete(achievement.remindId);
+                                }
+                                var id = await DbAchievement.db
+                                    .delete(achievement.id);
+                                print('delete achievement $id');
+                              });
                             });
                           },
                           child: achievementCard(achievement));

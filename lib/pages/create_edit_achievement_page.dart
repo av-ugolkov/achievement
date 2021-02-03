@@ -34,7 +34,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   TypeRemind _typeRemind = TypeRemind.none;
   RemindModel _remind = RemindModel.empty;
 
-  List<RemindCustomDay> _remindCustomDay = <RemindCustomDay>[];
+  //List<DayModel> _dayModels = [];
+
+  List<RemindWeekDay> _remindWeekDay = [];
+  List<RemindCustomDay> _remindCustomDay = [];
 
   @override
   void initState() {
@@ -170,6 +173,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     onChanged: (value) {
                       setState(() {
                         _typeRemind = value;
+                        _isRemind = _typeRemind != TypeRemind.none;
                       });
                     },
                     items: TypeRemind.values.map<DropdownMenuItem>((value) {
@@ -223,6 +227,15 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       if (_isRemind) {
         _remind.id = await DbRemind.db.getLastId();
         _remind.typeRemind = _typeRemind;
+        if (_typeRemind == TypeRemind.week) {
+          _remind.reminds = _remindWeekDay.map<DayModel>((value) {
+            return value.dayModel;
+          }).toList();
+        } else if (_typeRemind == TypeRemind.custom) {
+          _remind.reminds = _remindCustomDay.map<DayModel>((value) {
+            return value.dayModel;
+          }).toList();
+        }
         DbRemind.db.insert(_remind);
       } else {
         _remind = RemindModel.empty;
@@ -261,16 +274,15 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _weekRemind() {
-    List<RemindWeekDay> checkBoxs = [];
     for (var i = 0; i < 7; ++i) {
       DateTime date = DateTime(1, 1, i + 1);
-      RemindWeekDay checkBox =
-          RemindWeekDay(title: '${FormateDate.weekDayName(date)}');
-      checkBoxs.add(checkBox);
+      var dayModel = DayModel(day: FormateDate.weekDayName(date));
+      RemindWeekDay checkBox = RemindWeekDay(dayModel: dayModel);
+      _remindWeekDay.add(checkBox);
     }
     return Container(
       child: Column(
-        children: checkBoxs,
+        children: _remindWeekDay,
       ),
     );
   }

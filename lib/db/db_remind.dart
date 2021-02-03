@@ -10,13 +10,13 @@ class DbRemind {
 
   final String _id = 'id';
   final String _typeRemind = 'typeRemind';
-  final String _remindModel = 'remindModel';
+  final String _reminds = 'reminds';
 
   static final DbRemind db = DbRemind._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRemind INTEGER, $_remindModel TEXT)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRemind INTEGER, $_reminds TEXT)',
     );
   }
 
