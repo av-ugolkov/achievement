@@ -36,7 +36,7 @@ class DbRemind {
 
     final List<Map<String, dynamic>> list =
         await DbFile.db.query(_nameTable, where: '$_id = ?', whereArgs: [id]);
-    RemindModel remind = RemindModel.fromMap(list[0]);
+    RemindModel remind = RemindModel.fromMap(list[id]);
     return remind;
   }
 

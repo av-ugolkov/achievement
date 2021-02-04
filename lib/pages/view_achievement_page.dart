@@ -81,12 +81,14 @@ class ViewAchievementPage extends StatelessWidget {
       future: remind,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          print(id);
           var reminds = snapshot.data as RemindModel;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: reminds.reminds.map((value) {
               if (value.hour != null) {
-                return Text('${value.day} ${value.hour}:${value.minute}');
+                return Text(
+                    '${value.day} ${value.hour}:${value.minute} ${value.typeRepition}');
               } else {
                 return Container();
               }

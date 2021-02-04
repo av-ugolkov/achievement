@@ -36,20 +36,27 @@ class DayModel {
   dynamic day;
   int hour;
   int minute;
+  TypeRepition typeRepition;
 
-  DayModel({this.day, this.hour, this.minute});
+  DayModel(
+      {this.day,
+      this.hour,
+      this.minute,
+      this.typeRepition = TypeRepition.none});
 
   DayModel.fromMap(Map<String, dynamic> map) {
     day = map['day'];
     hour = map['hour'];
     minute = map['minute'];
+    typeRepition = TypeRepition.values[map['typeRepition']];
   }
 
   Map<String, dynamic> toMap() {
     final map = Map<String, dynamic>();
-    map['day'] = day;
+    map['day'] = day.toString();
     map['hour'] = hour;
     map['minute'] = minute;
+    map['typeRepition'] = typeRepition.index;
     return map;
   }
 }

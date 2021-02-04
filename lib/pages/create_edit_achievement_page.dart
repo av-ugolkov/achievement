@@ -121,6 +121,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                               .compareTo(_dateRangeAchievement.end);
                           return start < 0 || end > 0;
                         });
+                        for (var remindCustomDay in _remindCustomDay) {
+                          remindCustomDay
+                              .setRangeDateTime(_dateRangeAchievement);
+                        }
                       }
                     }
                   });
@@ -302,10 +306,19 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               ),
               onPressed: () {
                 setState(() {
+                  var dayModel = DayModel(
+                      day: DateTime(
+                              _dateRangeAchievement.start.year,
+                              _dateRangeAchievement.start.month,
+                              _dateRangeAchievement.start.day)
+                          .add(Duration(days: 1)),
+                      hour: 12,
+                      minute: 0);
                   var newRemindCustom = RemindCustomDay(
-                    dateRangeAchiv: _dateRangeAchievement,
+                    dayModel: dayModel,
                     callbackRemove: _removeCustomDay,
                   );
+                  newRemindCustom.setRangeDateTime(_dateRangeAchievement);
                   _remindCustomDay.add(newRemindCustom);
                 });
               }),
