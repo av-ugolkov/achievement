@@ -278,6 +278,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _weekRemind() {
+    _remindWeekDay.clear();
     for (var i = 0; i < 7; ++i) {
       DateTime date = DateTime(1, 1, i + 1);
       var dayModel = DayModel(day: FormateDate.weekDayName(date));
