@@ -166,7 +166,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 ),
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
                     'Напоминать',
