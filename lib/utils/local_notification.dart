@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotification {
@@ -23,12 +24,26 @@ class LocalNotification {
         onSelectNotification: selectNotification);
   }
 
-  static scheduleNotification(DateTime scheduledNotificationDateTime) async {
-    await _inst._scheduleNotification(scheduledNotificationDateTime);
+  static scheduleNotification(
+      {@required int id,
+      @required DateTime scheduledDate,
+      String title,
+      String body,
+      bool dayOfWeek = false}) async {
+    await _inst._scheduleNotification(
+        id: id,
+        scheduledDate: scheduledDate,
+        title: title,
+        body: body,
+        dayOfWeek: dayOfWeek);
   }
 
   Future<void> _scheduleNotification(
-      DateTime scheduledNotificationDateTime) async {
+      {int id,
+      String title,
+      String body,
+      DateTime scheduledDate,
+      bool dayOfWeek}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
       channel,
@@ -41,15 +56,13 @@ class LocalNotification {
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0,
-        'scheduled title',
-        'scheduled body',
-        scheduledNotificationDateTime,
-        platformChannelSpecifics,
+        0, title, body, scheduledDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime);
+        matchDateTimeComponents: dayOfWeek
+            ? DateTimeComponents.dayOfWeekAndTime
+            : DateTimeComponents.time);
   }
 
   Future<void> cancelNotification(int id) async {

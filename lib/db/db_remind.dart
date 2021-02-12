@@ -1,4 +1,7 @@
+import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/utils/local_notification.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db_file.dart';
@@ -42,6 +45,48 @@ class DbRemind {
 
   Future<RemindModel> insert(RemindModel remind) async {
     remind.id = await DbFile.db.insert(_nameTable, remind.toMap());
+
+    var achievements = await DbAchievement.db.getList();
+    var achievemnt = achievements.firstWhere((model) {
+      return model.remindId == remind.id;
+    });
+    if (achievemnt == null) {
+      throw Exception('Ненайдено достижение для сознадия напоминания');
+    }
+    var title = achievemnt.header;
+    var body = achievemnt.description;
+
+    if (remind.typeRemind == TypeRemind.week) {
+      for (var day in remind.reminds) {
+        if (day.hour == null) continue;
+
+        for (var i = 0;; ++i) {
+          var d = achievemnt.createDate.add(Duration(days: i));
+          if (d.weekday == day.day) {
+            var scheduledDate =
+                DateTime(d.year, d.month, d.day, day.hour, day.minute);
+            LocalNotification.scheduleNotification(
+                id: remind.id,
+                scheduledDate: scheduledDate,
+                title: title,
+                body: body,
+                dayOfWeek: true);
+            break;
+          }
+        }
+      }
+    } else if (remind.typeRemind == TypeRemind.custom) {
+      for (var day in remind.reminds) {
+        LocalNotification.scheduleNotification(
+            id: remind.id,
+            scheduledDate: DateTime.parse(day.day).add(Duration(
+              hours: day.hour,
+              minutes: day.minute,
+            )),
+            title: title,
+            body: body);
+      }
+    }
     return remind;
   }
 

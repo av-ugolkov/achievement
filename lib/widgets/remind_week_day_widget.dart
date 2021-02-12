@@ -1,4 +1,5 @@
 import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -24,7 +25,8 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
         children: [
           Container(
             width: 100,
-            child: Text(widget.dayModel.day),
+            child: Text(
+                FormateDate.weekDayName(DateTime(1, 1, widget.dayModel.day))),
           ),
           Container(
             width: 50,

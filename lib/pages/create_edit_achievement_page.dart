@@ -240,7 +240,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
             return value.dayModel;
           }).toList();
         }
-        DbRemind.db.insert(_remind);
       } else {
         _remind = RemindModel.empty;
       }
@@ -254,6 +253,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           _dateRangeAchievement.end,
           _remind.id);
       DbAchievement.db.insert(achievement);
+      DbRemind.db.insert(_remind);
       Navigator.pop(context);
     } else {
       _showMessage(message: 'Form is not valid! Please review and correct');
@@ -278,9 +278,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _weekRemind() {
-    for (var i = 0; i < 7; ++i) {
-      DateTime date = DateTime(1, 1, i + 1);
-      var dayModel = DayModel(day: FormateDate.weekDayName(date));
+    _remindWeekDay.clear();
+    for (var i = 1; i <= 7; ++i) {
+      var dayModel = DayModel(day: i);
       RemindWeekDay checkBox = RemindWeekDay(dayModel: dayModel);
       _remindWeekDay.add(checkBox);
     }
@@ -292,6 +292,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _customRemind() {
+    //_remindCustomDay.clear();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
