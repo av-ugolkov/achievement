@@ -33,6 +33,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
             child: Checkbox(
                 value: _isSelect,
                 onChanged: (value) {
+                  FocusScope.of(context).unfocus();
                   setState(() {
                     _isSelect = value;
                     _setTime(_isSelect ? _time : null);
@@ -42,18 +43,19 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
           Container(
             width: 100,
             child: TextButton(
-              onPressed: _isSelect
-                  ? () async {
-                      var newTime = await showTimePicker(
-                          context: context, initialTime: _time);
-                      setState(() {
-                        if (newTime != null) {
-                          _time = newTime;
-                          _setTime(_time);
-                        }
-                      });
+              onPressed: () async {
+                FocusScope.of(context).unfocus();
+                if (_isSelect) {
+                  var newTime = await showTimePicker(
+                      context: context, initialTime: _time);
+                  setState(() {
+                    if (newTime != null) {
+                      _time = newTime;
+                      _setTime(_time);
                     }
-                  : null,
+                  });
+                }
+              },
               child: Text(
                 _time.format(context),
                 style: TextStyle(fontSize: 14),

@@ -34,8 +34,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   TypeRemind _typeRemind = TypeRemind.none;
   RemindModel _remind = RemindModel.empty;
 
-  //List<DayModel> _dayModels = [];
-
   List<RemindWeekDay> _remindWeekDay = [];
   List<RemindCustomDay> _remindCustomDay = [];
 
@@ -306,6 +304,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 size: 32,
               ),
               onPressed: () {
+                FocusScope.of(context).unfocus();
                 setState(() {
                   var dayModel = DayModel(
                       day: DateTime(
