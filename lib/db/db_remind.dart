@@ -43,12 +43,12 @@ class DbRemind {
     return remind;
   }
 
-  Future<RemindModel> insert(RemindModel remind) async {
-    remind.id = await DbFile.db.insert(_nameTable, remind.toMap());
+  Future<RemindModel> insert(RemindModel remindModel) async {
+    remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toMap());
 
     var achievements = await DbAchievement.db.getList();
     var achievemnt = achievements.firstWhere((model) {
-      return model.remindId == remind.id;
+      return model.remindId == remindModel.id;
     });
     if (achievemnt == null) {
       throw Exception('Ненайдено достижение для сознадия напоминания');
@@ -56,17 +56,17 @@ class DbRemind {
     var title = achievemnt.header;
     var body = achievemnt.description;
 
-    if (remind.typeRemind == TypeRemind.week) {
-      for (var day in remind.reminds) {
-        if (day.hour == null) continue;
+    if (remindModel.typeRemind == TypeRemind.week) {
+      for (var remind in remindModel.reminds) {
+        if (remind.hour == null) continue;
 
         for (var i = 0;; ++i) {
           var d = achievemnt.createDate.add(Duration(days: i));
-          if (d.weekday == day.day) {
+          if (d.weekday == remind.day) {
             var scheduledDate =
-                DateTime(d.year, d.month, d.day, day.hour, day.minute);
+                DateTime(d.year, d.month, d.day, remind.hour, remind.minute);
             LocalNotification.scheduleNotification(
-                id: remind.id,
+                id: remindModel.id,
                 scheduledDate: scheduledDate,
                 title: title,
                 body: body,
@@ -75,19 +75,19 @@ class DbRemind {
           }
         }
       }
-    } else if (remind.typeRemind == TypeRemind.custom) {
-      for (var day in remind.reminds) {
+    } else if (remindModel.typeRemind == TypeRemind.custom) {
+      for (var remind in remindModel.reminds) {
         LocalNotification.scheduleNotification(
-            id: remind.id,
-            scheduledDate: DateTime.parse(day.day).add(Duration(
-              hours: day.hour,
-              minutes: day.minute,
+            id: remindModel.id,
+            scheduledDate: remind.day.add(Duration(
+              hours: remind.hour,
+              minutes: remind.minute,
             )),
             title: title,
             body: body);
       }
     }
-    return remind;
+    return remindModel;
   }
 
   Future<int> update(RemindModel remind) async {
