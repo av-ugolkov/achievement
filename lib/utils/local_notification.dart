@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/standalone.dart' as tz;
 
 class LocalNotification {
   static LocalNotification _inst;
@@ -48,15 +49,18 @@ class LocalNotification {
       '0',
       channel,
       'channel description',
-      icon: 'flutter_devs',
-      largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
+      //icon: 'flutter_devs',
+      //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
     );
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
+    var dateTimeUtc = scheduledDate.toUtc();
+    var tzSchedulerDate = tz.TZDateTime.utc(dateTimeUtc.year, dateTimeUtc.month,
+        dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0, title, body, scheduledDate, platformChannelSpecifics,
+        0, title, body, tzSchedulerDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
