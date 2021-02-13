@@ -20,6 +20,7 @@ class CreateEditAchievementPage extends StatefulWidget {
 }
 
 class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
+  FocusNode _emptyFocus = FocusNode();
   DateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -174,6 +175,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     value: _typeRemind,
                     onChanged: (value) {
                       setState(() {
+                        FocusScope.of(context).requestFocus(_emptyFocus);
                         _typeRemind = value;
                         _isRemind = _typeRemind != TypeRemind.none;
                       });
@@ -290,7 +292,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   Container _customRemind() {
-    //_remindCustomDay.clear();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
