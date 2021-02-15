@@ -12,14 +12,14 @@ class DbRemind {
   final String _nameTable = 'RemindDB';
 
   final String _id = 'id';
-  final String _typeRemind = 'typeRemind';
+  final String _typeRepition = 'typeRepition';
   final String _reminds = 'reminds';
 
   static final DbRemind db = DbRemind._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRemind INTEGER, $_reminds TEXT)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRepition INTEGER, $_reminds TEXT)',
     );
   }
 
@@ -57,49 +57,10 @@ class DbRemind {
     return reminds;
   }
 
-  /*Future<RemindModel> insert(RemindModel remindModel) async {
+  Future<RemindModel> insert(RemindModel remindModel) async {
     remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toMap());
-
-    var achievements = await DbAchievement.db.getList();
-    var achievemnt = achievements.firstWhere((model) {
-      return model.remindId == remindModel.id;
-    });
-    if (achievemnt == null) {
-      throw Exception('Ненайдено достижение для сознадия напоминания');
-    }
-    var title = achievemnt.header;
-    var body = achievemnt.description;
-
-    if (remindModel.typeRemind == TypeRemind.week) {
-      for (var remind in remindModel.reminds) {
-        if (remind.hour == null) continue;
-
-        for (var i = 0;; ++i) {
-          var d = achievemnt.createDate.add(Duration(days: i));
-          if (d.weekday == remind.day) {
-            var scheduledDate =
-                DateTime(d.year, d.month, d.day, remind.hour, remind.minute);
-            _setScheduleNotification(remindModel.id + remind.hashCode,
-                scheduledDate, title, body, true);
-            break;
-          }
-        }
-      }
-    } else if (remindModel.typeRemind == TypeRemind.custom) {
-      for (var remind in remindModel.reminds) {
-        _setScheduleNotification(
-            remindModel.id + remind.hashCode,
-            remind.day.add(Duration(
-              hours: remind.hour,
-              minutes: remind.minute,
-            )),
-            title,
-            body,
-            false);
-      }
-    }
     return remindModel;
-  }*/
+  }
 
   void _setScheduleNotification(int id, DateTime scheduledDate, String title,
       String body, bool dayOfWeek) {

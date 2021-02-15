@@ -18,6 +18,10 @@ class FormateDate {
       DateFormat.HOUR24_MINUTE_SECOND:
           DateFormat(DateFormat.HOUR24_MINUTE_SECOND, _currentLocale),
       DateFormat.HOUR24_MINUTE:
+          DateFormat(DateFormat.HOUR24_MINUTE, _currentLocale),
+      DateFormat.HOUR_MINUTE_SECOND:
+          DateFormat(DateFormat.HOUR24_MINUTE_SECOND, _currentLocale),
+      DateFormat.HOUR_MINUTE:
           DateFormat(DateFormat.HOUR24_MINUTE, _currentLocale)
     };
   }
@@ -40,5 +44,13 @@ class FormateDate {
 
   static String hour24Minute(DateTime dateTime) {
     return _inst._dateFormat[DateFormat.HOUR24_MINUTE].format(dateTime);
+  }
+
+  static String hour12MinuteSecond(DateTime dateTime) {
+    return _inst._dateFormat[DateFormat.HOUR_MINUTE_SECOND].format(dateTime);
+  }
+
+  static String hour12Minute(DateTime dateTime) {
+    return _inst._dateFormat[DateFormat.HOUR_MINUTE].format(dateTime);
   }
 }

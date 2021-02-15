@@ -88,7 +88,7 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
                 if (newTimeOfDay != null) {
                   setState(() {
                     remindDateTime.hour = newTimeOfDay.hour;
-                    remindDateTime.hour = newTimeOfDay.minute;
+                    remindDateTime.minute = newTimeOfDay.minute;
                     widget.remindModel.remindDateTime = remindDateTime;
                   });
                 }
@@ -131,6 +131,8 @@ class _RemindCustomDayState extends State<RemindCustomDay> {
 
   String _getStringRepition(TypeRepition typeRepition) {
     switch (typeRepition) {
+      case TypeRepition.day:
+        return 'каждый день';
       case TypeRepition.week:
         return 'каждую неделю';
       case TypeRepition.month:

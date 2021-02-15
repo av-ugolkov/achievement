@@ -8,7 +8,6 @@ import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:achievement/widgets/remind_custom_day_widget.dart';
-import 'package:achievement/widgets/remind_week_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -32,10 +31,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   ImagePicker _imagePicker = new ImagePicker();
 
   bool _isRemind = false;
-  //TypeRemind _typeRemind = TypeRemind.none;
   List<RemindModel> _reminds = [];
 
-  List<RemindWeekDay> _remindWeekDay = [];
   List<RemindCustomDay> _remindCustomDay = [];
 
   @override
@@ -164,6 +161,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   iconSize: 100,
                 ),
               ),
+              SizedBox(
+                height: 14,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -171,29 +171,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     'Напоминать',
                     style: TextStyle(fontSize: 14),
                   ),
-                  /*DropdownButton(
-                    value: _typeRemind,
-                    onChanged: (value) {
-                      setState(() {
-                        FocusScope.of(context).requestFocus(_emptyFocus);
-                        _typeRemind = value;
-                        _isRemind = _typeRemind != TypeRemind.none;
-                      });
-                    },
-                    items: TypeRemind.values.map<DropdownMenuItem>((value) {
-                      return DropdownMenuItem(
-                        child: Text(
-                          _getStringRemind(value),
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        value: value,
-                      );
-                    }).toList(),
-                  )*/
                 ],
               ),
               Container(
-                child: _customRemind(),
+                child: _remindsPanel(),
               )
             ],
           ),
@@ -201,17 +182,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       ),
     );
   }
-
-  /*String _getStringRemind(TypeRemind typeRemind) {
-    switch (typeRemind) {
-      case TypeRemind.week:
-        return 'по дням недели';
-      case TypeRemind.custom:
-        return 'по выборочным дням';
-      default:
-        return 'нет';
-    }
-  }*/
 
   void _submitForm() async {
     if (_formKey.currentState.validate()) {
@@ -226,21 +196,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         file.create();
       }
       if (_isRemind) {
-        /*_remind.id = await DbRemind.db.getLastId();
-        _remind.typeRemind = _typeRemind;
-        if (_typeRemind == TypeRemind.week) {
-          _reminds[].reminds = _remindWeekDay.map<DayModel>((value) {
-            return value.dayModel;
-          }).toList();
-        } else if (_typeRemind == TypeRemind.custom) {
-          _remind.reminds = _remindCustomDay.map<DayModel>((value) {
-            return value.dayModel;
-          }).toList();
-        }*/
+        for (var remind in _reminds) {
+          remind.id = (await DbRemind.db.insert(remind)).id;
+        }
       }
-      /*else {
-        _remind = RemindModel.empty;
-      }*/
 
       var achievement = AchievementModel(
           id,
@@ -253,9 +212,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
             return value.id;
           }).toList());
       DbAchievement.db.insert(achievement);
-      for (var remind in _reminds) {
-        //DbRemind.db.insert(remind);
-      }
       Navigator.pop(context);
     } else {
       _showMessage(message: 'Form is not valid! Please review and correct');
@@ -279,21 +235,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     );
   }
 
-  Container _weekRemind() {
-    _remindWeekDay.clear();
-    for (var i = 1; i <= 7; ++i) {
-      var remindDateTime = RemindDateTime(day: i);
-      RemindWeekDay checkBox = RemindWeekDay(remindDateTime: remindDateTime);
-      _remindWeekDay.add(checkBox);
-    }
-    return Container(
-      child: Column(
-        children: _remindWeekDay,
-      ),
-    );
-  }
-
-  Container _customRemind() {
+  Container _remindsPanel() {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -313,7 +255,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                       dateTime: _dateRangeAchievement.start);
                   var remindModel = RemindModel(
                       id: -1,
-                      //typeRemind: TypeRepition.none,
                       typeRepition: TypeRepition.none,
                       remindDateTime: remindDateTime);
                   var newRemindCustom = RemindCustomDay(

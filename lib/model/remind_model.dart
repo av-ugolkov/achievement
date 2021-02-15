@@ -1,24 +1,18 @@
 import 'dart:convert';
-
 import 'package:achievement/enums.dart';
 
 class RemindModel {
   int id;
-  //TypeRemind typeRemind;
   TypeRepition typeRepition;
   RemindDateTime remindDateTime;
 
   static RemindModel get empty => RemindModel(id: -1, remindDateTime: null);
 
   RemindModel(
-      {this.id,
-      //this.typeRemind = TypeRemind.none,
-      this.typeRepition = TypeRepition.none,
-      this.remindDateTime});
+      {this.id, this.typeRepition = TypeRepition.none, this.remindDateTime});
 
   RemindModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    //typeRemind = TypeRemind.values[map['typeRemind']];
     typeRepition = TypeRepition.values[map['typeRepition']];
     remindDateTime = RemindDateTime.fromMap(map['dateTime']);
   }
@@ -26,7 +20,6 @@ class RemindModel {
   Map<String, dynamic> toMap() {
     final map = Map<String, dynamic>();
     map['id'] = id;
-    //map['typeRemind'] = typeRemind.index;
     map['typeRepition'] = typeRepition.index;
     map['day'] = jsonEncode(remindDateTime);
     return map;
