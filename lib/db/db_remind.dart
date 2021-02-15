@@ -1,5 +1,3 @@
-import 'package:achievement/db/db_achievement.dart';
-import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/local_notification.dart';
 import 'package:sqflite/sqflite.dart';

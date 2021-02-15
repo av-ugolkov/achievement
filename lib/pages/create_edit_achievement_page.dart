@@ -19,7 +19,6 @@ class CreateEditAchievementPage extends StatefulWidget {
 }
 
 class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
-  FocusNode _emptyFocus = FocusNode();
   DateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -30,10 +29,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   Uint8List _imageBytes = Uint8List(0);
   ImagePicker _imagePicker = new ImagePicker();
 
-  bool _isRemind = false;
-  List<RemindModel> _reminds = [];
+  bool get _hasRemind => _remindDays.length > 0;
 
-  List<RemindCustomDay> _remindCustomDay = [];
+  List<RemindCustomDay> _remindDays = [];
 
   @override
   void initState() {
@@ -109,15 +107,15 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   setState(() {
                     if (selectDate != null) {
                       _dateRangeAchievement = selectDate;
-                      if (_remindCustomDay.length > 0) {
-                        _remindCustomDay.removeWhere((remind) {
+                      if (_hasRemind) {
+                        _remindDays.removeWhere((remind) {
                           var start = remind.remindDateTime.dateTime
                               .compareTo(_dateRangeAchievement.start);
                           var end = remind.remindDateTime.dateTime
                               .compareTo(_dateRangeAchievement.end);
                           return start < 0 || end > 0;
                         });
-                        for (var remindCustomDay in _remindCustomDay) {
+                        for (var remindCustomDay in _remindDays) {
                           remindCustomDay
                               .setRangeDateTime(_dateRangeAchievement);
                         }
@@ -195,9 +193,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         file.writeAsBytes(_imageBytes.toList());
         file.create();
       }
-      if (_isRemind) {
-        for (var remind in _reminds) {
-          remind.id = (await DbRemind.db.insert(remind)).id;
+      if (_hasRemind) {
+        for (var remind in _remindDays) {
+          remind.remindModel.id =
+              (await DbRemind.db.insert(remind.remindModel)).id;
         }
       }
 
@@ -208,8 +207,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           imagePath,
           _dateRangeAchievement.start,
           _dateRangeAchievement.end,
-          _reminds.map((value) {
-            return value.id;
+          _remindDays.map((value) {
+            return value.remindModel.id;
           }).toList());
       DbAchievement.db.insert(achievement);
       Navigator.pop(context);
@@ -242,7 +241,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         children: [
           Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: _remindCustomDay),
+              children: _remindDays),
           IconButton(
               icon: Icon(
                 Icons.add_circle_outlined,
@@ -262,7 +261,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     callbackRemove: _removeCustomDay,
                   );
                   newRemindCustom.setRangeDateTime(_dateRangeAchievement);
-                  _remindCustomDay.add(newRemindCustom);
+                  _remindDays.add(newRemindCustom);
                 });
               }),
         ],
@@ -272,7 +271,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
   void _removeCustomDay(RemindCustomDay remindCustomDay) {
     setState(() {
-      _remindCustomDay.remove(remindCustomDay);
+      _remindDays.remove(remindCustomDay);
     });
   }
 }
