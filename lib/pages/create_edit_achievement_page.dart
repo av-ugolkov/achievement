@@ -32,8 +32,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   ImagePicker _imagePicker = new ImagePicker();
 
   bool _isRemind = false;
-  TypeRemind _typeRemind = TypeRemind.none;
-  RemindModel _remind = RemindModel.empty;
+  //TypeRemind _typeRemind = TypeRemind.none;
+  List<RemindModel> _reminds = [];
 
   List<RemindWeekDay> _remindWeekDay = [];
   List<RemindCustomDay> _remindCustomDay = [];
@@ -114,9 +114,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                       _dateRangeAchievement = selectDate;
                       if (_remindCustomDay.length > 0) {
                         _remindCustomDay.removeWhere((remind) {
-                          var start = remind.remindDateTime
+                          var start = remind.remindDateTime.dateTime
                               .compareTo(_dateRangeAchievement.start);
-                          var end = remind.remindDateTime
+                          var end = remind.remindDateTime.dateTime
                               .compareTo(_dateRangeAchievement.end);
                           return start < 0 || end > 0;
                         });
@@ -171,7 +171,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     'Напоминать',
                     style: TextStyle(fontSize: 14),
                   ),
-                  DropdownButton(
+                  /*DropdownButton(
                     value: _typeRemind,
                     onChanged: (value) {
                       setState(() {
@@ -189,15 +189,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                         value: value,
                       );
                     }).toList(),
-                  )
+                  )*/
                 ],
               ),
               Container(
-                  child: (_typeRemind == TypeRemind.week)
-                      ? _weekRemind()
-                      : (_typeRemind == TypeRemind.custom)
-                          ? _customRemind()
-                          : Container())
+                child: _customRemind(),
+              )
             ],
           ),
         ),
@@ -205,7 +202,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     );
   }
 
-  String _getStringRemind(TypeRemind typeRemind) {
+  /*String _getStringRemind(TypeRemind typeRemind) {
     switch (typeRemind) {
       case TypeRemind.week:
         return 'по дням недели';
@@ -214,7 +211,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       default:
         return 'нет';
     }
-  }
+  }*/
 
   void _submitForm() async {
     if (_formKey.currentState.validate()) {
@@ -229,20 +226,21 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         file.create();
       }
       if (_isRemind) {
-        _remind.id = await DbRemind.db.getLastId();
+        /*_remind.id = await DbRemind.db.getLastId();
         _remind.typeRemind = _typeRemind;
         if (_typeRemind == TypeRemind.week) {
-          _remind.reminds = _remindWeekDay.map<DayModel>((value) {
+          _reminds[].reminds = _remindWeekDay.map<DayModel>((value) {
             return value.dayModel;
           }).toList();
         } else if (_typeRemind == TypeRemind.custom) {
           _remind.reminds = _remindCustomDay.map<DayModel>((value) {
             return value.dayModel;
           }).toList();
-        }
-      } else {
-        _remind = RemindModel.empty;
+        }*/
       }
+      /*else {
+        _remind = RemindModel.empty;
+      }*/
 
       var achievement = AchievementModel(
           id,
@@ -251,9 +249,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           imagePath,
           _dateRangeAchievement.start,
           _dateRangeAchievement.end,
-          _remind.id);
+          _reminds.map((value) {
+            return value.id;
+          }).toList());
       DbAchievement.db.insert(achievement);
-      DbRemind.db.insert(_remind);
+      for (var remind in _reminds) {
+        //DbRemind.db.insert(remind);
+      }
       Navigator.pop(context);
     } else {
       _showMessage(message: 'Form is not valid! Please review and correct');
@@ -280,8 +282,8 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   Container _weekRemind() {
     _remindWeekDay.clear();
     for (var i = 1; i <= 7; ++i) {
-      var dayModel = DayModel(day: i);
-      RemindWeekDay checkBox = RemindWeekDay(dayModel: dayModel);
+      var remindDateTime = RemindDateTime(day: i);
+      RemindWeekDay checkBox = RemindWeekDay(remindDateTime: remindDateTime);
       _remindWeekDay.add(checkBox);
     }
     return Container(
@@ -307,16 +309,15 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 setState(() {
-                  var dayModel = DayModel(
-                      day: DateTime(
-                              _dateRangeAchievement.start.year,
-                              _dateRangeAchievement.start.month,
-                              _dateRangeAchievement.start.day)
-                          .add(Duration(days: 1)),
-                      hour: 12,
-                      minute: 0);
+                  var remindDateTime = RemindDateTime.fromDateTime(
+                      dateTime: _dateRangeAchievement.start);
+                  var remindModel = RemindModel(
+                      id: -1,
+                      //typeRemind: TypeRepition.none,
+                      typeRepition: TypeRepition.none,
+                      remindDateTime: remindDateTime);
                   var newRemindCustom = RemindCustomDay(
-                    dayModel: dayModel,
+                    remindModel: remindModel,
                     callbackRemove: _removeCustomDay,
                   );
                   newRemindCustom.setRangeDateTime(_dateRangeAchievement);

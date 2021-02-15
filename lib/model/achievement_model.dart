@@ -5,10 +5,10 @@ class AchievementModel {
   String imagePath;
   DateTime createDate;
   DateTime finishDate;
-  int remindId;
+  List<int> remindIds;
 
   AchievementModel(this.id, this.header, this.description, this.imagePath,
-      this.createDate, this.finishDate, this.remindId);
+      this.createDate, this.finishDate, this.remindIds);
 
   AchievementModel.fromMap(Map<String, dynamic> achievement) {
     id = achievement['id'];
@@ -19,7 +19,7 @@ class AchievementModel {
         DateTime.fromMillisecondsSinceEpoch(achievement['create_date']);
     finishDate =
         DateTime.fromMillisecondsSinceEpoch(achievement['finish_date']);
-    remindId = achievement['remind_id'];
+    remindIds = achievement['remind_ids'];
   }
 
   Map<String, dynamic> toMap() {
@@ -30,7 +30,7 @@ class AchievementModel {
     map['image_path'] = imagePath;
     map['create_date'] = createDate.millisecondsSinceEpoch;
     map['finish_date'] = finishDate.millisecondsSinceEpoch;
-    map['remind_id'] = remindId;
+    map['remind_ids'] = remindIds;
     return map;
   }
 }

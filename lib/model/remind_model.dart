@@ -4,59 +4,70 @@ import 'package:achievement/enums.dart';
 
 class RemindModel {
   int id;
-  TypeRemind typeRemind;
-  List<DayModel> reminds = [];
+  //TypeRemind typeRemind;
+  TypeRepition typeRepition;
+  RemindDateTime remindDateTime;
 
-  static RemindModel get empty =>
-      RemindModel(id: -1, typeRemind: TypeRemind.none, reminds: null);
+  static RemindModel get empty => RemindModel(id: -1, remindDateTime: null);
 
-  RemindModel({this.id, this.typeRemind, this.reminds});
+  RemindModel(
+      {this.id,
+      //this.typeRemind = TypeRemind.none,
+      this.typeRepition = TypeRepition.none,
+      this.remindDateTime});
 
   RemindModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    typeRemind = TypeRemind.values[map['typeRemind']];
-    var mapReminds = jsonDecode(map['reminds']);
-    for (var mapRemind in mapReminds) {
-      reminds.add(DayModel.fromMap(mapRemind));
-    }
+    //typeRemind = TypeRemind.values[map['typeRemind']];
+    typeRepition = TypeRepition.values[map['typeRepition']];
+    remindDateTime = RemindDateTime.fromMap(map['dateTime']);
   }
 
   Map<String, dynamic> toMap() {
     final map = Map<String, dynamic>();
     map['id'] = id;
-    map['typeRemind'] = typeRemind.index;
-    map['reminds'] = jsonEncode(reminds.map((value) {
-      return value.toMap();
-    }).toList());
+    //map['typeRemind'] = typeRemind.index;
+    map['typeRepition'] = typeRepition.index;
+    map['day'] = jsonEncode(remindDateTime);
     return map;
   }
 }
 
-class DayModel {
-  dynamic day;
+class RemindDateTime {
+  int year;
+  int month;
+  int day;
   int hour;
   int minute;
-  TypeRepition typeRepition;
 
-  DayModel(
-      {this.day,
-      this.hour,
-      this.minute,
-      this.typeRepition = TypeRepition.none});
+  DateTime get dateTime => DateTime(year, month, day, hour, minute);
 
-  DayModel.fromMap(Map<String, dynamic> map) {
+  RemindDateTime({this.year, this.month, this.day, this.hour, this.minute});
+
+  factory RemindDateTime.fromDateTime({DateTime dateTime}) {
+    return RemindDateTime(
+        year: dateTime.year,
+        month: dateTime.month,
+        day: dateTime.day,
+        hour: dateTime.hour,
+        minute: dateTime.minute);
+  }
+
+  RemindDateTime.fromMap(Map<String, dynamic> map) {
+    year = map['year'];
+    month = map['month'];
     day = map['day'];
     hour = map['hour'];
     minute = map['minute'];
-    typeRepition = TypeRepition.values[map['typeRepition']];
   }
 
   Map<String, dynamic> toMap() {
     final map = Map<String, dynamic>();
-    map['day'] = day.toString();
+    map['year'] = year;
+    map['month'] = month;
+    map['day'] = day;
     map['hour'] = hour;
     map['minute'] = minute;
-    map['typeRepition'] = typeRepition.index;
     return map;
   }
 }

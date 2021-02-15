@@ -43,7 +43,21 @@ class DbRemind {
     return remind;
   }
 
-  Future<RemindModel> insert(RemindModel remindModel) async {
+  Future<List<RemindModel>> getReminds(List<int> ids) async {
+    List<RemindModel> reminds = [];
+    for (var id in ids) {
+      if (id == -1) {
+        reminds.add(RemindModel.empty);
+        continue;
+      }
+      final List<Map<String, dynamic>> list =
+          await DbFile.db.query(_nameTable, where: '$_id = ?', whereArgs: [id]);
+      reminds.add(RemindModel.fromMap(list[id]));
+    }
+    return reminds;
+  }
+
+  /*Future<RemindModel> insert(RemindModel remindModel) async {
     remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toMap());
 
     var achievements = await DbAchievement.db.getList();
@@ -65,29 +79,36 @@ class DbRemind {
           if (d.weekday == remind.day) {
             var scheduledDate =
                 DateTime(d.year, d.month, d.day, remind.hour, remind.minute);
-            LocalNotification.scheduleNotification(
-                id: remindModel.id,
-                scheduledDate: scheduledDate,
-                title: title,
-                body: body,
-                dayOfWeek: true);
+            _setScheduleNotification(remindModel.id + remind.hashCode,
+                scheduledDate, title, body, true);
             break;
           }
         }
       }
     } else if (remindModel.typeRemind == TypeRemind.custom) {
       for (var remind in remindModel.reminds) {
-        LocalNotification.scheduleNotification(
-            id: remindModel.id,
-            scheduledDate: remind.day.add(Duration(
+        _setScheduleNotification(
+            remindModel.id + remind.hashCode,
+            remind.day.add(Duration(
               hours: remind.hour,
               minutes: remind.minute,
             )),
-            title: title,
-            body: body);
+            title,
+            body,
+            false);
       }
     }
     return remindModel;
+  }*/
+
+  void _setScheduleNotification(int id, DateTime scheduledDate, String title,
+      String body, bool dayOfWeek) {
+    LocalNotification.scheduleNotification(
+        id: id,
+        scheduledDate: scheduledDate,
+        title: title,
+        body: body,
+        dayOfWeek: dayOfWeek);
   }
 
   Future<int> update(RemindModel remind) async {

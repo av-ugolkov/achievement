@@ -60,7 +60,7 @@ class LocalNotification {
     var tzSchedulerDate = tz.TZDateTime.utc(dateTimeUtc.year, dateTimeUtc.month,
         dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        0, title, body, tzSchedulerDate, platformChannelSpecifics,
+        id, title, body, tzSchedulerDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,

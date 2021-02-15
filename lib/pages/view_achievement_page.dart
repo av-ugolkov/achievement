@@ -64,36 +64,30 @@ class ViewAchievementPage extends StatelessWidget {
               Text(FormateDate.yearMonthDay(achievementModel.finishDate))
             ],
           ),
-          Checkbox(value: achievementModel.remindId != null, onChanged: null),
+          Checkbox(value: achievementModel.remindIds != null, onChanged: null),
           Container(
-            child: (achievementModel.remindId == -1)
+            child: (achievementModel.remindIds == null)
                 ? null
-                : _remindWidget(achievementModel.remindId),
+                : _remindWidget(achievementModel.remindIds),
           )
         ],
       ),
     );
   }
 
-  Widget _remindWidget(int id) {
-    var remind = DbRemind.db.getRemind(id);
+  Widget _remindWidget(List<int> ids) {
+    var reminds = DbRemind.db.getReminds(ids);
     return FutureBuilder(
-      future: remind,
+      future: reminds,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(id);
-          var reminds = snapshot.data as RemindModel;
+          print(ids.length);
+          var reminds = snapshot.data as List<RemindModel>;
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: reminds.reminds.map((value) {
-              if (value.hour != null) {
-                return Text(
-                    '${value.day} ${value.hour}:${value.minute} ${value.typeRepition}');
-              } else {
-                return Container();
-              }
-            }).toList(),
-          );
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: reminds.map((value) {
+                return Text(value.remindDateTime.toString());
+              }).toList());
         } else
           return Container();
       },

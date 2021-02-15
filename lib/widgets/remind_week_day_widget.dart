@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class RemindWeekDay extends StatefulWidget {
-  final DayModel dayModel;
+  final RemindDateTime remindDateTime;
 
-  RemindWeekDay({Key key, this.dayModel}) : super(key: key);
+  RemindWeekDay({Key key, this.remindDateTime}) : super(key: key);
 
   @override
   _RemindWeekDayState createState() => _RemindWeekDayState();
@@ -25,8 +25,8 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
         children: [
           Container(
             width: 100,
-            child: Text(
-                FormateDate.weekDayName(DateTime(1, 1, widget.dayModel.day))),
+            child: Text(FormateDate.weekDayName(
+                DateTime(1, 1, widget.remindDateTime.day))),
           ),
           Container(
             width: 50,
@@ -68,7 +68,7 @@ class _RemindWeekDayState extends State<RemindWeekDay> {
   }
 
   void _setTime(TimeOfDay time) {
-    widget.dayModel.hour = time?.hour;
-    widget.dayModel.minute = time?.minute;
+    widget.remindDateTime.hour = time?.hour;
+    widget.remindDateTime.minute = time?.minute;
   }
 }

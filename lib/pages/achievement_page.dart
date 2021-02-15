@@ -62,9 +62,8 @@ class _AchievementPageState extends State<AchievementPage> {
                           onLongPress: () {
                             setState(() {
                               Future.sync(() async {
-                                if (achievement.remindId != -1) {
-                                  await DbRemind.db
-                                      .delete(achievement.remindId);
+                                for (var remindId in achievement.remindIds) {
+                                  await DbRemind.db.delete(remindId);
                                 }
                                 var id = await DbAchievement.db
                                     .delete(achievement.id);
