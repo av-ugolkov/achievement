@@ -1,7 +1,5 @@
 import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/utils/local_notification.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'db_file.dart';
 
 class DbRemind {
@@ -11,13 +9,13 @@ class DbRemind {
 
   final String _id = 'id';
   final String _typeRepition = 'typeRepition';
-  final String _reminds = 'reminds';
+  final String _dateTime = 'dateTime';
 
   static final DbRemind db = DbRemind._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRepition INTEGER, $_reminds TEXT)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRepition INTEGER, $_dateTime TEXT)',
     );
   }
 
@@ -58,16 +56,6 @@ class DbRemind {
   Future<RemindModel> insert(RemindModel remindModel) async {
     remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toMap());
     return remindModel;
-  }
-
-  void _setScheduleNotification(int id, DateTime scheduledDate, String title,
-      String body, bool dayOfWeek) {
-    LocalNotification.scheduleNotification(
-        id: id,
-        scheduledDate: scheduledDate,
-        title: title,
-        body: body,
-        dayOfWeek: dayOfWeek);
   }
 
   Future<int> update(RemindModel remind) async {

@@ -3,28 +3,27 @@ import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
-class RemindCustomDay extends StatefulWidget {
+class RemindDay extends StatefulWidget {
   final RemindModel remindModel;
 
-  final Function(RemindCustomDay) callbackRemove;
+  final Function(RemindDay) callbackRemove;
 
-  final _RemindCustomDayState _remindCustomDayState = _RemindCustomDayState();
-  RemindDateTime get remindDateTime => _remindCustomDayState.remindDateTime;
+  final _RemindDayState _remindDayState = _RemindDayState();
+  RemindDateTime get remindDateTime => _remindDayState.remindDateTime;
 
-  RemindCustomDay({Key key, this.remindModel, this.callbackRemove})
-      : super(key: key);
+  RemindDay({Key key, this.remindModel, this.callbackRemove}) : super(key: key);
 
   @override
-  _RemindCustomDayState createState() {
-    return _remindCustomDayState;
+  _RemindDayState createState() {
+    return _remindDayState;
   }
 
   void setRangeDateTime(DateTimeRange dateTimeRange) {
-    _remindCustomDayState.setRangeDateTime(dateTimeRange);
+    _remindDayState.setRangeDateTime(dateTimeRange);
   }
 }
 
-class _RemindCustomDayState extends State<RemindCustomDay> {
+class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   DateTimeRange _dateTimeRange;
   RemindDateTime remindDateTime;

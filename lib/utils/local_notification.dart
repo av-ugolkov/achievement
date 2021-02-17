@@ -1,3 +1,4 @@
+import 'package:achievement/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/standalone.dart' as tz;
@@ -30,13 +31,13 @@ class LocalNotification {
       @required DateTime scheduledDate,
       String title,
       String body,
-      bool dayOfWeek = false}) async {
+      TypeRepition typeRepition = TypeRepition.none}) async {
     await _inst._scheduleNotification(
         id: id,
         scheduledDate: scheduledDate,
         title: title,
         body: body,
-        dayOfWeek: dayOfWeek);
+        typeRepition: typeRepition);
   }
 
   Future<void> _scheduleNotification(
@@ -44,7 +45,7 @@ class LocalNotification {
       String title,
       String body,
       DateTime scheduledDate,
-      bool dayOfWeek}) async {
+      TypeRepition typeRepition}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
       channel,
@@ -64,9 +65,20 @@ class LocalNotification {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
-        matchDateTimeComponents: dayOfWeek
-            ? DateTimeComponents.dayOfWeekAndTime
-            : DateTimeComponents.time);
+        matchDateTimeComponents: _matchDateTimeComponents(typeRepition));
+  }
+
+  dynamic _matchDateTimeComponents(TypeRepition typeRepition) {
+    switch (typeRepition) {
+      case TypeRepition.day:
+        return DateTimeComponents.time;
+      case TypeRepition.week:
+        return DateTimeComponents.dayOfWeekAndTime;
+      case TypeRepition.month:
+      case TypeRepition.year:
+      default:
+        return null;
+    }
   }
 
   Future<void> cancelNotification(int id) async {

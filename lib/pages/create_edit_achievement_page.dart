@@ -3,11 +3,12 @@ import 'dart:typed_data';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
-import 'package:achievement/widgets/remind_custom_day_widget.dart';
+import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
@@ -31,7 +32,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
   bool get _hasRemind => _remindDays.length > 0;
 
-  List<RemindCustomDay> _remindDays = [];
+  List<RemindDay> _remindDays = [];
 
   @override
   void initState() {
@@ -194,9 +195,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         file.create();
       }
       if (_hasRemind) {
+        var lastIndex = await DbRemind.db.getLastId();
         for (var remind in _remindDays) {
-          remind.remindModel.id =
-              (await DbRemind.db.insert(remind.remindModel)).id;
+          remind.remindModel.id = lastIndex;
+          await DbRemind.db.insert(remind.remindModel);
+          ++lastIndex;
         }
       }
 
@@ -210,10 +213,22 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           _remindDays.map((value) {
             return value.remindModel.id;
           }).toList());
-      DbAchievement.db.insert(achievement);
+      await DbAchievement.db.insert(achievement);
+      _createNotifications();
       Navigator.pop(context);
     } else {
       _showMessage(message: 'Form is not valid! Please review and correct');
+    }
+  }
+
+  void _createNotifications() {
+    for (var remind in _remindDays) {
+      LocalNotification.scheduleNotification(
+          id: remind.remindModel.id,
+          scheduledDate: remind.remindModel.remindDateTime.dateTime,
+          title: _controllerHeaderAchiv.text,
+          body: _controllerDescriptionAchiv.text,
+          typeRepition: remind.remindModel.typeRepition);
     }
   }
 
@@ -256,12 +271,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                       id: -1,
                       typeRepition: TypeRepition.none,
                       remindDateTime: remindDateTime);
-                  var newRemindCustom = RemindCustomDay(
+                  var newRemindDay = RemindDay(
                     remindModel: remindModel,
                     callbackRemove: _removeCustomDay,
                   );
-                  newRemindCustom.setRangeDateTime(_dateRangeAchievement);
-                  _remindDays.add(newRemindCustom);
+                  newRemindDay.setRangeDateTime(_dateRangeAchievement);
+                  _remindDays.add(newRemindDay);
                 });
               }),
         ],
@@ -269,7 +284,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     );
   }
 
-  void _removeCustomDay(RemindCustomDay remindCustomDay) {
+  void _removeCustomDay(RemindDay remindCustomDay) {
     setState(() {
       _remindDays.remove(remindCustomDay);
     });

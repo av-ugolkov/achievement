@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class AchievementModel {
   int id;
   String header;
@@ -19,7 +21,8 @@ class AchievementModel {
         DateTime.fromMillisecondsSinceEpoch(achievement['create_date']);
     finishDate =
         DateTime.fromMillisecondsSinceEpoch(achievement['finish_date']);
-    remindIds = achievement['remind_ids'];
+    var ids = jsonDecode(achievement['remind_ids']);
+    remindIds = ids.cast<int>();
   }
 
   Map<String, dynamic> toMap() {
@@ -30,7 +33,7 @@ class AchievementModel {
     map['image_path'] = imagePath;
     map['create_date'] = createDate.millisecondsSinceEpoch;
     map['finish_date'] = finishDate.millisecondsSinceEpoch;
-    map['remind_ids'] = remindIds;
+    map['remind_ids'] = jsonEncode(remindIds);
     return map;
   }
 }
