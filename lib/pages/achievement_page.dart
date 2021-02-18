@@ -4,6 +4,7 @@ import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/widgets/achievement_card.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/generated/l10n.dart';
 
 class AchievementPage extends StatefulWidget {
   @override
@@ -36,7 +37,7 @@ class _AchievementPageState extends State<AchievementPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text('Достигатор'),
+          title: Text(S.of(context).appName),
           centerTitle: true,
         ),
         floatingActionButton: FloatingActionButton(
