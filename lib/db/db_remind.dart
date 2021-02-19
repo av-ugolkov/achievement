@@ -23,8 +23,9 @@ class DbRemind {
     final List<Map<String, dynamic>> list = await DbFile.db.query(_nameTable);
     int id = 0;
     list.forEach((remind) {
-      if (remind['id'] >= id) {
-        id = remind['id'] + 1;
+      int remindId = remind['id'] as int;
+      if (remindId >= id) {
+        id = remindId + 1;
       }
     });
     return id;

@@ -52,8 +52,9 @@ class DbAchievement {
     final List<Map<String, dynamic>> list = await DbFile.db.query(_nameTable);
     int id = 0;
     list.forEach((achievement) {
-      if (achievement['id'] >= id) {
-        id = achievement['id'] + 1;
+      int achievId = achievement['id'] as int;
+      if (achievId >= id) {
+        id = achievId + 1;
       }
     });
     return id;

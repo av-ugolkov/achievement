@@ -10,7 +10,7 @@ class ViewAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RouteSettings settings = ModalRoute.of(context).settings;
-    AchievementModel achievementModel = settings.arguments;
+    AchievementModel achievementModel = settings.arguments as AchievementModel;
     return Scaffold(
       appBar: AppBar(
         title: Text('Достижение'),
@@ -81,7 +81,6 @@ class ViewAchievementPage extends StatelessWidget {
       future: reminds,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          print(ids.length);
           var reminds = snapshot.data as List<RemindModel>;
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,

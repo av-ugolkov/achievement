@@ -68,7 +68,7 @@ class LocalNotification {
         matchDateTimeComponents: _matchDateTimeComponents(typeRepition));
   }
 
-  dynamic _matchDateTimeComponents(TypeRepition typeRepition) {
+  DateTimeComponents _matchDateTimeComponents(TypeRepition typeRepition) {
     switch (typeRepition) {
       case TypeRepition.day:
         return DateTimeComponents.time;

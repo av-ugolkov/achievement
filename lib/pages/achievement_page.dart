@@ -62,14 +62,7 @@ class _AchievementPageState extends State<AchievementPage> {
                           },
                           onLongPress: () {
                             setState(() {
-                              Future.sync(() async {
-                                for (var remindId in achievement.remindIds) {
-                                  await DbRemind.db.delete(remindId);
-                                }
-                                var id = await DbAchievement.db
-                                    .delete(achievement.id);
-                                print('delete achievement $id');
-                              });
+                              deleteAchievement(achievement);
                             });
                           },
                           child: achievementCard(achievement));
@@ -82,6 +75,14 @@ class _AchievementPageState extends State<AchievementPage> {
             }
           },
         ));
+  }
+
+  Future<void> deleteAchievement(AchievementModel achievement) async {
+    for (var remindId in achievement.remindIds) {
+      await DbRemind.db.delete(remindId);
+    }
+    var count = await DbAchievement.db.delete(achievement.id);
+    print('delete achievement count: $count');
   }
 
   void openViewAchievementPage(AchievementModel model) {

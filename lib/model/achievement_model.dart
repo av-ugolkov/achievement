@@ -13,15 +13,16 @@ class AchievementModel {
       this.createDate, this.finishDate, this.remindIds);
 
   AchievementModel.fromMap(Map<String, dynamic> achievement) {
-    id = achievement['id'];
-    header = achievement['header'];
-    description = achievement['description'];
-    imagePath = achievement['image_path'];
+    id = achievement['id'] as int;
+    header = achievement['header'] as String;
+    description = achievement['description'] as String;
+    imagePath = achievement['image_path'] as String;
     createDate =
-        DateTime.fromMillisecondsSinceEpoch(achievement['create_date']);
+        DateTime.fromMillisecondsSinceEpoch(achievement['create_date'] as int);
     finishDate =
-        DateTime.fromMillisecondsSinceEpoch(achievement['finish_date']);
-    List<dynamic> ids = jsonDecode(achievement['remind_ids']);
+        DateTime.fromMillisecondsSinceEpoch(achievement['finish_date'] as int);
+    List<dynamic> ids =
+        jsonDecode(achievement['remind_ids'] as String) as List<dynamic>;
     remindIds = ids.cast<int>();
   }
 
