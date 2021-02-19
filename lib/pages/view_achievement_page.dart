@@ -86,7 +86,9 @@ class ViewAchievementPage extends StatelessWidget {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: reminds.map((value) {
-                return Text(value.remindDateTime.toString());
+                return Text(value.typeRepition.toString() +
+                    ' ' +
+                    value.remindDateTime.toString());
               }).toList());
         } else
           return Container();
