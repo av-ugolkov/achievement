@@ -26,7 +26,7 @@ class LocalNotification {
         onSelectNotification: selectNotification);
   }
 
-  static scheduleNotification(
+  static Future<void> scheduleNotification(
       {@required int id,
       @required DateTime scheduledDate,
       String title,

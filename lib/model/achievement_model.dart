@@ -21,7 +21,7 @@ class AchievementModel {
         DateTime.fromMillisecondsSinceEpoch(achievement['create_date']);
     finishDate =
         DateTime.fromMillisecondsSinceEpoch(achievement['finish_date']);
-    var ids = jsonDecode(achievement['remind_ids']);
+    List<dynamic> ids = jsonDecode(achievement['remind_ids']);
     remindIds = ids.cast<int>();
   }
 

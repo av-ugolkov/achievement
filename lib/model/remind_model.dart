@@ -14,7 +14,7 @@ class RemindModel {
   RemindModel.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     typeRepition = TypeRepition.values[map['typeRepition']];
-    var dateTime = jsonDecode(map['dateTime']);
+    Map<String, dynamic> dateTime = jsonDecode(map['dateTime']);
     remindDateTime = RemindDateTime.fromMap(dateTime);
   }
 

@@ -109,7 +109,8 @@ class _RemindDayState extends State<RemindDay> {
                   widget.remindModel.typeRepition = _typeRepition;
                 });
               },
-              items: TypeRepition.values.map<DropdownMenuItem>((value) {
+              items: TypeRepition.values
+                  .map<DropdownMenuItem<TypeRepition>>((value) {
                 return DropdownMenuItem<TypeRepition>(
                   child: Text(
                     _getStringRepition(value),
