@@ -33,8 +33,8 @@ class DbRemind {
   Future<RemindModel> getRemind(int id) async {
     if (id == -1) return RemindModel.empty;
 
-    final List<Map<String, dynamic>> list =
-        await DbFile.db.query(_nameTable, where: '$_id = ?', whereArgs: [id]);
+    final List<Map<String, dynamic>> list = await DbFile.db
+        .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
     RemindModel remind = RemindModel.fromMap(list[id]);
     return remind;
   }
@@ -46,8 +46,8 @@ class DbRemind {
         reminds.add(RemindModel.empty);
         continue;
       }
-      final List<Map<String, dynamic>> list =
-          await DbFile.db.query(_nameTable, where: '$_id = ?', whereArgs: [id]);
+      final List<Map<String, dynamic>> list = await DbFile.db
+          .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
       reminds.add(RemindModel.fromMap(list[id]));
     }
     return reminds;
@@ -60,11 +60,11 @@ class DbRemind {
 
   Future<int> update(RemindModel remind) async {
     return await DbFile.db.update(_nameTable, remind.toMap(),
-        where: '$_id = ?', whereArgs: [remind.id]);
+        where: '$_id = ?', whereArgs: <int>[remind.id]);
   }
 
   Future<int> delete(int id) async {
     return await DbFile.db
-        .delete(_nameTable, where: '$_id = ?', whereArgs: [id]);
+        .delete(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
   }
 }

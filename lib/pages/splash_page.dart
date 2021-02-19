@@ -28,7 +28,9 @@ class _SplashPageState extends State<SplashPage> {
 
   void _nextPage() {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => AchievementPage()));
+        context,
+        MaterialPageRoute<AchievementPage>(
+            builder: (context) => AchievementPage()));
   }
 
   @override

@@ -66,11 +66,11 @@ class DbAchievement {
 
   Future<int> update(AchievementModel achievement) async {
     return await DbFile.db.update(_nameTable, achievement.toMap(),
-        where: '$_id = ?', whereArgs: [achievement.id]);
+        where: '$_id = ?', whereArgs: <int>[achievement.id]);
   }
 
   Future<int> delete(int id) async {
     return await DbFile.db
-        .delete(_nameTable, where: '$_id = ?', whereArgs: [id]);
+        .delete(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
   }
 }
