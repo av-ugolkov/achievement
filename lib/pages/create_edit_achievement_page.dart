@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
@@ -54,7 +55,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Создать достижение'),
+        title: Text(getLocaleOfContext(context).createAchievement),
         centerTitle: true,
         actions: [
           IconButton(
@@ -73,14 +74,14 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 controller: _controllerHeaderAchiv,
                 maxLength: 100,
                 decoration: InputDecoration(
-                  labelText: 'Заголовок',
+                  labelText: getLocaleOfContext(context).header,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -6),
                 ),
                 style: TextStyle(fontSize: 18),
                 cursorHeight: 22,
                 validator: (value) {
                   if (value.length == 0) {
-                    return 'Заголовок не может быть пустым';
+                    return getLocaleOfContext(context).header_error_empty;
                   }
                   return null;
                 },
@@ -91,7 +92,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 maxLines: 3,
                 maxLength: 250,
                 decoration: InputDecoration(
-                  labelText: 'Описание',
+                  labelText: getLocaleOfContext(context).description,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -10),
                 ),
                 style: TextStyle(fontSize: 14),
@@ -167,7 +168,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    'Напоминать',
+                    getLocaleOfContext(context).remind,
                     style: TextStyle(fontSize: 14),
                   ),
                 ],
@@ -216,8 +217,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       await DbAchievement.db.insert(achievement);
       _createNotifications();
       Navigator.pop(context);
-    } else {
-      _showMessage(message: 'Form is not valid! Please review and correct');
     }
   }
 
@@ -230,23 +229,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           body: _controllerDescriptionAchiv.text,
           typeRepition: remind.remindModel.typeRepition);
     }
-  }
-
-  void _showMessage({String message}) {
-    _scaffoldKey.currentState.showSnackBar(
-      SnackBar(
-        duration: Duration(seconds: 5),
-        backgroundColor: Colors.red,
-        content: Text(
-          message,
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 18.0,
-          ),
-        ),
-      ),
-    );
   }
 
   Container _remindsPanel() {

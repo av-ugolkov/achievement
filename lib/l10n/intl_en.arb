@@ -1,3 +1,10 @@
 {
-    "appName": "Achievement"
+  "appName": "Achievement",
+  "createAchievement": "Create achievement",
+  "description": "Description",
+  "header": "Header",
+  "header_error_empty": "Заголовок не может быть пустым",
+  "remind": "Remind",
+  "repeat": "Repeat",
+  "viewAchievementTitle": "Achievement"
 }

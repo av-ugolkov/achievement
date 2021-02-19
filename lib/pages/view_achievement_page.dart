@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/model/remind_model.dart';
@@ -13,7 +14,7 @@ class ViewAchievementPage extends StatelessWidget {
     AchievementModel achievementModel = settings.arguments as AchievementModel;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Достижение'),
+        title: Text(getLocaleOfContext(context).viewAchievementTitle),
         actions: [
           IconButton(
             icon: Icon(Icons.edit),

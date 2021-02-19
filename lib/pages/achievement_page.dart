@@ -1,10 +1,10 @@
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/widgets/achievement_card.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/db/db_achievement.dart';
-import 'package:achievement/generated/l10n.dart';
 
 class AchievementPage extends StatefulWidget {
   @override
@@ -36,45 +36,46 @@ class _AchievementPageState extends State<AchievementPage> {
     var achievements = DbAchievement.db.getList();
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).appName),
-          centerTitle: true,
-        ),
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.pushNamed(context, '/create_achievement_page')
-                .then((value) => setState(() {}));
-          },
-        ),
-        body: FutureBuilder<List<AchievementModel>>(
-          future: achievements,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data.length > 0) {
-                return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      var achievement = snapshot.data[index];
-                      return GestureDetector(
-                          onTap: () {
-                            openViewAchievementPage(achievement);
-                          },
-                          onLongPress: () {
-                            setState(() {
-                              deleteAchievement(achievement);
-                            });
-                          },
-                          child: achievementCard(achievement));
-                    });
-              } else {
-                return Container();
-              }
+      appBar: AppBar(
+        title: Text(getLocaleOfContext(context).appName),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.pushNamed(context, '/create_achievement_page')
+              .then((value) => setState(() {}));
+        },
+      ),
+      body: FutureBuilder<List<AchievementModel>>(
+        future: achievements,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.length > 0) {
+              return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    var achievement = snapshot.data[index];
+                    return GestureDetector(
+                        onTap: () {
+                          openViewAchievementPage(achievement);
+                        },
+                        onLongPress: () {
+                          setState(() {
+                            deleteAchievement(achievement);
+                          });
+                        },
+                        child: achievementCard(achievement));
+                  });
             } else {
-              return CircularProgressIndicator();
+              return Container();
             }
-          },
-        ));
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
+      ),
+    );
   }
 
   Future<void> deleteAchievement(AchievementModel achievement) async {

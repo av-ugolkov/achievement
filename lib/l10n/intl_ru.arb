@@ -1,3 +1,10 @@
 {
-    "appName": "Достигатор"
+  "appName": "Достигатор",
+  "createAchievement": "Создать достижение",
+  "description": "Описание",
+  "header": "Заголовок",
+  "header_error_empty": "Заголовок не может быть пустым",
+  "remind": "Напоминать",
+  "repeat": "Повтор",
+  "viewAchievementTitle": "Достижение"
 }

@@ -44,6 +44,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Create achievement`
+  String get createAchievement {
+    return Intl.message(
+      'Create achievement',
+      name: 'createAchievement',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Header`
+  String get header {
+    return Intl.message(
+      'Header',
+      name: 'header',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Заголовок не может быть пустым`
+  String get header_error_empty {
+    return Intl.message(
+      'Заголовок не может быть пустым',
+      name: 'header_error_empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remind`
+  String get remind {
+    return Intl.message(
+      'Remind',
+      name: 'remind',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Repeat`
+  String get repeat {
+    return Intl.message(
+      'Repeat',
+      name: 'repeat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Achievement`
+  String get viewAchievementTitle {
+    return Intl.message(
+      'Achievement',
+      name: 'viewAchievementTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
