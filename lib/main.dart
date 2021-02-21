@@ -12,7 +12,7 @@ import 'utils/utils.dart' as utils;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  startApp() async {
+  void startApp() async {
     Directory docsDir = await getApplicationDocumentsDirectory();
     utils.docsDir = docsDir;
 
