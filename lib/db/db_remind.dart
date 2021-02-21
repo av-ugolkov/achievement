@@ -20,10 +20,10 @@ class DbRemind {
   }
 
   Future<int> getLastId() async {
-    final List<Map<String, dynamic>> list = await DbFile.db.query(_nameTable);
-    int id = 0;
+    final list = await DbFile.db.query(_nameTable);
+    var id = 0;
     list.forEach((remind) {
-      int remindId = remind['id'] as int;
+      var remindId = remind['id'] as int;
       if (remindId >= id) {
         id = remindId + 1;
       }
@@ -34,20 +34,20 @@ class DbRemind {
   Future<RemindModel> getRemind(int id) async {
     if (id == -1) return RemindModel.empty;
 
-    final List<Map<String, dynamic>> list = await DbFile.db
+    final list = await DbFile.db
         .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-    RemindModel remind = RemindModel.fromMap(list[id]);
+    var remind = RemindModel.fromMap(list[id]);
     return remind;
   }
 
   Future<List<RemindModel>> getReminds(List<int> ids) async {
-    List<RemindModel> reminds = [];
+    var reminds = <RemindModel>[];
     for (var id in ids) {
       if (id == -1) {
         reminds.add(RemindModel.empty);
         continue;
       }
-      final List<Map<String, dynamic>> list = await DbFile.db
+      final list = await DbFile.db
           .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
       reminds.add(RemindModel.fromMap(list[id]));
     }

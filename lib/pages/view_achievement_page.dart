@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 class ViewAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    RouteSettings settings = ModalRoute.of(context).settings;
-    AchievementModel achievementModel = settings.arguments as AchievementModel;
+    var settings = ModalRoute.of(context).settings;
+    var achievementModel = settings.arguments as AchievementModel;
     return Scaffold(
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).viewAchievementTitle),
@@ -90,8 +90,9 @@ class ViewAchievementPage extends StatelessWidget {
                     ' ' +
                     value.remindDateTime.toString());
               }).toList());
-        } else
+        } else {
           return Container();
+        }
       },
     );
   }

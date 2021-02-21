@@ -68,6 +68,36 @@ class LocalNotification {
         matchDateTimeComponents: _matchDateTimeComponents(typeRepition));
   }
 
+  static Future<void> periodicallyShow(
+      {@required int id,
+      @required RepeatInterval repeatInterval,
+      String title,
+      String body}) async {
+    await _inst._periodicallyShow(
+        id: id, repeatInterval: repeatInterval, title: title, body: body);
+  }
+
+  Future<void> _periodicallyShow(
+      {int id,
+      String title,
+      String body,
+      RepeatInterval repeatInterval}) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      '0',
+      channel,
+      'channel description',
+      //icon: 'flutter_devs',
+      //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
+    );
+    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.periodicallyShow(
+        id, title, body, repeatInterval, platformChannelSpecifics,
+        androidAllowWhileIdle: true);
+  }
+
   DateTimeComponents _matchDateTimeComponents(TypeRepition typeRepition) {
     switch (typeRepition) {
       case TypeRepition.day:

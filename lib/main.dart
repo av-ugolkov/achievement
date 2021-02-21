@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:achievement/pages/create_edit_achievement_page.dart';
 import 'package:achievement/pages/splash_page.dart';
 import 'package:achievement/pages/view_achievement_page.dart';
@@ -13,7 +12,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   void startApp() async {
-    Directory docsDir = await getApplicationDocumentsDirectory();
+    var docsDir = await getApplicationDocumentsDirectory();
     utils.docsDir = docsDir;
 
     runApp(MyApp());

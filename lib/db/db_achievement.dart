@@ -39,9 +39,8 @@ class DbAchievement {
   }*/
 
   Future<List<AchievementModel>> getList() async {
-    final List<Map<String, dynamic>> achievemntMapList =
-        await DbFile.db.query(_nameTable);
-    final List<AchievementModel> achievementsList = [];
+    final achievemntMapList = await DbFile.db.query(_nameTable);
+    final achievementsList = <AchievementModel>[];
     achievemntMapList.forEach((achievement) {
       achievementsList.add(AchievementModel.fromMap(achievement));
     });
@@ -49,10 +48,10 @@ class DbAchievement {
   }
 
   Future<int> getLastId() async {
-    final List<Map<String, dynamic>> list = await DbFile.db.query(_nameTable);
-    int id = 0;
+    final list = await DbFile.db.query(_nameTable);
+    var id = 0;
     list.forEach((achievement) {
-      int achievId = achievement['id'] as int;
+      var achievId = achievement['id'] as int;
       if (achievId >= id) {
         id = achievId + 1;
       }

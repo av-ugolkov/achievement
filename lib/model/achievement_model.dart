@@ -21,13 +21,12 @@ class AchievementModel {
         DateTime.fromMillisecondsSinceEpoch(achievement['create_date'] as int);
     finishDate =
         DateTime.fromMillisecondsSinceEpoch(achievement['finish_date'] as int);
-    List<dynamic> ids =
-        jsonDecode(achievement['remind_ids'] as String) as List<dynamic>;
+    var ids = jsonDecode(achievement['remind_ids'] as String) as List<dynamic>;
     remindIds = ids.cast<int>();
   }
 
   Map<String, dynamic> toMap() {
-    final map = Map<String, dynamic>();
+    final map = <String, dynamic>{};
     map['id'] = id;
     map['header'] = header;
     map['description'] = description;

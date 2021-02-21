@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:achievement/user/config.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,7 +15,7 @@ class DbFile {
       OnDatabaseVersionChangeFn onUpgrade,
       OnDatabaseVersionChangeFn onDowngrade,
       OnDatabaseOpenFn onOpen}) async {
-    String path = await _getPathDB();
+    var path = await _getPathDB();
     _database = await openDatabase(path,
         version: Config.version,
         onCreate: onCreate,
@@ -28,8 +26,8 @@ class DbFile {
   }
 
   Future<String> _getPathDB() async {
-    Directory dir = await getApplicationDocumentsDirectory();
-    String path = dir.path + '/Achievement.db';
+    var dir = await getApplicationDocumentsDirectory();
+    var path = dir.path + '/Achievement.db';
     return path;
   }
 

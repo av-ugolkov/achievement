@@ -11,6 +11,7 @@ import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -29,11 +30,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   final _controllerDescriptionAchiv = TextEditingController();
 
   Uint8List _imageBytes = Uint8List(0);
-  ImagePicker _imagePicker = new ImagePicker();
+  final ImagePicker _imagePicker = ImagePicker();
 
-  bool get _hasRemind => _remindDays.length > 0;
+  bool get _hasRemind => _remindDays.isNotEmpty;
 
-  List<RemindDay> _remindDays = [];
+  final _remindDays = <RemindDay>[];
 
   @override
   void initState() {
@@ -80,7 +81,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 style: TextStyle(fontSize: 18),
                 cursorHeight: 22,
                 validator: (value) {
-                  if (value.length == 0) {
+                  if (value.isEmpty) {
                     return getLocaleOfContext(context).header_error_empty;
                   }
                   return null;
@@ -190,10 +191,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       var imagePath = '';
       if (_imageBytes.isNotEmpty) {
         imagePath =
-            path.join(utils.docsDir.path, "${id}_${_imageBytes.hashCode}");
-        File file = File(imagePath);
-        file.writeAsBytes(_imageBytes.toList());
-        file.create();
+            path.join(utils.docsDir.path, '${id}_${_imageBytes.hashCode}');
+        var file = File(imagePath);
+        await file.writeAsBytes(_imageBytes.toList());
+        await file.create();
       }
       if (_hasRemind) {
         var lastIndex = await DbRemind.db.getLastId();
@@ -222,12 +223,17 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
   void _createNotifications() {
     for (var remind in _remindDays) {
-      LocalNotification.scheduleNotification(
+      LocalNotification.periodicallyShow(
+          id: remind.remindModel.id,
+          repeatInterval: RepeatInterval.everyMinute,
+          title: _controllerHeaderAchiv.text,
+          body: _controllerDescriptionAchiv.text);
+      /*LocalNotification.scheduleNotification(
           id: remind.remindModel.id,
           scheduledDate: remind.remindModel.remindDateTime.dateTime,
           title: _controllerHeaderAchiv.text,
           body: _controllerDescriptionAchiv.text,
-          typeRepition: remind.remindModel.typeRepition);
+          typeRepition: remind.remindModel.typeRepition);*/
     }
   }
 
