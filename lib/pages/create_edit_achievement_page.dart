@@ -11,7 +11,6 @@ import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -223,17 +222,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
   void _createNotifications() {
     for (var remind in _remindDays) {
-      LocalNotification.periodicallyShow(
-          id: remind.remindModel.id,
-          repeatInterval: RepeatInterval.everyMinute,
-          title: _controllerHeaderAchiv.text,
-          body: _controllerDescriptionAchiv.text);
-      /*LocalNotification.scheduleNotification(
+      LocalNotification.scheduleNotification(
           id: remind.remindModel.id,
           scheduledDate: remind.remindModel.remindDateTime.dateTime,
           title: _controllerHeaderAchiv.text,
           body: _controllerDescriptionAchiv.text,
-          typeRepition: remind.remindModel.typeRepition);*/
+          typeRepition: remind.remindModel.typeRepition);
     }
   }
 

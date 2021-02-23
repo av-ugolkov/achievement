@@ -80,6 +80,7 @@ class _AchievementPageState extends State<AchievementPage> {
 
   Future<void> deleteAchievement(AchievementModel achievement) async {
     for (var remindId in achievement.remindIds) {
+      await LocalNotification.cancelNotification(remindId);
       await DbRemind.db.delete(remindId);
     }
     var count = await DbAchievement.db.delete(achievement.id);

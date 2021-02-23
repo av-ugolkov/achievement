@@ -27,20 +27,6 @@ class LocalNotification {
   }
 
   static Future<void> scheduleNotification(
-      {@required int id,
-      @required DateTime scheduledDate,
-      String title,
-      String body,
-      TypeRepition typeRepition = TypeRepition.none}) async {
-    await _inst._scheduleNotification(
-        id: id,
-        scheduledDate: scheduledDate,
-        title: title,
-        body: body,
-        typeRepition: typeRepition);
-  }
-
-  Future<void> _scheduleNotification(
       {int id,
       String title,
       String body,
@@ -48,7 +34,7 @@ class LocalNotification {
       TypeRepition typeRepition}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
-      channel,
+      _inst.channel,
       'channel description',
       //icon: 'flutter_devs',
       //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
@@ -60,12 +46,12 @@ class LocalNotification {
     var dateTimeUtc = scheduledDate.toUtc();
     var tzSchedulerDate = tz.TZDateTime.utc(dateTimeUtc.year, dateTimeUtc.month,
         dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
-    await flutterLocalNotificationsPlugin.zonedSchedule(
+    await _inst.flutterLocalNotificationsPlugin.zonedSchedule(
         id, title, body, tzSchedulerDate, platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
-        matchDateTimeComponents: _matchDateTimeComponents(typeRepition));
+        matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition));
   }
 
   static Future<void> periodicallyShow(
@@ -73,18 +59,9 @@ class LocalNotification {
       @required RepeatInterval repeatInterval,
       String title,
       String body}) async {
-    await _inst._periodicallyShow(
-        id: id, repeatInterval: repeatInterval, title: title, body: body);
-  }
-
-  Future<void> _periodicallyShow(
-      {int id,
-      String title,
-      String body,
-      RepeatInterval repeatInterval}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
-      channel,
+      _inst.channel,
       'channel description',
       //icon: 'flutter_devs',
       //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
@@ -93,7 +70,7 @@ class LocalNotification {
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.periodicallyShow(
+    await _inst.flutterLocalNotificationsPlugin.periodicallyShow(
         id, title, body, repeatInterval, platformChannelSpecifics,
         androidAllowWhileIdle: true);
   }
@@ -111,11 +88,23 @@ class LocalNotification {
     }
   }
 
-  Future<void> cancelNotification(int id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
+  static Future<List<PendingNotificationRequest>>
+      pendingNotificationRequests() async {
+    return await _inst.flutterLocalNotificationsPlugin
+        .pendingNotificationRequests();
   }
 
-  Future<void> cancelAllNotification() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+  static Future<NotificationAppLaunchDetails>
+      getNotificationAppLaunchDetails() async {
+    return await _inst.flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails();
+  }
+
+  static Future<void> cancelNotification(int id) async {
+    await _inst.flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  static Future<void> cancelAllNotification() async {
+    await _inst.flutterLocalNotificationsPlugin.cancelAll();
   }
 }
