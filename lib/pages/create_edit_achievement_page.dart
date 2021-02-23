@@ -31,6 +31,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   Uint8List _imageBytes = Uint8List(0);
   final ImagePicker _imagePicker = ImagePicker();
 
+  bool _isRemind = false;
   bool get _hasRemind => _remindDays.isNotEmpty;
 
   final _remindDays = <RemindDay>[];
@@ -99,6 +100,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 cursorHeight: 18,
               ),
               TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(horizontal: 0),
+                  ),
+                ),
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   var selectDate = await showDateRangePicker(
@@ -126,18 +132,39 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   });
                 },
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    Icon(
-                      Icons.date_range,
-                      color: Colors.black87,
-                      size: 22,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          Icons.date_range,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          '${FormateDate.yearMonthDay(_dateRangeAchievement.start)}',
+                          style: TextStyle(fontSize: 12, color: Colors.black87),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 4),
-                    Text(
-                      '${FormateDate.yearMonthDay(_dateRangeAchievement.start)}   -   ${FormateDate.yearMonthDay(_dateRangeAchievement.end)}',
-                      style: TextStyle(fontSize: 12, color: Colors.black87),
-                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(
+                          Icons.date_range,
+                          color: Colors.black87,
+                          size: 22,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          '${FormateDate.yearMonthDay(_dateRangeAchievement.end)}',
+                          style: TextStyle(fontSize: 12, color: Colors.black87),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -165,16 +192,52 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 height: 14,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     getLocaleOfContext(context).remind,
                     style: TextStyle(fontSize: 14),
                   ),
+                  Switch(
+                    value: _isRemind,
+                    onChanged: (value) {
+                      setState(() {
+                        _isRemind = value;
+
+                        if (_remindDays.isEmpty) {
+                          var remindDateTime = RemindDateTime.fromDateTime(
+                              dateTime: _dateRangeAchievement.start);
+                          var remindModel = RemindModel(
+                              id: -1,
+                              typeRepition: TypeRepition.none,
+                              remindDateTime: remindDateTime);
+                          var newRemindDay = RemindDay(
+                            remindModel: remindModel,
+                            callbackRemove: _removeCustomDay,
+                          );
+                          newRemindDay.setRangeDateTime(_dateRangeAchievement);
+                          _remindDays.add(newRemindDay);
+                        } else {
+                          var reCreateRemindDays = <RemindDay>[];
+                          for (var remindDay in _remindDays) {
+                            var newRemindDay = RemindDay(
+                              remindModel: remindDay.remindModel,
+                              callbackRemove: _removeCustomDay,
+                            );
+                            newRemindDay
+                                .setRangeDateTime(_dateRangeAchievement);
+                            reCreateRemindDays.add(newRemindDay);
+                          }
+                          _remindDays.clear();
+                          _remindDays.addAll(reCreateRemindDays);
+                        }
+                      });
+                    },
+                  )
                 ],
               ),
               Container(
-                child: _remindsPanel(),
+                child: _isRemind ? _remindsPanel() : null,
               )
             ],
           ),
@@ -269,6 +332,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   void _removeCustomDay(RemindDay remindCustomDay) {
     setState(() {
       _remindDays.remove(remindCustomDay);
+      if (_remindDays.isEmpty) {
+        _isRemind = false;
+      }
     });
   }
 }
