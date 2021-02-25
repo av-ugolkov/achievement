@@ -75,8 +75,25 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 controller: _controllerHeaderAchiv,
                 maxLength: 100,
                 decoration: InputDecoration(
-                  labelText: getLocaleOfContext(context).header,
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -6),
+                  hintText: getLocaleOfContext(context).header,
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  icon: IconButton(
+                    padding: EdgeInsets.all(0),
+                    icon: _imageBytes.isEmpty
+                        ? Icon(
+                            Icons.photo,
+                            size: 50,
+                          )
+                        : Image.memory(_imageBytes),
+                    onPressed: () async {
+                      var galleryImage = await _imagePicker.getImage(
+                          source: ImageSource.gallery);
+                      if (galleryImage != null) {
+                        _imageBytes = await galleryImage.readAsBytes();
+                        setState(() {});
+                      }
+                    },
+                  ),
                 ),
                 style: TextStyle(fontSize: 18),
                 cursorHeight: 22,
@@ -90,11 +107,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               TextFormField(
                 controller: _controllerDescriptionAchiv,
                 minLines: 1,
-                maxLines: 3,
+                maxLines: 5,
                 maxLength: 250,
                 decoration: InputDecoration(
                   labelText: getLocaleOfContext(context).description,
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, -10),
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 ),
                 style: TextStyle(fontSize: 14),
                 cursorHeight: 18,
@@ -167,29 +184,6 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     )
                   ],
                 ),
-              ),
-              Container(
-                height: 50,
-                child: IconButton(
-                  icon: _imageBytes.isEmpty
-                      ? Icon(
-                          Icons.photo,
-                          size: 50,
-                        )
-                      : Image.memory(_imageBytes),
-                  onPressed: () async {
-                    var galleryImage = await _imagePicker.getImage(
-                        source: ImageSource.gallery);
-                    if (galleryImage != null) {
-                      _imageBytes = await galleryImage.readAsBytes();
-                      setState(() {});
-                    }
-                  },
-                  iconSize: 100,
-                ),
-              ),
-              SizedBox(
-                height: 14,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
