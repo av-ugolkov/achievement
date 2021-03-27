@@ -11,6 +11,7 @@ import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -98,10 +99,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 style: TextStyle(fontSize: 18),
                 cursorHeight: 22,
                 validator: (value) {
-                  if (value.isEmpty) {
-                    return getLocaleOfContext(context).header_error_empty;
-                  }
-                  return null;
+                  return getLocaleOfContext(context).header_error_empty;
                 },
               ),
               TextFormField(
@@ -162,7 +160,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                         ),
                         SizedBox(width: 4),
                         Text(
-                          '${FormateDate.yearMonthDay(_dateRangeAchievement.start)}',
+                          '${FormateDate.yearNumMonthDay(_dateRangeAchievement.start)}',
                           style: TextStyle(fontSize: 12, color: Colors.black87),
                         ),
                       ],
@@ -177,7 +175,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                         ),
                         SizedBox(width: 4),
                         Text(
-                          '${FormateDate.yearMonthDay(_dateRangeAchievement.end)}',
+                          '${FormateDate.yearNumMonthDay(_dateRangeAchievement.end)}',
                           style: TextStyle(fontSize: 12, color: Colors.black87),
                         ),
                       ],

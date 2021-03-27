@@ -46,10 +46,10 @@ class _RemindDayState extends State<RemindDay> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FlatButton(
-              height: 20,
-              minWidth: 30,
-              padding: EdgeInsets.symmetric(horizontal: 4),
+            TextButton(
+              //height: 20,
+              //minWidth: 30,
+              //padding: EdgeInsets.symmetric(horizontal: 4),
               onPressed: () async {
                 var newRemindDate = await showDatePicker(
                     context: context,
@@ -65,7 +65,7 @@ class _RemindDayState extends State<RemindDay> {
                   });
                 }
               },
-              shape: UnderlineInputBorder(),
+              //shape: UnderlineInputBorder(),
               child: Text(
                 FormateDate.yearMonthDay(remindDateTime.dateTime),
                 style: TextStyle(
@@ -74,10 +74,10 @@ class _RemindDayState extends State<RemindDay> {
                 ),
               ),
             ),
-            FlatButton(
-              height: 20,
-              minWidth: 30,
-              padding: EdgeInsets.symmetric(horizontal: 4),
+            TextButton(
+              //height: 20,
+              //minWidth: 30,
+              //padding: EdgeInsets.symmetric(horizontal: 4),
               onPressed: () async {
                 var newTimeOfDay = await showTimePicker(
                     context: context,
@@ -92,7 +92,7 @@ class _RemindDayState extends State<RemindDay> {
                   });
                 }
               },
-              shape: UnderlineInputBorder(),
+              //shape: UnderlineInputBorder(),
               child: Text(
                 FormateDate.hour24Minute(remindDateTime.dateTime),
                 style: TextStyle(
