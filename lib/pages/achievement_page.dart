@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
@@ -15,19 +17,19 @@ class _AchievementPageState extends State<AchievementPage> {
   @override
   void initState() {
     super.initState();
-    LocalNotification.init(selectNotification: onSelectNotification);
+    LocalNotification.init(onSelectNotification);
   }
 
-  Future<void> onSelectNotification(String payload) async {
-    var achievements = await DbAchievement.db.getList();
-
+  Future<void> onSelectNotification(String? payload) async {
+    //var achievements = await DbAchievement.db.getList();
     switch (payload) {
       case 'open':
-        var index = int.tryParse(payload);
-        openViewAchievementPage(achievements[index]);
+        log('Нужна обработка открытия ачивки');
+        //var index = int.tryParse(payload);
+        //openViewAchievementPage(achievements[index]);
         break;
       default:
-        print('Ошибка команды');
+        log('Error open achievement');
     }
   }
 
@@ -41,21 +43,21 @@ class _AchievementPageState extends State<AchievementPage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         onPressed: () {
           Navigator.pushNamed(context, '/create_achievement_page')
               .then((value) => setState(() {}));
         },
+        child: Icon(Icons.add),
       ),
       body: FutureBuilder<List<AchievementModel>>(
         future: achievements,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data.isNotEmpty) {
+            if (snapshot.data!.isNotEmpty) {
               return ListView.builder(
-                  itemCount: snapshot.data.length,
+                  itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    var achievement = snapshot.data[index];
+                    var achievement = snapshot.data![index];
                     return GestureDetector(
                         onTap: () {
                           openViewAchievementPage(achievement);

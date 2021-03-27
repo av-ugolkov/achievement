@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 
-Directory docsDir;
+late Directory docsDir;
 
 const _spSw600 = .6;
 
@@ -11,5 +11,5 @@ extension ContextExt on BuildContext {
   bool get sw600 => scWidth <= 600.0;
 
   TextStyle sp(TextStyle style) =>
-      style.copyWith(fontSize: sw600 ? style.fontSize * _spSw600 : null);
+      style.copyWith(fontSize: sw600 ? style.fontSize! * _spSw600 : null);
 }

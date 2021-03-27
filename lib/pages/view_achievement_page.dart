@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 class ViewAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var settings = ModalRoute.of(context).settings;
+    var settings = ModalRoute.of(context)!.settings;
     var achievementModel = settings.arguments as AchievementModel;
     return Scaffold(
       appBar: AppBar(
@@ -65,9 +65,10 @@ class ViewAchievementPage extends StatelessWidget {
               Text(FormateDate.yearMonthDay(achievementModel.finishDate))
             ],
           ),
-          Checkbox(value: achievementModel.remindIds != null, onChanged: null),
+          Checkbox(
+              value: achievementModel.remindIds.isNotEmpty, onChanged: null),
           Container(
-            child: (achievementModel.remindIds == null)
+            child: (achievementModel.remindIds.isEmpty)
                 ? null
                 : _remindWidget(achievementModel.remindIds),
           )

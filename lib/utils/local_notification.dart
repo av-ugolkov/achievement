@@ -1,16 +1,15 @@
 import 'package:achievement/enums.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/standalone.dart' as tz;
 
 class LocalNotification {
-  static LocalNotification _inst;
+  static late LocalNotification _inst;
 
   final String channel = 'Achievement';
 
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  static void init({SelectNotificationCallback selectNotification}) {
+  static void init(SelectNotificationCallback selectNotification) {
     _inst = LocalNotification._(selectNotification);
   }
 
@@ -26,12 +25,8 @@ class LocalNotification {
         onSelectNotification: selectNotification);
   }
 
-  static Future<void> scheduleNotification(
-      {int id,
-      String title,
-      String body,
-      DateTime scheduledDate,
-      TypeRepition typeRepition}) async {
+  static Future<void> scheduleNotification(int id, String title, String body,
+      DateTime scheduledDate, TypeRepition typeRepition) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
       _inst.channel,
@@ -55,10 +50,11 @@ class LocalNotification {
   }
 
   static Future<void> periodicallyShow(
-      {@required int id,
-      @required RepeatInterval repeatInterval,
-      String title,
-      String body}) async {
+    int id,
+    RepeatInterval repeatInterval, {
+    String? title,
+    String? body,
+  }) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       '0',
       _inst.channel,
@@ -75,7 +71,7 @@ class LocalNotification {
         androidAllowWhileIdle: true);
   }
 
-  DateTimeComponents _matchDateTimeComponents(TypeRepition typeRepition) {
+  DateTimeComponents? _matchDateTimeComponents(TypeRepition typeRepition) {
     switch (typeRepition) {
       case TypeRepition.day:
         return DateTimeComponents.time;
@@ -94,7 +90,7 @@ class LocalNotification {
         .pendingNotificationRequests();
   }
 
-  static Future<NotificationAppLaunchDetails>
+  static Future<NotificationAppLaunchDetails?>
       getNotificationAppLaunchDetails() async {
     return await _inst.flutterLocalNotificationsPlugin
         .getNotificationAppLaunchDetails();

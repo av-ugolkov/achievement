@@ -8,13 +8,13 @@ class DbFile {
   DbFile._();
 
   static final DbFile db = DbFile._();
-  static Database _database;
+  static late Database _database;
 
   Future<void> initDB(
-      {OnDatabaseCreateFn onCreate,
-      OnDatabaseVersionChangeFn onUpgrade,
-      OnDatabaseVersionChangeFn onDowngrade,
-      OnDatabaseOpenFn onOpen}) async {
+      {OnDatabaseCreateFn? onCreate,
+      OnDatabaseVersionChangeFn? onUpgrade,
+      OnDatabaseVersionChangeFn? onDowngrade,
+      OnDatabaseOpenFn? onOpen}) async {
     var path = await _getPathDB();
     _database = await openDatabase(path,
         version: Config.version,
@@ -36,15 +36,15 @@ class DbFile {
   }
 
   Future<List<Map<String, dynamic>>> query(String table,
-      {bool distinct,
-      List<String> columns,
-      String where,
-      List<dynamic> whereArgs,
-      String groupBy,
-      String having,
-      String orderBy,
-      int limit,
-      int offset}) async {
+      {bool? distinct,
+      List<String>? columns,
+      String? where,
+      List<dynamic>? whereArgs,
+      String? groupBy,
+      String? having,
+      String? orderBy,
+      int? limit,
+      int? offset}) async {
     return await _database.query(table);
   }
 
@@ -53,9 +53,9 @@ class DbFile {
   }
 
   Future<int> update(String table, Map<String, dynamic> map,
-      {String where,
-      List<dynamic> whereArgs,
-      ConflictAlgorithm conflictAlgorithm}) async {
+      {String? where,
+      List<dynamic>? whereArgs,
+      ConflictAlgorithm? conflictAlgorithm}) async {
     return await _database.update(table, map,
         where: where,
         whereArgs: whereArgs,
@@ -63,7 +63,7 @@ class DbFile {
   }
 
   Future<int> delete(String table,
-      {String where, List<dynamic> whereArgs}) async {
+      {String? where, List<dynamic>? whereArgs}) async {
     return await _database.delete(table, where: where, whereArgs: whereArgs);
   }
 }

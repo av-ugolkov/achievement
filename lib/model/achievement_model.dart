@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class AchievementModel {
-  int id;
-  String header;
-  String description;
-  String imagePath;
-  DateTime createDate;
-  DateTime finishDate;
-  List<int> remindIds;
+  late int id;
+  late String header;
+  late String description;
+  late String imagePath;
+  late DateTime createDate;
+  late DateTime finishDate;
+  late List<int> remindIds;
 
   AchievementModel(this.id, this.header, this.description, this.imagePath,
       this.createDate, this.finishDate, this.remindIds);

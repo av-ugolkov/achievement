@@ -11,7 +11,8 @@ class RemindDay extends StatefulWidget {
   final _RemindDayState _remindDayState = _RemindDayState();
   RemindDateTime get remindDateTime => _remindDayState.remindDateTime;
 
-  RemindDay({Key key, this.remindModel, this.callbackRemove}) : super(key: key);
+  RemindDay({Key? key, required this.remindModel, required this.callbackRemove})
+      : super(key: key);
 
   @override
   _RemindDayState createState() {
@@ -25,8 +26,8 @@ class RemindDay extends StatefulWidget {
 
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
-  DateTimeRange _dateTimeRange;
-  RemindDateTime remindDateTime;
+  late DateTimeRange _dateTimeRange;
+  late RemindDateTime remindDateTime;
 
   void setRangeDateTime(DateTimeRange dateTimeRange) {
     _dateTimeRange = dateTimeRange;
@@ -39,7 +40,7 @@ class _RemindDayState extends State<RemindDay> {
     remindDateTime = widget.remindDateTime;
     return GestureDetector(
       onLongPress: () {
-        widget.callbackRemove?.call(widget);
+        widget.callbackRemove.call(widget);
       },
       child: Container(
         height: 35,
@@ -103,15 +104,16 @@ class _RemindDayState extends State<RemindDay> {
             ),
             DropdownButton<TypeRepition>(
               value: _typeRepition,
-              onChanged: (TypeRepition value) {
+              onChanged: (TypeRepition? value) {
                 setState(() {
-                  _typeRepition = value;
+                  _typeRepition = value ?? TypeRepition.none;
                   widget.remindModel.typeRepition = _typeRepition;
                 });
               },
               items: TypeRepition.values
                   .map<DropdownMenuItem<TypeRepition>>((value) {
                 return DropdownMenuItem<TypeRepition>(
+                  value: value,
                   child: Text(
                     _getStringRepition(value),
                     style: TextStyle(
@@ -119,7 +121,6 @@ class _RemindDayState extends State<RemindDay> {
                       fontSize: 13,
                     ),
                   ),
-                  value: value,
                 );
               }).toList(),
             )

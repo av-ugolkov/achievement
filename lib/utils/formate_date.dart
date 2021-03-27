@@ -5,7 +5,7 @@ class FormateDate {
   static final String _currentLocale = 'ru_RU';
 
   static final FormateDate _inst = FormateDate._();
-  Map<String, DateFormat> _dateFormat;
+  late Map<String, DateFormat> _dateFormat;
 
   FormateDate._() {
     initializeDateFormatting();
@@ -27,30 +27,30 @@ class FormateDate {
   }
 
   static String yearMonthDay(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.YEAR_MONTH_DAY].format(dateTime);
+    return _inst._dateFormat[DateFormat.YEAR_MONTH_DAY]!.format(dateTime);
   }
 
   static String yearNumMonthDay(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.YEAR_NUM_MONTH_DAY].format(dateTime);
+    return _inst._dateFormat[DateFormat.YEAR_NUM_MONTH_DAY]!.format(dateTime);
   }
 
   static String weekDayName(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.WEEKDAY].format(dateTime);
+    return _inst._dateFormat[DateFormat.WEEKDAY]!.format(dateTime);
   }
 
   static String hour24MinuteSecond(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.HOUR24_MINUTE_SECOND].format(dateTime);
+    return _inst._dateFormat[DateFormat.HOUR24_MINUTE_SECOND]!.format(dateTime);
   }
 
   static String hour24Minute(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.HOUR24_MINUTE].format(dateTime);
+    return _inst._dateFormat[DateFormat.HOUR24_MINUTE]!.format(dateTime);
   }
 
   static String hour12MinuteSecond(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.HOUR_MINUTE_SECOND].format(dateTime);
+    return _inst._dateFormat[DateFormat.HOUR_MINUTE_SECOND]!.format(dateTime);
   }
 
   static String hour12Minute(DateTime dateTime) {
-    return _inst._dateFormat[DateFormat.HOUR_MINUTE].format(dateTime);
+    return _inst._dateFormat[DateFormat.HOUR_MINUTE]!.format(dateTime);
   }
 }

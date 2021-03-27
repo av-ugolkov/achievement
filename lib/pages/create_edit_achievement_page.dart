@@ -22,7 +22,7 @@ class CreateEditAchievementPage extends StatefulWidget {
 }
 
 class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
-  DateTimeRange _dateRangeAchievement;
+  late DateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -239,7 +239,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   void _submitForm() async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       var id = await DbAchievement.db.getLastId();
 
       var imagePath = '';
@@ -278,11 +278,11 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   void _createNotifications() {
     for (var remind in _remindDays) {
       LocalNotification.scheduleNotification(
-          id: remind.remindModel.id,
-          scheduledDate: remind.remindModel.remindDateTime.dateTime,
-          title: _controllerHeaderAchiv.text,
-          body: _controllerDescriptionAchiv.text,
-          typeRepition: remind.remindModel.typeRepition);
+          remind.remindModel.id,
+          _controllerHeaderAchiv.text,
+          _controllerDescriptionAchiv.text,
+          remind.remindModel.remindDateTime.dateTime,
+          remind.remindModel.typeRepition);
     }
   }
 
