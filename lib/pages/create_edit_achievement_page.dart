@@ -8,10 +8,10 @@ import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/utils/formate_date.dart';
 import 'package:achievement/widgets/remind_day_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 
@@ -41,7 +41,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   void initState() {
     super.initState();
     _dateRangeAchievement = DateTimeRange(
-        start: DateTime.now(), end: DateTime.now().add(Duration(days: 1)));
+        start: DateTime.now(), end: DateTime.now().add(Duration(days: 3)));
   }
 
   @override
@@ -114,22 +114,21 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 style: TextStyle(fontSize: 14),
                 cursorHeight: 18,
               ),
-              TextButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 0),
-                  ),
-                ),
-                onPressed: () async {
+              DateTimeProgress(
+                start: _dateRangeAchievement.start,
+                finish: _dateRangeAchievement.end,
+                current: _dateRangeAchievement.start,
+                onChangeStart: (dateTime) async {
                   FocusScope.of(context).unfocus();
-                  var selectDate = await showDateRangePicker(
+                  var selectDate = await showDatePicker(
                       context: context,
-                      initialDateRange: _dateRangeAchievement,
+                      initialDate: dateTime,
                       firstDate: DateTime(0),
-                      lastDate: DateTime(9999));
+                      lastDate: _dateRangeAchievement.end);
                   setState(() {
                     if (selectDate != null) {
-                      _dateRangeAchievement = selectDate;
+                      _dateRangeAchievement = DateTimeRange(
+                          start: selectDate, end: _dateRangeAchievement.end);
                       if (_hasRemind) {
                         _remindDays.removeWhere((remind) {
                           var start = remind.remindDateTime.dateTime
@@ -146,42 +145,33 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                     }
                   });
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.date_range,
-                          color: Colors.black87,
-                          size: 22,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          '${FormateDate.yearNumMonthDay(_dateRangeAchievement.start)}',
-                          style: TextStyle(fontSize: 12, color: Colors.black87),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Icon(
-                          Icons.date_range,
-                          color: Colors.black87,
-                          size: 22,
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          '${FormateDate.yearNumMonthDay(_dateRangeAchievement.end)}',
-                          style: TextStyle(fontSize: 12, color: Colors.black87),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                onChangeFinish: (dateTime) async {
+                  FocusScope.of(context).unfocus();
+                  var selectDate = await showDatePicker(
+                      context: context,
+                      initialDate: dateTime,
+                      firstDate: _dateRangeAchievement.start,
+                      lastDate: DateTime(9999));
+                  setState(() {
+                    if (selectDate != null) {
+                      _dateRangeAchievement = DateTimeRange(
+                          start: _dateRangeAchievement.start, end: selectDate);
+                      if (_hasRemind) {
+                        _remindDays.removeWhere((remind) {
+                          var start = remind.remindDateTime.dateTime
+                              .compareTo(_dateRangeAchievement.start);
+                          var end = remind.remindDateTime.dateTime
+                              .compareTo(_dateRangeAchievement.end);
+                          return start < 0 || end > 0;
+                        });
+                        for (var remindCustomDay in _remindDays) {
+                          remindCustomDay
+                              .setRangeDateTime(_dateRangeAchievement);
+                        }
+                      }
+                    }
+                  });
+                },
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

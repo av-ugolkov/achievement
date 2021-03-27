@@ -76,6 +76,15 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_components:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "9ba99780df24f88af90056c9b654217b3c275893"
+      url: "https://github.com/makedonskiy/flutter_components.git"
+    source: git
+    version: "1.0.0+1"
   flutter_local_notifications:
     dependency: "direct main"
     description:
