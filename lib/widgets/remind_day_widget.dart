@@ -69,63 +69,91 @@ class _RemindDayState extends State<RemindDay> {
                   );
                 }).toList(),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: () async {
-                      var newRemindDate = await showDatePicker(
-                          context: context,
-                          initialDate: remindDateTime.dateTime,
-                          firstDate: _dateTimeRange.start,
-                          lastDate: _dateTimeRange.end);
-
-                      if (newRemindDate != null) {
-                        setState(() {
-                          remindDateTime = RemindDateTime.fromDateTime(
-                              dateTime: newRemindDate);
-                          widget.remindModel.remindDateTime = remindDateTime;
-                        });
-                      }
-                    },
-                    child: Text(
-                      FormateDate.yearNumMonthDay(remindDateTime.dateTime),
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      var newTimeOfDay = await showTimePicker(
-                          context: context,
-                          initialTime:
-                              TimeOfDay.fromDateTime(remindDateTime.dateTime));
-
-                      if (newTimeOfDay != null) {
-                        setState(() {
-                          remindDateTime.hour = newTimeOfDay.hour;
-                          remindDateTime.minute = newTimeOfDay.minute;
-                          widget.remindModel.remindDateTime = remindDateTime;
-                        });
-                      }
-                    },
-                    child: Text(
-                      FormateDate.hour24Minute(remindDateTime.dateTime),
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              )
+              _getRemindView(_typeRepition)
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _getRemindView(TypeRepition typeRepition) {
+    switch (typeRepition) {
+      case TypeRepition.day:
+        return _getDayRepition();
+      case TypeRepition.week:
+        return _getWeekRepition();
+      case TypeRepition.month:
+        return _getMonthRepition();
+      default:
+        return _getNoneRepition();
+    }
+  }
+
+  Widget _getNoneRepition() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+          onPressed: () async {
+            var newRemindDate = await showDatePicker(
+                context: context,
+                initialDate: remindDateTime.dateTime,
+                firstDate: _dateTimeRange.start,
+                lastDate: _dateTimeRange.end);
+
+            if (newRemindDate != null) {
+              setState(() {
+                remindDateTime =
+                    RemindDateTime.fromDateTime(dateTime: newRemindDate);
+                widget.remindModel.remindDateTime = remindDateTime;
+              });
+            }
+          },
+          child: Text(
+            FormateDate.yearNumMonthDay(remindDateTime.dateTime),
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+        TextButton(
+          onPressed: () async {
+            var newTimeOfDay = await showTimePicker(
+                context: context,
+                initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime));
+
+            if (newTimeOfDay != null) {
+              setState(() {
+                remindDateTime.hour = newTimeOfDay.hour;
+                remindDateTime.minute = newTimeOfDay.minute;
+                widget.remindModel.remindDateTime = remindDateTime;
+              });
+            }
+          },
+          child: Text(
+            FormateDate.hour24Minute(remindDateTime.dateTime),
+            style: TextStyle(
+                color: Colors.black87,
+                fontSize: 20,
+                fontWeight: FontWeight.bold),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _getDayRepition() {
+    return Container();
+  }
+
+  Widget _getWeekRepition() {
+    return Container();
+  }
+
+  Widget _getMonthRepition() {
+    return Container();
   }
 
   String _getStringRepition(TypeRepition typeRepition) {
@@ -136,8 +164,6 @@ class _RemindDayState extends State<RemindDay> {
         return 'каждую неделю';
       case TypeRepition.month:
         return 'каждый месяц';
-      case TypeRepition.year:
-        return 'каждый год';
       default:
         return 'без повтора';
     }

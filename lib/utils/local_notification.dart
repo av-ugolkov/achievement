@@ -78,7 +78,6 @@ class LocalNotification {
       case TypeRepition.week:
         return DateTimeComponents.dayOfWeekAndTime;
       case TypeRepition.month:
-      case TypeRepition.year:
       default:
         return null;
     }

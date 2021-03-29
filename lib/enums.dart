@@ -17,6 +17,4 @@ enum Month {
   december
 }
 
-/*enum TypeRemind { none, week, custom }*/
-
-enum TypeRepition { none, day, week, month, year }
+enum TypeRepition { none, day, week, month }
