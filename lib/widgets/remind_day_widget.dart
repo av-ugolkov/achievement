@@ -160,94 +160,63 @@ class _RemindDayState extends State<RemindDay> {
     );
   }
 
-  Container _getDateButton() {
-    return Container(
-      padding: EdgeInsets.all(0),
-      child: GestureDetector(
-        onTap: () async {
-          var newRemindDate = await showDatePicker(
-              context: context,
-              initialDate: remindDateTime.dateTime,
-              firstDate: _dateTimeRange.start,
-              lastDate: _dateTimeRange.end);
+  GestureDetector _getDateButton() {
+    return GestureDetector(
+      onTap: () async {
+        var newRemindDate = await showDatePicker(
+            context: context,
+            initialDate: remindDateTime.dateTime,
+            firstDate: _dateTimeRange.start,
+            lastDate: _dateTimeRange.end);
 
-          if (newRemindDate != null) {
-            setState(() {
-              remindDateTime =
-                  RemindDateTime.fromDateTime(dateTime: newRemindDate);
-              widget.remindModel.remindDateTime = remindDateTime;
-            });
-          }
-        },
-        child: Text(
-          FormateDate.yearNumMonthDay(remindDateTime.dateTime),
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.visible,
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
+        if (newRemindDate != null) {
+          setState(() {
+            remindDateTime =
+                RemindDateTime.fromDateTime(dateTime: newRemindDate);
+            widget.remindModel.remindDateTime = remindDateTime;
+          });
+        }
+      },
+      child: Text(
+        FormateDate.yearNumMonthDay(remindDateTime.dateTime),
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.visible,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
 
-  Container _getTimeButton() {
-    return Container(
-        padding: EdgeInsets.all(0),
-        child: GestureDetector(
-          onTap: () async {
-            var newTimeOfDay = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
-            );
-
-            if (newTimeOfDay != null) {
-              setState(() {
-                remindDateTime.hour = newTimeOfDay.hour;
-                remindDateTime.minute = newTimeOfDay.minute;
-                widget.remindModel.remindDateTime = remindDateTime;
-              });
-            }
-          },
-          child: Text(
-            FormateDate.hour24Minute(remindDateTime.dateTime),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.visible,
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 26,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ) /*TextButton(
-        onPressed: () async {
-          var newTimeOfDay = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
-          );
-
-          if (newTimeOfDay != null) {
-            setState(() {
-              remindDateTime.hour = newTimeOfDay.hour;
-              remindDateTime.minute = newTimeOfDay.minute;
-              widget.remindModel.remindDateTime = remindDateTime;
-            });
-          }
-        },
-        child: Text(
-          FormateDate.hour24Minute(remindDateTime.dateTime),
-          textAlign: TextAlign.center,
-          overflow: TextOverflow.visible,
-          style: TextStyle(
-            color: Colors.black87,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),*/
+  GestureDetector _getTimeButton() {
+    return GestureDetector(
+      onTap: () async {
+        var newTimeOfDay = await showTimePicker(
+          context: context,
+          initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
         );
+
+        if (newTimeOfDay != null) {
+          setState(() {
+            remindDateTime.hour = newTimeOfDay.hour;
+            remindDateTime.minute = newTimeOfDay.minute;
+            widget.remindModel.remindDateTime = remindDateTime;
+          });
+        }
+      },
+      child: Text(
+        FormateDate.hour24Minute(remindDateTime.dateTime),
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.visible,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 26,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    );
   }
 
   String _getStringRepition(TypeRepition typeRepition) {
