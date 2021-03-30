@@ -28,11 +28,18 @@ class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late DateTimeRange _dateTimeRange;
   late RemindDateTime remindDateTime;
+  late String _day;
 
   void setRangeDateTime(DateTimeRange dateTimeRange) {
     _dateTimeRange = dateTimeRange;
     remindDateTime =
         RemindDateTime.fromDateTime(dateTime: _dateTimeRange.start);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _day = FormateDate.weekDayName(DateTime(1, 1, 1));
   }
 
   @override
@@ -45,33 +52,40 @@ class _RemindDayState extends State<RemindDay> {
       child: Container(
         child: Card(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              DropdownButton<TypeRepition>(
-                value: _typeRepition,
-                onChanged: (TypeRepition? value) {
-                  setState(() {
-                    _typeRepition = value ?? TypeRepition.none;
-                    widget.remindModel.typeRepition = _typeRepition;
-                  });
-                },
-                items: TypeRepition.values
-                    .map<DropdownMenuItem<TypeRepition>>((value) {
-                  return DropdownMenuItem<TypeRepition>(
-                    value: value,
-                    child: Text(
-                      _getStringRepition(value),
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  );
-                }).toList(),
+              Container(
+                height: 36,
+                child: DropdownButton<TypeRepition>(
+                  value: _typeRepition,
+                  onChanged: (TypeRepition? value) {
+                    setState(() {
+                      _typeRepition = value ?? TypeRepition.none;
+                      widget.remindModel.typeRepition = _typeRepition;
+                    });
+                  },
+                  items: TypeRepition.values
+                      .map<DropdownMenuItem<TypeRepition>>((value) {
+                    return DropdownMenuItem<TypeRepition>(
+                      value: value,
+                      child: Text(
+                        _getStringRepition(value),
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    );
+                  }).toList(),
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: _getRemindView(_typeRepition),
+              Container(
+                height: 36,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: _getRemindView(_typeRepition),
+                ),
               )
             ],
           ),
@@ -93,7 +107,10 @@ class _RemindDayState extends State<RemindDay> {
   }
 
   List<Widget> _getNoneRepition() {
-    return <Widget>[_getDateTimeButton(), _getTimeButton()];
+    return <Widget>[
+      _getDateButton(),
+      _getTimeButton(),
+    ];
   }
 
   List<Widget> _getDayRepition() {
@@ -101,12 +118,13 @@ class _RemindDayState extends State<RemindDay> {
   }
 
   List<Widget> _getWeekRepition() {
-    return <Widget>[_getDay(), _getTimeButton()];
+    return <Widget>[
+      _getDay(),
+      _getTimeButton(),
+    ];
   }
 
-  String _day = '';
   Widget _getDay() {
-    _day = FormateDate.weekDayName(DateTime(1, 1, 1));
     var items = <String>[];
     for (var i = 0; i < 7; ++i) {
       var date = DateTime(1, 1, i + 1);
@@ -117,7 +135,7 @@ class _RemindDayState extends State<RemindDay> {
       value: _day,
       onChanged: (String? value) {
         setState(() {
-          _day = value ?? FormateDate.weekDayName(DateTime(1, 1, 1));
+          _day = value!;
         });
       },
       items: items
@@ -142,52 +160,94 @@ class _RemindDayState extends State<RemindDay> {
     );
   }
 
-  TextButton _getTimeButton() {
-    return TextButton(
-      onPressed: () async {
-        var newTimeOfDay = await showTimePicker(
-            context: context,
-            initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime));
+  Container _getDateButton() {
+    return Container(
+      padding: EdgeInsets.all(0),
+      child: GestureDetector(
+        onTap: () async {
+          var newRemindDate = await showDatePicker(
+              context: context,
+              initialDate: remindDateTime.dateTime,
+              firstDate: _dateTimeRange.start,
+              lastDate: _dateTimeRange.end);
 
-        if (newTimeOfDay != null) {
-          setState(() {
-            remindDateTime.hour = newTimeOfDay.hour;
-            remindDateTime.minute = newTimeOfDay.minute;
-            widget.remindModel.remindDateTime = remindDateTime;
-          });
-        }
-      },
-      child: Text(
-        FormateDate.hour24Minute(remindDateTime.dateTime),
-        style: TextStyle(
-            color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
+          if (newRemindDate != null) {
+            setState(() {
+              remindDateTime =
+                  RemindDateTime.fromDateTime(dateTime: newRemindDate);
+              widget.remindModel.remindDateTime = remindDateTime;
+            });
+          }
+        },
+        child: Text(
+          FormateDate.yearNumMonthDay(remindDateTime.dateTime),
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.visible,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
 
-  TextButton _getDateTimeButton() {
-    return TextButton(
-      onPressed: () async {
-        var newRemindDate = await showDatePicker(
-            context: context,
-            initialDate: remindDateTime.dateTime,
-            firstDate: _dateTimeRange.start,
-            lastDate: _dateTimeRange.end);
+  Container _getTimeButton() {
+    return Container(
+        padding: EdgeInsets.all(0),
+        child: GestureDetector(
+          onTap: () async {
+            var newTimeOfDay = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
+            );
 
-        if (newRemindDate != null) {
-          setState(() {
-            remindDateTime =
-                RemindDateTime.fromDateTime(dateTime: newRemindDate);
-            widget.remindModel.remindDateTime = remindDateTime;
-          });
-        }
-      },
-      child: Text(
-        FormateDate.yearNumMonthDay(remindDateTime.dateTime),
-        style: TextStyle(
-            color: Colors.black87, fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    );
+            if (newTimeOfDay != null) {
+              setState(() {
+                remindDateTime.hour = newTimeOfDay.hour;
+                remindDateTime.minute = newTimeOfDay.minute;
+                widget.remindModel.remindDateTime = remindDateTime;
+              });
+            }
+          },
+          child: Text(
+            FormateDate.hour24Minute(remindDateTime.dateTime),
+            textAlign: TextAlign.center,
+            overflow: TextOverflow.visible,
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ) /*TextButton(
+        onPressed: () async {
+          var newTimeOfDay = await showTimePicker(
+            context: context,
+            initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
+          );
+
+          if (newTimeOfDay != null) {
+            setState(() {
+              remindDateTime.hour = newTimeOfDay.hour;
+              remindDateTime.minute = newTimeOfDay.minute;
+              widget.remindModel.remindDateTime = remindDateTime;
+            });
+          }
+        },
+        child: Text(
+          FormateDate.hour24Minute(remindDateTime.dateTime),
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.visible,
+          style: TextStyle(
+            color: Colors.black87,
+            fontSize: 26,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),*/
+        );
   }
 
   String _getStringRepition(TypeRepition typeRepition) {
