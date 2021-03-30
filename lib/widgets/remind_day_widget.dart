@@ -26,6 +26,7 @@ class RemindDay extends StatefulWidget {
 
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
+  late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
   late DateTimeRange _dateTimeRange;
   late RemindDateTime remindDateTime;
   late String _day;
@@ -40,16 +41,41 @@ class _RemindDayState extends State<RemindDay> {
   void initState() {
     super.initState();
     _day = FormateDate.weekDayName(DateTime(1, 1, 1));
+    _listTypeRepition =
+        TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
+      return DropdownMenuItem<TypeRepition>(
+          value: value,
+          child: Text(
+            _getStringRepition(value),
+            style: TextStyle(
+              color: Colors.black87,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ));
+    }).toList();
   }
 
   @override
   Widget build(BuildContext context) {
     remindDateTime = widget.remindDateTime;
-    return GestureDetector(
-      onLongPress: () {
-        widget.callbackRemove.call(widget);
-      },
-      child: Container(
+    return Container(
+      child: Dismissible(
+        key: Key(widget.remindModel.hashCode.toString()),
+        direction: DismissDirection.endToStart,
+        background: Container(
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          child: Container(
+            width: 70,
+            child: Icon(
+              Icons.delete,
+            ),
+          ),
+        ),
+        onDismissed: (direction) {
+          widget.callbackRemove.call(widget);
+        },
         child: Card(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -65,19 +91,7 @@ class _RemindDayState extends State<RemindDay> {
                       widget.remindModel.typeRepition = _typeRepition;
                     });
                   },
-                  items: TypeRepition.values
-                      .map<DropdownMenuItem<TypeRepition>>((value) {
-                    return DropdownMenuItem<TypeRepition>(
-                      value: value,
-                      child: Text(
-                        _getStringRepition(value),
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  }).toList(),
+                  items: _listTypeRepition,
                 ),
               ),
               Container(
