@@ -197,7 +197,7 @@ class _RemindDayState extends State<RemindDay> {
         overflow: TextOverflow.visible,
         style: TextStyle(
           color: Colors.black87,
-          fontSize: 26,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -226,7 +226,7 @@ class _RemindDayState extends State<RemindDay> {
         overflow: TextOverflow.visible,
         style: TextStyle(
           color: Colors.black87,
-          fontSize: 26,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
         ),
       ),
