@@ -25,7 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "createAchievement" : MessageLookupByLibrary.simpleMessage("Create achievement"),
     "description" : MessageLookupByLibrary.simpleMessage("Description"),
     "header" : MessageLookupByLibrary.simpleMessage("Header"),
-    "header_error_empty" : MessageLookupByLibrary.simpleMessage("Заголовок не может быть пустым"),
+    "header_error" : MessageLookupByLibrary.simpleMessage("Заголовок не может быть меньше 3 символов"),
     "remind" : MessageLookupByLibrary.simpleMessage("Remind"),
     "repeat" : MessageLookupByLibrary.simpleMessage("Repeat"),
     "viewAchievementTitle" : MessageLookupByLibrary.simpleMessage("Achievement")

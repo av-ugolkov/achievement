@@ -87,11 +87,11 @@ class S {
     );
   }
 
-  /// `Заголовок не может быть пустым`
-  String get header_error_empty {
+  /// `Заголовок не может быть меньше 3 символов`
+  String get header_error {
     return Intl.message(
-      'Заголовок не может быть пустым',
-      name: 'header_error_empty',
+      'Заголовок не может быть меньше 3 символов',
+      name: 'header_error',
       desc: '',
       args: [],
     );

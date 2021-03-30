@@ -99,7 +99,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 style: TextStyle(fontSize: 18),
                 cursorHeight: 22,
                 validator: (value) {
-                  return getLocaleOfContext(context).header_error_empty;
+                  if (value!.isEmpty || value.length < 3) {
+                    return getLocaleOfContext(context).header_error;
+                  }
+                  return null;
                 },
               ),
               TextFormField(
