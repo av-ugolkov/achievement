@@ -8,7 +8,7 @@ import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/widgets/remind_day_widget.dart';
+import 'package:achievement/widgets/remind_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
@@ -60,11 +60,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         title: Text(getLocaleOfContext(context).createAchievement),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.check),
-            onPressed: _submitForm,
-          )
+          IconButton(icon: Icon(Icons.menu), onPressed: () {}),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _submitForm,
+        child: Icon(Icons.check),
       ),
       body: Form(
         key: _formKey,

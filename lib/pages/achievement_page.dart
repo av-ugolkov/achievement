@@ -1,12 +1,9 @@
 import 'dart:developer';
 
 import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/db/db_remind.dart';
-import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/local_notification.dart';
-import 'package:achievement/widgets/achievement_card.dart';
+import 'package:achievement/widgets/list_achievement.dart';
 import 'package:flutter/material.dart';
-import 'package:achievement/db/db_achievement.dart';
 
 class AchievementPage extends StatefulWidget {
   @override
@@ -35,12 +32,13 @@ class _AchievementPageState extends State<AchievementPage> {
 
   @override
   Widget build(BuildContext context) {
-    var achievements = DbAchievement.db.getList();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).appName),
         centerTitle: true,
+        actions: [
+          IconButton(icon: Icon(Icons.menu), onPressed: () {}),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -49,47 +47,7 @@ class _AchievementPageState extends State<AchievementPage> {
         },
         child: Icon(Icons.add),
       ),
-      body: FutureBuilder<List<AchievementModel>>(
-        future: achievements,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isNotEmpty) {
-              return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    var achievement = snapshot.data![index];
-                    return GestureDetector(
-                        onTap: () {
-                          openViewAchievementPage(achievement);
-                        },
-                        onLongPress: () {
-                          setState(() {
-                            deleteAchievement(achievement);
-                          });
-                        },
-                        child: achievementCard(achievement));
-                  });
-            } else {
-              return Container();
-            }
-          } else {
-            return CircularProgressIndicator();
-          }
-        },
-      ),
+      body: ListAchievement(),
     );
-  }
-
-  Future<void> deleteAchievement(AchievementModel achievement) async {
-    for (var remindId in achievement.remindIds) {
-      await LocalNotification.cancelNotification(remindId);
-      await DbRemind.db.delete(remindId);
-    }
-    var count = await DbAchievement.db.delete(achievement.id);
-    print('delete achievement count: $count');
-  }
-
-  void openViewAchievementPage(AchievementModel model) {
-    Navigator.pushNamed(context, '/view_achievement_page', arguments: model);
   }
 }
