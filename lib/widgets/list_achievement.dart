@@ -1,5 +1,6 @@
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/widgets/achievement_card.dart';
@@ -58,8 +59,8 @@ class _ListAchievementState extends State<ListAchievement> {
       await LocalNotification.cancelNotification(remindId);
       await DbRemind.db.delete(remindId);
     }
-    var count = await DbAchievement.db.delete(achievement.id);
-    print('delete achievement count: $count');
+    achievement.state = AchievementState.archived;
+    await DbAchievement.db.update(achievement);
   }
 
   void _openViewAchievementPage(AchievementModel model) {

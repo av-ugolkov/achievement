@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/utils/local_notification.dart';
+import 'package:achievement/widgets/left_panel.dart';
 import 'package:achievement/widgets/list_achievement.dart';
 import 'package:flutter/material.dart';
 
@@ -36,10 +37,8 @@ class _AchievementPageState extends State<AchievementPage> {
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).appName),
         centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        ],
       ),
+      drawer: LeftPanel(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/create_achievement_page')

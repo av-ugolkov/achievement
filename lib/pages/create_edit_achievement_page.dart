@@ -254,15 +254,16 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       }
 
       var achievement = AchievementModel(
-          id,
-          _controllerHeaderAchiv.text,
-          _controllerDescriptionAchiv.text,
-          imagePath,
-          _dateRangeAchievement.start,
-          _dateRangeAchievement.end,
-          _remindDays.map((value) {
-            return value.remindModel.id;
-          }).toList());
+        id,
+        _controllerHeaderAchiv.text,
+        _dateRangeAchievement.start,
+        _dateRangeAchievement.end,
+        description: _controllerDescriptionAchiv.text,
+        imagePath: imagePath,
+        remindIds: _remindDays.map((value) {
+          return value.remindModel.id;
+        }).toList(),
+      );
       await DbAchievement.db.insert(achievement);
       _createNotifications();
       Navigator.pop(context);

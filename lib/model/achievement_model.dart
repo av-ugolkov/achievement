@@ -1,28 +1,91 @@
 import 'dart:convert';
+import 'package:achievement/enums.dart';
 
 class AchievementModel {
-  late int id;
-  late String header;
-  late String description;
-  late String imagePath;
-  late DateTime createDate;
-  late DateTime finishDate;
-  late List<int> remindIds;
+  late int _id;
+  int get id => _id;
+  set id(int id) {
+    if (_id == id) return;
+    _id = id;
+  }
 
-  AchievementModel(this.id, this.header, this.description, this.imagePath,
-      this.createDate, this.finishDate, this.remindIds);
+  late String _header;
+  String get header => _header;
+  set header(String header) {
+    if (_header == header) return;
+    _header = header;
+  }
 
-  AchievementModel.fromMap(Map<String, dynamic> achievement) {
-    id = achievement['id'] as int;
-    header = achievement['header'] as String;
-    description = achievement['description'] as String;
-    imagePath = achievement['image_path'] as String;
-    createDate =
-        DateTime.fromMillisecondsSinceEpoch(achievement['create_date'] as int);
-    finishDate =
-        DateTime.fromMillisecondsSinceEpoch(achievement['finish_date'] as int);
-    var ids = jsonDecode(achievement['remind_ids'] as String) as List<dynamic>;
+  late String _description;
+  String get description => _description;
+  set description(String description) {
+    if (_description == description) return;
+    _description = description;
+  }
+
+  late String _imagePath;
+  String get imagePath => _imagePath;
+  set imagePath(String imagePath) {
+    if (_imagePath == imagePath) return;
+    _imagePath = imagePath;
+  }
+
+  late DateTime _createDate;
+  DateTime get createDate => _createDate;
+  set createDate(DateTime createDate) {
+    if (_createDate == createDate) return;
+    _createDate = createDate;
+  }
+
+  late DateTime _finishDate;
+  DateTime get finishDate => _finishDate;
+  set finishDate(DateTime finishDate) {
+    if (_finishDate == finishDate) return;
+    _finishDate = finishDate;
+  }
+
+  late List<int> _remindIds;
+  List<int> get remindIds => _remindIds;
+  set remindIds(List<int> remindIds) {
+    if (_remindIds == remindIds) return;
+    _remindIds = remindIds;
+  }
+
+  late AchievementState _state;
+  AchievementState get state => _state;
+  set state(AchievementState state) {
+    if (_state == state) return;
+    _state = state;
+  }
+
+  AchievementModel(
+    int id,
+    String header,
+    DateTime createDate,
+    DateTime finishDate, {
+    String description = '',
+    String imagePath = '',
+    List<int>? remindIds,
+    AchievementState state = AchievementState.active,
+  })  : _id = id,
+        _header = header,
+        _description = description,
+        _imagePath = imagePath,
+        _createDate = createDate,
+        _finishDate = finishDate,
+        _remindIds = remindIds ?? [],
+        _state = state;
+
+  AchievementModel.fromMap(Map<String, dynamic> map) {
+    id = map['id'] as int;
+    header = map['header'] as String;
+    description = map['description'] as String;
+    imagePath = map['image_path'] as String;
+    createDate = DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int);
+    finishDate = DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int);
+    var ids = jsonDecode(map['remind_ids'] as String) as List<dynamic>;
     remindIds = ids.cast<int>();
+    state = AchievementState.values[map['archived'] as int];
   }
 
   Map<String, dynamic> toMap() {
@@ -34,6 +97,7 @@ class AchievementModel {
     map['create_date'] = createDate.millisecondsSinceEpoch;
     map['finish_date'] = finishDate.millisecondsSinceEpoch;
     map['remind_ids'] = jsonEncode(remindIds);
+    map['state'] = state.index;
     return map;
   }
 }
