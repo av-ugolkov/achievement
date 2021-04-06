@@ -12,12 +12,9 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   _BlocProviderState<T> createState() => _BlocProviderState<T>();
 
   static T of<T extends BlocBase>(BuildContext context) {
-    //final type = _typeOf<BlocProvider<T>>();
     var provider = context.findAncestorWidgetOfExactType<BlocProvider<T>>();
     return provider!.bloc;
   }
-
-  static Type _typeOf<T>() => T;
 }
 
 class _BlocProviderState<T> extends State<BlocProvider<BlocBase>> {

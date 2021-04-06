@@ -76,16 +76,20 @@ class AchievementModel {
         _remindIds = remindIds ?? [],
         _state = state;
 
-  AchievementModel.fromMap(Map<String, dynamic> map) {
-    id = map['id'] as int;
-    header = map['header'] as String;
-    description = map['description'] as String;
-    imagePath = map['image_path'] as String;
-    createDate = DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int);
-    finishDate = DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int);
+  factory AchievementModel.fromMap(Map<String, dynamic> map) {
     var ids = jsonDecode(map['remind_ids'] as String) as List<dynamic>;
-    remindIds = ids.cast<int>();
-    state = AchievementState.values[map['archived'] as int];
+    var remindIds = ids.cast<int>();
+
+    return AchievementModel(
+      map['id'] as int,
+      map['header'] as String,
+      DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int),
+      DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int),
+      description: map['description'] as String,
+      imagePath: map['image_path'] as String,
+      remindIds: remindIds,
+      state: AchievementState.values[map['state'] as int],
+    );
   }
 
   Map<String, dynamic> toMap() {

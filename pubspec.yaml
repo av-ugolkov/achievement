@@ -20,7 +20,7 @@ dependencies:
   path_provider: ^2.0.1
   image_picker: ^0.7.3
   flutter_local_notifications: ^5.0.0
-
+  
   flutter_components:
     git:
       url: https://github.com/makedonskiy/flutter_components.git

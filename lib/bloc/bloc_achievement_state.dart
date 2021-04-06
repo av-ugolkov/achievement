@@ -4,27 +4,28 @@ import 'package:achievement/bloc/bloc_base.dart';
 import 'package:achievement/enums.dart';
 
 class BlocAchievementState extends BlocBase {
-  AchievementState _state = AchievementState.active;
+  late AchievementState _state;
 
-  final StreamController<AchievementState> _counterController =
+  final StreamController<AchievementState> _stateController =
       StreamController<AchievementState>();
   final StreamController<AchievementState> _eventController =
       StreamController<AchievementState>();
 
-  Sink<AchievementState> get _inCounter => _counterController.sink;
-  Stream<AchievementState> get outCounter => _counterController.stream;
+  Sink<AchievementState> get _inState => _stateController.sink;
+  Stream<AchievementState> get outState => _stateController.stream;
 
   Sink<AchievementState> get inEvent => _eventController.sink;
   Stream<AchievementState> get _outEvent => _eventController.stream;
 
-  BlocAchievementState() {
+  BlocAchievementState({AchievementState state = AchievementState.active}) {
+    _state = state;
     _outEvent.listen(_handleEvent);
   }
 
   @override
   void dispose() {
     _eventController.close();
-    _counterController.close();
+    _stateController.close();
   }
 
   void _handleEvent(AchievementState event) {
@@ -33,6 +34,6 @@ class BlocAchievementState extends BlocBase {
 
   void _handleChangeStateEvent(AchievementState state) {
     _state = state;
-    _inCounter.add(_state);
+    _inState.add(_state);
   }
 }

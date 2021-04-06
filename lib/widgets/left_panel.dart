@@ -1,3 +1,6 @@
+import 'package:achievement/bloc/bloc_achievement_state.dart';
+import 'package:achievement/bloc/bloc_provider.dart';
+import 'package:achievement/enums.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -9,8 +12,11 @@ class _LeftPanelState extends State<LeftPanel> {
   static const double _sizeHeaderIcon = 100;
   static const double _sizeIcon = 30;
 
+  late BlocAchievementState _bloc;
+
   @override
   Widget build(BuildContext context) {
+    _bloc = BlocProvider.of<BlocAchievementState>(context);
     return _customDrawer();
   }
 
@@ -27,12 +33,16 @@ class _LeftPanelState extends State<LeftPanel> {
           ListTile(
             leading: Icon(Icons.emoji_events, size: _sizeIcon),
             title: Text('Активные'),
-            onTap: () {},
+            onTap: () {
+              _setAchievementState(AchievementState.active);
+            },
           ),
           ListTile(
             leading: Icon(Icons.done_all, size: _sizeIcon),
             title: Text('Выполненые'),
-            onTap: () {},
+            onTap: () {
+              _setAchievementState(AchievementState.done);
+            },
           ),
           ListTile(
             leading: Stack(
@@ -43,12 +53,16 @@ class _LeftPanelState extends State<LeftPanel> {
               ],
             ),
             title: Text('Проваленные'),
-            onTap: () {},
+            onTap: () {
+              _setAchievementState(AchievementState.fail);
+            },
           ),
           ListTile(
             leading: Icon(Icons.archive, size: _sizeIcon),
             title: Text('Архивные'),
-            onTap: () {},
+            onTap: () {
+              _setAchievementState(AchievementState.archived);
+            },
           ),
           ListTile(
             leading: Icon(Icons.settings, size: _sizeIcon),
@@ -58,5 +72,14 @@ class _LeftPanelState extends State<LeftPanel> {
         ],
       ),
     );
+  }
+
+  void _setAchievementState(AchievementState state) {
+    _bloc.inEvent.add(state);
+    close();
+  }
+
+  void close() {
+    Navigator.pop(context);
   }
 }

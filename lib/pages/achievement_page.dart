@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:achievement/bloc/bloc_achievement_state.dart';
+import 'package:achievement/bloc/bloc_provider.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/widgets/left_panel.dart';
@@ -31,9 +33,12 @@ class _AchievementPageState extends State<AchievementPage> {
     }
   }
 
+  final BlocAchievementState bloc = BlocAchievementState();
+  final ListAchievement listAchievement = ListAchievement();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    var scaffold = Scaffold(
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).appName),
         centerTitle: true,
@@ -48,5 +53,11 @@ class _AchievementPageState extends State<AchievementPage> {
       ),
       body: ListAchievement(),
     );
+
+    var blocProvider = BlocProvider(
+      bloc: bloc,
+      child: scaffold,
+    );
+    return blocProvider;
   }
 }

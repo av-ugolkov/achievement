@@ -1,3 +1,4 @@
+import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -44,6 +45,20 @@ class DbAchievement {
     final achievementsList = <AchievementModel>[];
     achievemntMapList.forEach((achievement) {
       achievementsList.add(AchievementModel.fromMap(achievement));
+    });
+    return achievementsList;
+  }
+
+  Future<List<AchievementModel>> getAchievementsByState({
+    AchievementState state = AchievementState.active,
+  }) async {
+    final achievemntMapList = await DbFile.db.query(_nameTable);
+    final achievementsList = <AchievementModel>[];
+    achievemntMapList.forEach((achievement) {
+      var achievementModel = AchievementModel.fromMap(achievement);
+      if (achievementModel.state == state) {
+        achievementsList.add(achievementModel);
+      }
     });
     return achievementsList;
   }
