@@ -21,9 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "active" : MessageLookupByLibrary.simpleMessage("Активные"),
     "appName" : MessageLookupByLibrary.simpleMessage("Достигатор"),
+    "archived" : MessageLookupByLibrary.simpleMessage("Архивные"),
     "createAchievement" : MessageLookupByLibrary.simpleMessage("Создать достижение"),
     "description" : MessageLookupByLibrary.simpleMessage("Описание"),
+    "done" : MessageLookupByLibrary.simpleMessage("Выполнные"),
+    "fail" : MessageLookupByLibrary.simpleMessage("Проваленные"),
     "header" : MessageLookupByLibrary.simpleMessage("Заголовок"),
     "header_error" : MessageLookupByLibrary.simpleMessage("Заголовок не может быть меньше 3 символов"),
     "remind" : MessageLookupByLibrary.simpleMessage("Напоминать"),

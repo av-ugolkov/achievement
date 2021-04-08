@@ -47,11 +47,31 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Active`
+  String get active {
+    return Intl.message(
+      'Active',
+      name: 'active',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Achievement`
   String get appName {
     return Intl.message(
       'Achievement',
       name: 'appName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Archived`
+  String get archived {
+    return Intl.message(
+      'Archived',
+      name: 'archived',
       desc: '',
       args: [],
     );
@@ -72,6 +92,26 @@ class S {
     return Intl.message(
       'Description',
       name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get done {
+    return Intl.message(
+      'Done',
+      name: 'done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fail`
+  String get fail {
+    return Intl.message(
+      'Fail',
+      name: 'fail',
       desc: '',
       args: [],
     );

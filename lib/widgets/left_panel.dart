@@ -1,5 +1,6 @@
 import 'package:achievement/bloc/bloc_achievement_state.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/enums.dart';
 import 'package:flutter/material.dart';
 
@@ -32,14 +33,14 @@ class _LeftPanelState extends State<LeftPanel> {
           )),
           ListTile(
             leading: Icon(Icons.emoji_events, size: _sizeIcon),
-            title: Text('Активные'),
+            title: Text(getLocaleOfContext(context).active),
             onTap: () {
               _setAchievementState(AchievementState.active);
             },
           ),
           ListTile(
             leading: Icon(Icons.done_all, size: _sizeIcon),
-            title: Text('Выполненые'),
+            title: Text(getLocaleOfContext(context).done),
             onTap: () {
               _setAchievementState(AchievementState.done);
             },
@@ -52,14 +53,14 @@ class _LeftPanelState extends State<LeftPanel> {
                 Icon(Icons.block_outlined, size: _sizeIcon)
               ],
             ),
-            title: Text('Проваленные'),
+            title: Text(getLocaleOfContext(context).fail),
             onTap: () {
               _setAchievementState(AchievementState.fail);
             },
           ),
           ListTile(
             leading: Icon(Icons.archive, size: _sizeIcon),
-            title: Text('Архивные'),
+            title: Text(getLocaleOfContext(context).archived),
             onTap: () {
               _setAchievementState(AchievementState.archived);
             },

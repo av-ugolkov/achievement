@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:achievement/bloc/bloc_base.dart';
 import 'package:achievement/enums.dart';
 
 class BlocAchievementState extends BlocBase {
   late AchievementState _state;
+  AchievementState get state => _state;
 
   final StreamController<AchievementState> _stateController =
       StreamController<AchievementState>();

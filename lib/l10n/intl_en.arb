@@ -1,7 +1,11 @@
 {
+  "active": "Active",
   "appName": "Achievement",
+  "archived": "Archived",
   "createAchievement": "Create achievement",
   "description": "Description",
+  "done": "Done",
+  "fail": "Fail",
   "header": "Header",
   "header_error": "Заголовок не может быть меньше 3 символов",
   "remind": "Remind",
