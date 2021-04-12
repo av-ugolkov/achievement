@@ -1,10 +1,10 @@
-import 'package:achievement/bloc/bloc_achievement_state.dart';
-import 'package:achievement/bloc/bloc_provider.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/enums.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
+  final Function(AchievementState) onChangeState;
+  LeftPanel({required this.onChangeState});
   @override
   _LeftPanelState createState() => _LeftPanelState();
 }
@@ -13,15 +13,12 @@ class _LeftPanelState extends State<LeftPanel> {
   static const double _sizeHeaderIcon = 100;
   static const double _sizeIcon = 30;
 
-  late BlocAchievementState _bloc;
-
   @override
   Widget build(BuildContext context) {
-    _bloc = BlocProvider.of<BlocAchievementState>(context);
     return _customDrawer();
   }
 
-  Drawer _customDrawer() {
+  Widget _customDrawer() {
     return Drawer(
       child: ListView(
         children: <Widget>[
@@ -76,7 +73,7 @@ class _LeftPanelState extends State<LeftPanel> {
   }
 
   void _setAchievementState(AchievementState state) {
-    _bloc.inEvent.add(state);
+    widget.onChangeState(state);
     close();
   }
 

@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'package:achievement/bloc/bloc_achievement_state.dart';
-import 'package:achievement/bloc/bloc_provider.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/utils/local_notification.dart';
@@ -14,13 +12,17 @@ class AchievementPage extends StatefulWidget {
 }
 
 class _AchievementPageState extends State<AchievementPage> {
-  final BlocAchievementState bloc = BlocAchievementState();
-  final ListAchievement listAchievement = ListAchievement();
+  late AchievementState _state;
+  set state(AchievementState value) {
+    if (_state == value) return;
+    _state = value;
+  }
 
   @override
   void initState() {
     super.initState();
     LocalNotification.init(onSelectNotification);
+    _state = AchievementState.active;
   }
 
   Future<void> onSelectNotification(String? payload) async {
@@ -38,12 +40,21 @@ class _AchievementPageState extends State<AchievementPage> {
 
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: TitleAchievementPage(),
+        title: InheritedAchievementPage(
+          state: _state,
+          child: TitleAchievementPage(),
+        ),
         centerTitle: true,
       ),
-      drawer: LeftPanel(),
+      drawer: LeftPanel(
+        onChangeState: (value) {
+          setState(() {
+            state = value;
+          });
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/create_achievement_page')
@@ -51,22 +62,37 @@ class _AchievementPageState extends State<AchievementPage> {
         },
         child: Icon(Icons.add),
       ),
-      body: ListAchievement(),
+      body: InheritedAchievementPage(
+        state: _state,
+        child: ListAchievement(),
+      ),
     );
-
-    var blocProvider = BlocProvider(
-      bloc: bloc,
-      child: scaffold,
-    );
-    return blocProvider;
   }
+}
+
+class InheritedAchievementPage extends InheritedWidget {
+  final AchievementState state;
+
+  InheritedAchievementPage({required this.state, required Widget child})
+      : super(child: child);
+
+  @override
+  bool updateShouldNotify(covariant InheritedAchievementPage oldWidget) {
+    return oldWidget.state != state;
+  }
+
+  static AchievementState of(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<InheritedAchievementPage>()
+          ?.state ??
+      AchievementState.active;
 }
 
 class TitleAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var bloc = BlocProvider.of<BlocAchievementState>(context);
-    var title = _getTitleState(bloc.state);
+    var state = InheritedAchievementPage.of(context);
+    var title = _getTitleState(state);
     return Text(title);
   }
 
