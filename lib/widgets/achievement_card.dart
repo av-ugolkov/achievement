@@ -4,7 +4,7 @@ import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/utils/formate_date.dart';
 import 'package:flutter/material.dart';
 
-Container achievementCard(AchievementModel achievement) {
+Widget achievementCard(AchievementModel achievement) {
   return Container(
     height: 78,
     padding: const EdgeInsets.all(5.0),

@@ -39,7 +39,7 @@ class _ListAchievementState extends State<ListAchievement> {
                           padding: EdgeInsets.fromLTRB(0, 0, 25, 0),
                           child: Icon(Icons.archive)),
                       onDismissed: (direction) async {
-                        await _deleteAchievement(achievement);
+                        await _archivedAchievement(achievement);
                       },
                       child: achievementCard(achievement),
                     ),
@@ -55,7 +55,7 @@ class _ListAchievementState extends State<ListAchievement> {
     );
   }
 
-  Future<void> _deleteAchievement(AchievementModel achievement) async {
+  Future<void> _archivedAchievement(AchievementModel achievement) async {
     for (var remindId in achievement.remindIds) {
       await LocalNotification.cancelNotification(remindId);
       await DbRemind.db.delete(remindId);
