@@ -81,7 +81,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: cf4d61b49a0fbd38a00b685367c6477fa85d1996
+      resolved-ref: "3aeeb82e4a2103f148253bf9a95ecffe3c3feee8"
       url: "https://github.com/makedonskiy/flutter_components.git"
     source: git
     version: "1.0.0+1"
@@ -91,7 +91,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.0+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
