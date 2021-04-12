@@ -29,26 +29,32 @@ class _LeftPanelState extends State<LeftPanel> {
             color: Colors.grey,
           )),
           ListTile(
-            leading: Icon(Icons.emoji_events, size: _sizeIcon),
+            leading: Icon(
+              Icons.emoji_events_outlined,
+              size: _sizeIcon,
+              color: Colors.yellow[600],
+            ),
             title: Text(getLocaleOfContext(context).active),
             onTap: () {
               _setAchievementState(AchievementState.active);
             },
           ),
           ListTile(
-            leading: Icon(Icons.done_all, size: _sizeIcon),
+            leading: Icon(
+              Icons.done_all,
+              size: _sizeIcon,
+              color: Colors.green,
+            ),
             title: Text(getLocaleOfContext(context).done),
             onTap: () {
               _setAchievementState(AchievementState.done);
             },
           ),
           ListTile(
-            leading: Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Icon(Icons.emoji_events_outlined),
-                Icon(Icons.block_outlined, size: _sizeIcon)
-              ],
+            leading: Icon(
+              Icons.block_outlined,
+              size: _sizeIcon,
+              color: Colors.red,
             ),
             title: Text(getLocaleOfContext(context).fail),
             onTap: () {
@@ -56,14 +62,22 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.archive, size: _sizeIcon),
+            leading: Icon(
+              Icons.archive,
+              size: _sizeIcon,
+              color: Colors.grey,
+            ),
             title: Text(getLocaleOfContext(context).archived),
             onTap: () {
               _setAchievementState(AchievementState.archived);
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings, size: _sizeIcon),
+            leading: Icon(
+              Icons.settings,
+              size: _sizeIcon,
+              color: Theme.of(context).accentColor,
+            ),
             title: Text('Настройки'),
             onTap: () {},
           ),
