@@ -41,7 +41,7 @@ class _LeftPanelState extends State<LeftPanel> {
           ),
           ListTile(
             leading: Icon(
-              Icons.done_all,
+              Icons.done_all_outlined,
               size: _sizeIcon,
               color: Colors.green,
             ),
@@ -63,7 +63,7 @@ class _LeftPanelState extends State<LeftPanel> {
           ),
           ListTile(
             leading: Icon(
-              Icons.archive,
+              Icons.archive_outlined,
               size: _sizeIcon,
               color: Colors.grey,
             ),
