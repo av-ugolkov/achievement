@@ -81,7 +81,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8e93bd541994fddcbbdf0e426938b789a09d1298"
+      resolved-ref: "35ce6ffacba0f0ee4e72b6345c3346f99b96d0b9"
       url: "https://github.com/makedonskiy/flutter_components.git"
     source: git
     version: "1.0.0+1"
