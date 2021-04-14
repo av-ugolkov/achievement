@@ -19,7 +19,7 @@ dependencies:
   sqflite: ^2.0.0+3
   path_provider: ^2.0.1
   image_picker: ^0.7.3
-  flutter_local_notifications: ^5.0.0
+  flutter_local_notifications: ^5.0.0+1
 
   flutter_components:
     git:
@@ -28,7 +28,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.2
+  pedantic: ^1.11.0
 
 flutter_intl:
   enabled: true
