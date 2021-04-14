@@ -17,7 +17,7 @@ class ProgressModel {
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    map['progressDescription'] = progressDescription;
+    map['progressDescription'] = jsonEncode(progressDescription);
     return map;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_file.dart';
+import 'package:achievement/db/db_progress.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/pages/achievement_page.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _SplashPageState extends State<SplashPage> {
       onCreate: (db, version) async {
         await DbAchievement.db.createTable(db);
         await DbRemind.db.createTable(db);
+        await DbProgress.db.createTable(db);
       },
     );
     _nextPage();

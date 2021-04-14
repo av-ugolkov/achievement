@@ -112,7 +112,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                 maxLines: 5,
                 maxLength: 250,
                 decoration: InputDecoration(
-                  labelText: getLocaleOfContext(context).description,
+                  hintText: getLocaleOfContext(context).description,
                   contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                 ),
                 style: TextStyle(fontSize: 14),

@@ -9,6 +9,7 @@ import 'package:achievement/model/progress_model.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/widgets/expandable_fab.dart';
 import 'package:flutter/material.dart';
+import 'package:achievement/utils/extensions.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 
 class ViewAchievementPage extends StatefulWidget {
@@ -142,8 +143,10 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
             start: _achievementModel.createDate,
             finish: _achievementModel.finishDate,
             current: _currentDateTime,
-            onChanged: (dateTime) {
-              _currentDateTime = dateTime;
+            onChange: (dateTime) {
+              setState(() {
+                _currentDateTime = dateTime;
+              });
             },
           ),
           _descProgress()
@@ -161,6 +164,10 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
         builder: (buildContext, snapshot) {
           if (snapshot.hasData) {
             if (_currentDateTime.isBefore(DateTime.now())) {
+              var progress = snapshot.data;
+              var progressDesc =
+                  progress?.progressDescription[_currentDateTime];
+              _isDoAnythink = progressDesc?.isDoAnythink ?? false;
               return Row(
                 children: [
                   Text(
@@ -173,8 +180,31 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
                       color: _isDoAnythink ? Colors.green : Colors.grey,
                     ),
                     onPressed: () {
-                      setState(() {
+                      setState(() async {
                         _isDoAnythink = !_isDoAnythink;
+                        progressDesc ??= ProgressDescription(
+                            isDoAnythink: _isDoAnythink,
+                            description: _isDoAnythink
+                                ? _achievementModel.description
+                                : '');
+
+                        if (progress?.id == -1) {
+                          var id = await DbProgress.db.getLastId();
+                          progress = ProgressModel(
+                              id: id,
+                              progressDescription: {
+                                _currentDateTime.getDate(): progressDesc!
+                              });
+                          if (progress != null) {
+                            await DbProgress.db.insert(progress!);
+                          }
+                        } else {
+                          progress!.progressDescription = {
+                            _currentDateTime.getDate(): progressDesc!
+                          };
+
+                          await DbProgress.db.update(progress!);
+                        }
                       });
                     },
                     iconSize: 35,
