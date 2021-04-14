@@ -72,6 +72,7 @@ class _LeftPanelState extends State<LeftPanel> {
               _setAchievementState(AchievementState.archived);
             },
           ),
+          SizedBox(height: 25),
           ListTile(
             leading: Icon(
               Icons.settings,
