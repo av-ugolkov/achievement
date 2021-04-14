@@ -29,7 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "done" : MessageLookupByLibrary.simpleMessage("Done"),
     "fail" : MessageLookupByLibrary.simpleMessage("Fail"),
     "header" : MessageLookupByLibrary.simpleMessage("Header"),
-    "header_error" : MessageLookupByLibrary.simpleMessage("Заголовок не может быть меньше 3 символов"),
+    "header_error" : MessageLookupByLibrary.simpleMessage("The title cannot be less than 3 characters"),
     "remind" : MessageLookupByLibrary.simpleMessage("Remind"),
     "repeat" : MessageLookupByLibrary.simpleMessage("Repeat"),
     "viewAchievementTitle" : MessageLookupByLibrary.simpleMessage("Achievement")

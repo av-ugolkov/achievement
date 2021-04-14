@@ -127,10 +127,10 @@ class S {
     );
   }
 
-  /// `Заголовок не может быть меньше 3 символов`
+  /// `The title cannot be less than 3 characters`
   String get header_error {
     return Intl.message(
-      'Заголовок не может быть меньше 3 символов',
+      'The title cannot be less than 3 characters',
       name: 'header_error',
       desc: '',
       args: [],

@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "active": "Active",
   "appName": "Achievement",
   "archived": "Archived",
@@ -7,7 +8,7 @@
   "done": "Done",
   "fail": "Fail",
   "header": "Header",
-  "header_error": "Заголовок не может быть меньше 3 символов",
+  "header_error": "The title cannot be less than 3 characters",
   "remind": "Remind",
   "repeat": "Repeat",
   "viewAchievementTitle": "Achievement"
