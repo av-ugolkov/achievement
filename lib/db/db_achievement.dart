@@ -10,19 +10,20 @@ class DbAchievement {
   final String _nameTable = 'AchievementDB';
 
   final String _id = 'id';
+  final String _state = 'state';
   final String _header = 'header';
   final String _description = 'description';
   final String _imagePath = 'image_path';
   final String _createDate = 'create_date';
   final String _finishDate = 'finish_date';
   final String _remindIds = 'remind_ids';
-  final String _state = 'state';
+  final String _progressIds = 'progress_ids';
 
   static final DbAchievement db = DbAchievement._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER, $_remindIds TEXT, $_state INTEGER)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_state INTEGER, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER, $_remindIds TEXT, $_progressIds INTEGER)',
     );
   }
 

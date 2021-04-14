@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/db/db_progress.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/model/progress_model.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/widgets/expandable_fab.dart';
 import 'package:flutter/material.dart';
@@ -134,15 +136,58 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
 
   Widget _dateTimeProgress() {
     return Container(
-      child: DateTimeProgress(
-        start: _achievementModel.createDate,
-        finish: _achievementModel.finishDate,
-        current: _currentDateTime,
-        onChanged: (dateTime) {
-          _currentDateTime = dateTime;
-        },
+      child: Column(
+        children: [
+          DateTimeProgress(
+            start: _achievementModel.createDate,
+            finish: _achievementModel.finishDate,
+            current: _currentDateTime,
+            onChanged: (dateTime) {
+              _currentDateTime = dateTime;
+            },
+          ),
+          _descProgress()
+        ],
       ),
     );
+  }
+
+  bool _isDoAnythink = false;
+
+  Widget _descProgress() {
+    var progress = DbProgress.db.getProgress(_achievementModel.progressId);
+    return FutureBuilder<ProgressModel>(
+        future: progress,
+        builder: (buildContext, snapshot) {
+          if (snapshot.hasData) {
+            if (_currentDateTime.isBefore(DateTime.now())) {
+              return Row(
+                children: [
+                  Text(
+                    'data',
+                    textAlign: TextAlign.start,
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.check_circle,
+                      color: _isDoAnythink ? Colors.green : Colors.grey,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isDoAnythink = !_isDoAnythink;
+                      });
+                    },
+                    iconSize: 35,
+                  ),
+                ],
+              );
+            } else {
+              return Container();
+            }
+          } else {
+            return Container();
+          }
+        });
   }
 
   Widget _reminds() {

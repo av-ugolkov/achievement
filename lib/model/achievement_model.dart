@@ -51,6 +51,13 @@ class AchievementModel {
     _remindIds = remindIds;
   }
 
+  late int _progressId;
+  int get progressId => _progressId;
+  set progressId(int progressId) {
+    if (_progressId == progressId) return;
+    _progressId = progressId;
+  }
+
   late AchievementState _state;
   AchievementState get state => _state;
   set state(AchievementState state) {
@@ -63,18 +70,20 @@ class AchievementModel {
     String header,
     DateTime createDate,
     DateTime finishDate, {
+    AchievementState state = AchievementState.active,
     String description = '',
     String imagePath = '',
     List<int>? remindIds,
-    AchievementState state = AchievementState.active,
+    int? progressId,
   })  : _id = id,
         _header = header,
-        _description = description,
-        _imagePath = imagePath,
         _createDate = createDate,
         _finishDate = finishDate,
+        _state = state,
+        _description = description,
+        _imagePath = imagePath,
         _remindIds = remindIds ?? [],
-        _state = state;
+        _progressId = progressId ?? -1;
 
   factory AchievementModel.fromMap(Map<String, dynamic> map) {
     var ids = jsonDecode(map['remind_ids'] as String) as List<dynamic>;
@@ -85,23 +94,25 @@ class AchievementModel {
       map['header'] as String,
       DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int),
       DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int),
+      state: AchievementState.values[map['state'] as int],
       description: map['description'] as String,
       imagePath: map['image_path'] as String,
       remindIds: remindIds,
-      state: AchievementState.values[map['state'] as int],
+      progressId: map['progress_ids'] as int,
     );
   }
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     map['id'] = id;
+    map['state'] = state.index;
     map['header'] = header;
     map['description'] = description;
     map['image_path'] = imagePath;
     map['create_date'] = createDate.millisecondsSinceEpoch;
     map['finish_date'] = finishDate.millisecondsSinceEpoch;
     map['remind_ids'] = jsonEncode(remindIds);
-    map['state'] = state.index;
+    map['progress_ids'] = progressId;
     return map;
   }
 }

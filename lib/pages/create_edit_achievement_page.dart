@@ -121,7 +121,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               DateTimeProgress(
                 start: _dateRangeAchievement.start,
                 finish: _dateRangeAchievement.end,
-                current: _dateRangeAchievement.start,
+                current: DateTime.now(),
                 onChangeStart: (dateTime) async {
                   FocusScope.of(context).unfocus();
                   var selectDate = await showDatePicker(
@@ -132,7 +132,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   setState(() {
                     if (selectDate != null) {
                       _dateRangeAchievement = DateTimeRange(
-                          start: selectDate, end: _dateRangeAchievement.end);
+                        start: selectDate,
+                        end: _dateRangeAchievement.end,
+                      );
                       if (_hasRemind) {
                         _remindDays.removeWhere((remind) {
                           var start = remind.remindDateTime.dateTime
@@ -159,7 +161,9 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
                   setState(() {
                     if (selectDate != null) {
                       _dateRangeAchievement = DateTimeRange(
-                          start: _dateRangeAchievement.start, end: selectDate);
+                        start: _dateRangeAchievement.start,
+                        end: selectDate,
+                      );
                       if (_hasRemind) {
                         _remindDays.removeWhere((remind) {
                           var start = remind.remindDateTime.dateTime
@@ -263,6 +267,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
         remindIds: _remindDays.map((value) {
           return value.remindModel.id;
         }).toList(),
+        progressId: -1,
       );
       await DbAchievement.db.insert(achievement);
       _createNotifications();
