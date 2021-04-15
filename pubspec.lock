@@ -81,7 +81,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "86dd32c2fb8daa8cd3aa9cb6797b73548313b056"
+      resolved-ref: "1e6a80cd6eced3f55e310bf60b972b4a8f458d51"
       url: "https://github.com/makedonskiy/flutter_components.git"
     source: git
     version: "1.0.0+1"
@@ -265,7 +265,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   sqflite:
     dependency: "direct main"
     description:
@@ -321,7 +321,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   timezone:
     dependency: transitive
     description:

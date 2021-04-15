@@ -156,6 +156,7 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
   }
 
   bool _isDoAnythink = false;
+  final TextEditingController _textEditingController = TextEditingController();
 
   Widget _descProgress() {
     var progress = DbProgress.db.getProgress(_achievementModel.progressId);
@@ -168,10 +169,12 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
               var progressDesc =
                   progress?.progressDescription[_currentDateTime];
               _isDoAnythink = progressDesc?.isDoAnythink ?? false;
+              _textEditingController.text = '';
               return Row(
                 children: [
-                  Text(
-                    'data',
+                  TextField(
+                    controller: _textEditingController,
+                    readOnly: !_isDoAnythink,
                     textAlign: TextAlign.start,
                   ),
                   IconButton(
