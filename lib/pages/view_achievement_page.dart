@@ -19,13 +19,21 @@ class ViewAchievementPage extends StatefulWidget {
 
 class _ViewAchievementPageState extends State<ViewAchievementPage> {
   late AchievementModel _achievementModel;
+  late DateTime _dateNow;
   late DateTime _currentDateTime;
 
   @override
   void initState() {
     super.initState();
 
-    _currentDateTime = DateTime.now();
+    _currentDateTime = DateTime.now().getDate();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    print('object');
   }
 
   @override
@@ -149,7 +157,10 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
               });
             },
           ),
-          _descProgress()
+          Padding(
+            padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+            child: _descProgress(),
+          )
         ],
       ),
     );
@@ -159,40 +170,58 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
   final TextEditingController _textEditingController = TextEditingController();
 
   Widget _descProgress() {
-    var progress = DbProgress.db.getProgress(_achievementModel.progressId);
+    _dateNow = DateTime.now().getDate();
+    var progressModel = DbProgress.db.getProgress(_achievementModel.progressId);
     return FutureBuilder<ProgressModel>(
-        future: progress,
+        future: progressModel,
         builder: (buildContext, snapshot) {
           if (snapshot.hasData) {
-            if (_currentDateTime.isBefore(DateTime.now())) {
+            if (_currentDateTime.compareTo(_dateNow) <= 0) {
               var progress = snapshot.data;
-              var progressDesc =
-                  progress?.progressDescription[_currentDateTime];
+              var progressDesc = progress?.progressDescription[
+                  _currentDateTime.getDate().toIso8601String()];
               _isDoAnythink = progressDesc?.isDoAnythink ?? false;
-              _textEditingController.text = '';
-              return Row(
+              _textEditingController.text = progressDesc?.description ?? '';
+              return Stack(
+                clipBehavior: Clip.none,
                 children: [
-                  Flexible(
-                    flex: 1,
-                    child: TextField(
-                      controller: _textEditingController,
-                      readOnly: !_isDoAnythink,
-                      textAlign: TextAlign.start,
-                      maxLines: 3,
-                      minLines: 1,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.check_circle,
-                      color: _isDoAnythink ? Colors.green : Colors.grey,
-                    ),
-                    onPressed: () {
+                  TextField(
+                    onTap: () {
                       setState(() {
-                        _onPressSetProgress(progress, progressDesc);
+                        _isDoAnythink = true;
                       });
                     },
-                    iconSize: 35,
+                    readOnly: !_isDoAnythink,
+                    controller: _textEditingController,
+                    minLines: 1,
+                    maxLines: 7,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.red),
+                      ),
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                    ),
+                    onSubmitted: (value) {
+                      _onPressSetProgress(progress, progressDesc);
+                    },
+                  ),
+                  Positioned(
+                    right: -20,
+                    top: -20,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.check_circle,
+                        color: _isDoAnythink ? Colors.green : Colors.grey,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _onPressSetProgress(progress, progressDesc);
+                        });
+                      },
+                      iconSize: 30,
+                    ),
                   ),
                 ],
               );
@@ -208,9 +237,9 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
   Future<void> _onPressSetProgress(
       ProgressModel? progress, ProgressDescription? progressDesc) async {
     _isDoAnythink = !_isDoAnythink;
-    progressDesc ??= ProgressDescription(
+    progressDesc = ProgressDescription(
         isDoAnythink: _isDoAnythink,
-        description: _isDoAnythink ? _achievementModel.description : '');
+        description: _isDoAnythink ? _textEditingController.text : '');
 
     if (progress?.id == -1) {
       var id = await DbProgress.db.getLastId();
@@ -218,6 +247,9 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
         _currentDateTime.getDate().toIso8601String(): progressDesc
       });
       await DbProgress.db.insert(progress);
+
+      _achievementModel.progressId = progress.id;
+      await DbAchievement.db.update(_achievementModel);
     } else {
       progress!.progressDescription = {
         _currentDateTime.getDate().toIso8601String(): progressDesc
