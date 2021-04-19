@@ -8,13 +8,13 @@ class DbProgress {
   final String _nameTable = 'ProgressDB';
 
   final String _id = 'id';
-  final String _descriptionProgress = 'descriptionProgress';
+  final String _progressDescription = 'progressDescription';
 
   static final DbProgress db = DbProgress._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_descriptionProgress TEXT)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_progressDescription TEXT)',
     );
   }
 

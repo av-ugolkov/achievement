@@ -172,10 +172,15 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
               _textEditingController.text = '';
               return Row(
                 children: [
-                  TextField(
-                    controller: _textEditingController,
-                    readOnly: !_isDoAnythink,
-                    textAlign: TextAlign.start,
+                  Flexible(
+                    flex: 1,
+                    child: TextField(
+                      controller: _textEditingController,
+                      readOnly: !_isDoAnythink,
+                      textAlign: TextAlign.start,
+                      maxLines: 3,
+                      minLines: 1,
+                    ),
                   ),
                   IconButton(
                     icon: Icon(
@@ -183,31 +188,8 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
                       color: _isDoAnythink ? Colors.green : Colors.grey,
                     ),
                     onPressed: () {
-                      setState(() async {
-                        _isDoAnythink = !_isDoAnythink;
-                        progressDesc ??= ProgressDescription(
-                            isDoAnythink: _isDoAnythink,
-                            description: _isDoAnythink
-                                ? _achievementModel.description
-                                : '');
-
-                        if (progress?.id == -1) {
-                          var id = await DbProgress.db.getLastId();
-                          progress = ProgressModel(
-                              id: id,
-                              progressDescription: {
-                                _currentDateTime.getDate(): progressDesc!
-                              });
-                          if (progress != null) {
-                            await DbProgress.db.insert(progress!);
-                          }
-                        } else {
-                          progress!.progressDescription = {
-                            _currentDateTime.getDate(): progressDesc!
-                          };
-
-                          await DbProgress.db.update(progress!);
-                        }
+                      setState(() {
+                        _onPressSetProgress(progress, progressDesc);
                       });
                     },
                     iconSize: 35,
@@ -221,6 +203,28 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
             return Container();
           }
         });
+  }
+
+  Future<void> _onPressSetProgress(
+      ProgressModel? progress, ProgressDescription? progressDesc) async {
+    _isDoAnythink = !_isDoAnythink;
+    progressDesc ??= ProgressDescription(
+        isDoAnythink: _isDoAnythink,
+        description: _isDoAnythink ? _achievementModel.description : '');
+
+    if (progress?.id == -1) {
+      var id = await DbProgress.db.getLastId();
+      progress = ProgressModel(id: id, progressDescription: {
+        _currentDateTime.getDate().toIso8601String(): progressDesc
+      });
+      await DbProgress.db.insert(progress);
+    } else {
+      progress!.progressDescription = {
+        _currentDateTime.getDate().toIso8601String(): progressDesc
+      };
+
+      await DbProgress.db.update(progress);
+    }
   }
 
   Widget _reminds() {
