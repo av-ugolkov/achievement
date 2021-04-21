@@ -1,6 +1,6 @@
 import 'package:achievement/pages/create_edit_achievement_page.dart';
 import 'package:achievement/pages/splash_page.dart';
-import 'package:achievement/pages/view_achievement_page.dart';
+import 'package:achievement/pages/view_achievement_page/view_achievement_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';
