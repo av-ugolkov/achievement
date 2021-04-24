@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:achievement/widgets/view_achievement_page/description_progress.dart';
@@ -105,14 +106,44 @@ class ViewAchievementPage extends StatelessWidget {
           return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: reminds.map((value) {
-                return Text(value.typeRepition.toString() +
-                    ' ' +
-                    value.remindDateTime.toString());
+                return _remindCard(value);
               }).toList());
         } else {
           return Container();
         }
       },
     );
+  }
+
+  Widget _remindCard(RemindModel model) {
+    return Card(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Icon(Icons.alarm),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(_getStringRepition(model)),
+              Text(' в '),
+              Text(model.remindDateTime.time),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  String _getStringRepition(RemindModel model) {
+    switch (model.typeRepition) {
+      case TypeRepition.day:
+        return 'каждый день';
+      case TypeRepition.week:
+        return 'каждую неделю';
+      case TypeRepition.month:
+        return 'каждый месяц';
+      default:
+        return model.remindDateTime.date;
+    }
   }
 }
