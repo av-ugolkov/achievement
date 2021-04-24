@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
+import 'package:achievement/utils/extensions.dart';
 
 class CreateEditAchievementPage extends StatefulWidget {
   @override
@@ -40,8 +41,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   @override
   void initState() {
     super.initState();
+    var dateNow = DateTime.now().getDate();
     _dateRangeAchievement = DateTimeRange(
-        start: DateTime.now(), end: DateTime.now().add(Duration(days: 3)));
+      start: dateNow,
+      end: dateNow.add(
+        Duration(days: 1),
+      ),
+    );
   }
 
   @override
@@ -121,7 +127,7 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
               DateTimeProgress(
                 start: _dateRangeAchievement.start,
                 finish: _dateRangeAchievement.end,
-                current: DateTime.now(),
+                current: DateTime.now().getDate(),
                 onChangeStart: (dateTime) async {
                   FocusScope.of(context).unfocus();
                   var selectDate = await showDatePicker(
@@ -258,10 +264,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
       }
 
       var achievement = AchievementModel(
-        id,
-        _controllerHeaderAchiv.text,
-        _dateRangeAchievement.start,
-        _dateRangeAchievement.end,
+        id: id,
+        header: _controllerHeaderAchiv.text,
+        createDate: _dateRangeAchievement.start,
+        finishDate: _dateRangeAchievement.end,
         description: _controllerDescriptionAchiv.text,
         imagePath: imagePath,
         remindIds: _remindDays.map((value) {

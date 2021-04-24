@@ -2,6 +2,13 @@ import 'dart:convert';
 import 'package:achievement/enums.dart';
 
 class AchievementModel {
+  static AchievementModel get empty => AchievementModel(
+        id: -1,
+        header: '',
+        createDate: DateTime(0),
+        finishDate: DateTime(0),
+      );
+
   late int _id;
   int get id => _id;
   set id(int id) {
@@ -65,11 +72,11 @@ class AchievementModel {
     _state = state;
   }
 
-  AchievementModel(
-    int id,
-    String header,
-    DateTime createDate,
-    DateTime finishDate, {
+  AchievementModel({
+    required int id,
+    required String header,
+    required DateTime createDate,
+    required DateTime finishDate,
     AchievementState state = AchievementState.active,
     String description = '',
     String imagePath = '',
@@ -90,10 +97,12 @@ class AchievementModel {
     var remindIds = ids.cast<int>();
 
     return AchievementModel(
-      map['id'] as int,
-      map['header'] as String,
-      DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int),
-      DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int),
+      id: map['id'] as int,
+      header: map['header'] as String,
+      createDate:
+          DateTime.fromMillisecondsSinceEpoch(map['create_date'] as int),
+      finishDate:
+          DateTime.fromMillisecondsSinceEpoch(map['finish_date'] as int),
       state: AchievementState.values[map['state'] as int],
       description: map['description'] as String,
       imagePath: map['image_path'] as String,

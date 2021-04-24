@@ -31,7 +31,7 @@ class _ListAchievementState extends State<ListAchievement> {
                       _openViewAchievementPage(achievement);
                     },
                     child: Dismissible(
-                      key: Key(achievement.id.toString()),
+                      key: UniqueKey(),
                       direction: DismissDirection.endToStart,
                       background: Container(
                           color: Colors.red,

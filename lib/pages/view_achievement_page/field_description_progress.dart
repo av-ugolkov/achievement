@@ -1,8 +1,12 @@
 import 'package:achievement/model/progress_model.dart';
+import 'package:achievement/pages/view_achievement_page/inherited_description_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/utils/extensions.dart';
 
 class FieldDescriptionProgress extends StatefulWidget {
+  final DateTime currentDateTime;
+  FieldDescriptionProgress({required this.currentDateTime});
+
   @override
   _FieldDescriptionProgressState createState() =>
       _FieldDescriptionProgressState();
@@ -13,39 +17,46 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
 
   bool _isDoAnythink = false;
   final TextEditingController _textEditingController = TextEditingController();
+  Map<String, ProgressDescription> _mapProgressDesc = {};
 
   @override
   Widget build(BuildContext context) {
     return _fieldDescriptionProgress();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    _mapProgressDesc = InheritedDescriptionProgress.of(context);
+  }
+
   Widget _fieldDescriptionProgress() {
     _dateNow = DateTime.now().getDate();
-    return FutureBuilder<ProgressModel>(
-        future: _futureProgressModel,
-        builder: (buildContext, snapshot) {
-          if (snapshot.hasData) {
-            if (_currentDateTime.compareTo(_dateNow) <= 0) {
-              var progress = snapshot.data;
-              _progressDesc = progress?.progressDescription[
-                      _currentDateTime.getDate().toIso8601String()] ??
-                  ProgressDescription(isDoAnythink: false, description: '');
-              _isDoAnythink = _progressDesc.isDoAnythink;
-              _textEditingController.text = _progressDesc.description;
-              return Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  _fieldProgressDescription(),
-                  _buttonActiveProgressField(),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          } else {
-            return Container();
-          }
-        });
+    if (widget.currentDateTime.compareTo(_dateNow) <= 0) {
+      var key = widget.currentDateTime.getDate().toIso8601String();
+      var progressDesc =
+          ProgressDescription(isDoAnythink: false, description: '');
+      if (_mapProgressDesc.containsKey(key)) {
+        var tempMap = _mapProgressDesc[key];
+        if (tempMap != null) {
+          progressDesc = tempMap;
+        }
+      } else {
+        _mapProgressDesc.putIfAbsent(key, () => progressDesc);
+      }
+      _isDoAnythink = progressDesc.isDoAnythink;
+      _textEditingController.text = progressDesc.description;
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          _fieldProgressDescription(),
+          _buttonActiveProgressField(),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 
   Widget _fieldProgressDescription() {
