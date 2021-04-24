@@ -73,6 +73,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
             start: _achievementModel.createDate,
             finish: _achievementModel.finishDate,
             current: _dateProgress,
+            showAlwaysThumb: true,
             onChange: (dateTime) {
               var tempDate = dateTime;
               if (tempDate.hour > 12) {

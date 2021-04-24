@@ -36,7 +36,7 @@ class DbRemind {
 
     final list = await DbFile.db
         .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-    var remind = RemindModel.fromMap(list[id]);
+    var remind = RemindModel.fromJson(list[id]);
     return remind;
   }
 
@@ -49,18 +49,18 @@ class DbRemind {
       }
       final list = await DbFile.db
           .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-      reminds.add(RemindModel.fromMap(list[id]));
+      reminds.add(RemindModel.fromJson(list[id]));
     }
     return reminds;
   }
 
   Future<RemindModel> insert(RemindModel remindModel) async {
-    remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toMap());
+    remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toJson());
     return remindModel;
   }
 
   Future<int> update(RemindModel remind) async {
-    return await DbFile.db.update(_nameTable, remind.toMap(),
+    return await DbFile.db.update(_nameTable, remind.toJson(),
         where: '$_id = ?', whereArgs: <int>[remind.id]);
   }
 

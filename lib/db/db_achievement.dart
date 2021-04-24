@@ -45,7 +45,7 @@ class DbAchievement {
     final achievemntMapList = await DbFile.db.query(_nameTable);
     final achievementsList = <AchievementModel>[];
     achievemntMapList.forEach((achievement) {
-      achievementsList.add(AchievementModel.fromMap(achievement));
+      achievementsList.add(AchievementModel.fromJson(achievement));
     });
     return achievementsList;
   }
@@ -56,7 +56,7 @@ class DbAchievement {
     final achievemntMapList = await DbFile.db.query(_nameTable);
     final achievementsList = <AchievementModel>[];
     achievemntMapList.forEach((achievement) {
-      var achievementModel = AchievementModel.fromMap(achievement);
+      var achievementModel = AchievementModel.fromJson(achievement);
       if (achievementModel.state == state) {
         achievementsList.add(achievementModel);
       }
@@ -77,12 +77,12 @@ class DbAchievement {
   }
 
   Future<AchievementModel> insert(AchievementModel achievement) async {
-    achievement.id = await DbFile.db.insert(_nameTable, achievement.toMap());
+    achievement.id = await DbFile.db.insert(_nameTable, achievement.toJson());
     return achievement;
   }
 
   Future<int> update(AchievementModel achievement) async {
-    return await DbFile.db.update(_nameTable, achievement.toMap(),
+    return await DbFile.db.update(_nameTable, achievement.toJson(),
         where: '$_id = ?', whereArgs: <int>[achievement.id]);
   }
 

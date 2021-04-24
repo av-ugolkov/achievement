@@ -35,18 +35,18 @@ class DbProgress {
 
     final list = await DbFile.db
         .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-    var progress = ProgressModel.fromMap(list[id]);
+    var progress = ProgressModel.fromJson(list[id]);
     return progress;
   }
 
   Future<ProgressModel> insert(ProgressModel progressModel) async {
     progressModel.id =
-        await DbFile.db.insert(_nameTable, progressModel.toMap());
+        await DbFile.db.insert(_nameTable, progressModel.toJson());
     return progressModel;
   }
 
   Future<int> update(ProgressModel progressModel) async {
-    return await DbFile.db.update(_nameTable, progressModel.toMap(),
+    return await DbFile.db.update(_nameTable, progressModel.toJson(),
         where: '$_id = ?', whereArgs: <int>[progressModel.id]);
   }
 

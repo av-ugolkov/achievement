@@ -9,7 +9,7 @@ class ProgressModel {
 
   ProgressModel({required this.id, required this.progressDescription});
 
-  ProgressModel.fromMap(Map<String, dynamic> map) : id = map['id'] as int {
+  ProgressModel.fromJson(Map<String, dynamic> map) : id = map['id'] as int {
     var mapValue = map['progressDescription'] as String;
     var newP = jsonDecode(mapValue) as Map<String, dynamic>;
     progressDescription = {};
@@ -20,12 +20,12 @@ class ProgressModel {
     }
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     var newP = <String, String>{};
     for (var entity in progressDescription.entries) {
-      newP = {entity.key: jsonEncode(entity.value)};
+      newP.putIfAbsent(entity.key, () => jsonEncode(entity.value));
     }
     map['progressDescription'] = jsonEncode(newP);
     return map;

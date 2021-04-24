@@ -92,7 +92,7 @@ class AchievementModel {
         _remindIds = remindIds ?? [],
         _progressId = progressId ?? -1;
 
-  factory AchievementModel.fromMap(Map<String, dynamic> map) {
+  factory AchievementModel.fromJson(Map<String, dynamic> map) {
     var ids = jsonDecode(map['remind_ids'] as String) as List<dynamic>;
     var remindIds = ids.cast<int>();
 
@@ -111,7 +111,7 @@ class AchievementModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['state'] = state.index;

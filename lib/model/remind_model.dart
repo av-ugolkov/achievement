@@ -21,17 +21,17 @@ class RemindModel {
       this.typeRepition = TypeRepition.none,
       required this.remindDateTime});
 
-  RemindModel.fromMap(Map<String, dynamic> map)
+  RemindModel.fromJson(Map<String, dynamic> map)
       : id = map['id'] as int,
         typeRepition = TypeRepition.values[map['typeRepition'] as int],
-        remindDateTime = RemindDateTime.fromMap(
+        remindDateTime = RemindDateTime.fromJson(
             jsonDecode(map['dateTime'] as String) as Map<String, dynamic>);
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['typeRepition'] = typeRepition.index;
-    map['dateTime'] = jsonEncode(remindDateTime.toMap());
+    map['dateTime'] = jsonEncode(remindDateTime.toJson());
     return map;
   }
 }
@@ -60,14 +60,14 @@ class RemindDateTime {
         hour = dateTime.hour,
         minute = dateTime.minute;
 
-  RemindDateTime.fromMap(Map<String, dynamic> map)
+  RemindDateTime.fromJson(Map<String, dynamic> map)
       : year = map['year'] as int,
         month = map['month'] as int,
         day = map['day'] as int,
         hour = map['hour'] as int,
         minute = map['minute'] as int;
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['year'] = year;
     map['month'] = month;
