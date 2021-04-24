@@ -3,9 +3,9 @@ import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/pages/view_achievement_page/description_progress.dart';
+import 'package:achievement/widgets/view_achievement_page/description_progress.dart';
 import 'package:achievement/widgets/fab/floating_action_button.dart';
-import 'package:achievement/pages/view_achievement_page/inherited_view_achievement_page.dart';
+import 'package:achievement/widgets/view_achievement_page/inherited_view_achievement_page.dart';
 import 'package:flutter/material.dart';
 
 class ViewAchievementPage extends StatelessWidget {
