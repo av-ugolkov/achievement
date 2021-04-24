@@ -81,10 +81,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "560ac543da5b979be693bb927bafc3d979456a67"
+      resolved-ref: "070033a803ff533c71e9da3c89eb7b82a85a182b"
       url: "https://github.com/makedonskiy/flutter_components.git"
     source: git
-    version: "1.0.0+1"
+    version: "0.210424.1725"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -225,7 +225,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   pedantic:
     dependency: "direct dev"
     description:
@@ -265,7 +265,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.1"
   sqflite:
     dependency: "direct main"
     description:
@@ -321,7 +321,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.19"
+    version: "0.3.0"
   timezone:
     dependency: transitive
     description:
