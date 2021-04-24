@@ -33,6 +33,12 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
     _mapProgressDesc = InheritedDescriptionProgress.of(context);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _textEditingController.dispose();
+  }
+
   Widget _fieldDescriptionProgress() {
     _dateNow = DateTime.now().getDate();
     if (widget.currentDateTime.compareTo(_dateNow) <= 0) {
