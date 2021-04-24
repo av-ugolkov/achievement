@@ -10,6 +10,8 @@ class FieldDescriptionProgress extends StatefulWidget {
   @override
   _FieldDescriptionProgressState createState() =>
       _FieldDescriptionProgressState();
+
+  String get keyDate => currentDateTime.getDate().toIso8601String();
 }
 
 class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
@@ -34,16 +36,15 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
   Widget _fieldDescriptionProgress() {
     _dateNow = DateTime.now().getDate();
     if (widget.currentDateTime.compareTo(_dateNow) <= 0) {
-      var key = widget.currentDateTime.getDate().toIso8601String();
       var progressDesc =
           ProgressDescription(isDoAnythink: false, description: '');
-      if (_mapProgressDesc.containsKey(key)) {
-        var tempMap = _mapProgressDesc[key];
+      if (_mapProgressDesc.containsKey(widget.keyDate)) {
+        var tempMap = _mapProgressDesc[widget.keyDate];
         if (tempMap != null) {
           progressDesc = tempMap;
         }
       } else {
-        _mapProgressDesc.putIfAbsent(key, () => progressDesc);
+        _mapProgressDesc.putIfAbsent(widget.keyDate, () => progressDesc);
       }
       _isDoAnythink = progressDesc.isDoAnythink;
       _textEditingController.text = progressDesc.description;
@@ -78,11 +79,11 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
       onTap: () {
         setState(() {
           _isDoAnythink = true;
-          //_onPressSetProgress(_progressDesc);
+          _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
         });
       },
-      onSubmitted: (value) {
-        // _onPressSetProgress(_progressDesc);
+      onChanged: (value) {
+        _mapProgressDesc[widget.keyDate]?.description = value;
       },
     );
   }
@@ -107,7 +108,7 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
         onPressed: () {
           setState(() {
             _isDoAnythink = !_isDoAnythink;
-            //_onPressSetProgress(_progressDesc);
+            _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
           });
         },
         iconSize: 30,
