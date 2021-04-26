@@ -33,8 +33,11 @@ class _RemindDayState extends State<RemindDay> {
 
   void setRangeDateTime(DateTimeRange dateTimeRange) {
     _dateTimeRange = dateTimeRange;
-    remindDateTime =
-        RemindDateTime.fromDateTime(dateTime: _dateTimeRange.start);
+    remindDateTime = RemindDateTime.fromDateTime(
+      dateTime: DateTime.now().add(
+        Duration(hours: 3),
+      ),
+    );
   }
 
   @override

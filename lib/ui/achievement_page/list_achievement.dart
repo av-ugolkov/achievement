@@ -2,10 +2,11 @@ import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/page_routes.dart';
 import 'package:achievement/utils/local_notification.dart';
-import 'package:achievement/widgets/achievement_card.dart';
+import 'package:achievement/ui/achievement_page/achievement_card.dart';
 import 'package:flutter/material.dart';
-import 'package:achievement/pages/achievement_page.dart';
+import 'package:achievement/ui/achievement_page/achievement_page.dart';
 
 class ListAchievement extends StatefulWidget {
   @override
@@ -65,6 +66,6 @@ class _ListAchievementState extends State<ListAchievement> {
   }
 
   void _openViewAchievementPage(AchievementModel model) {
-    Navigator.pushNamed(context, '/view_achievement_page', arguments: model);
+    Navigator.pushNamed(context, RouteViewAchievementPage, arguments: model);
   }
 }

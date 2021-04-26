@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/enums.dart';
+import 'package:achievement/page_routes.dart';
+import 'package:achievement/ui/achievement_page/left_panel.dart';
+import 'package:achievement/ui/achievement_page/list_achievement.dart';
 import 'package:achievement/utils/local_notification.dart';
-import 'package:achievement/widgets/left_panel.dart';
-import 'package:achievement/widgets/list_achievement.dart';
 import 'package:flutter/material.dart';
 
 class AchievementPage extends StatefulWidget {
@@ -57,7 +58,7 @@ class _AchievementPageState extends State<AchievementPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/create_achievement_page')
+          Navigator.pushNamed(context, RouteEditeAchievementPage)
               .then((value) => setState(() {}));
         },
         child: Icon(Icons.add),

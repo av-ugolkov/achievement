@@ -1,14 +1,15 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_description_achievement.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_header_achievement.dart';
 import 'package:achievement/utils/local_notification.dart';
 import 'package:achievement/utils/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/widgets/remind_day.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
@@ -16,21 +17,20 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:achievement/utils/extensions.dart';
 
-class CreateEditAchievementPage extends StatefulWidget {
+class EditAchievementPage extends StatefulWidget {
   @override
-  _CreateEditAchievementPageState createState() =>
-      _CreateEditAchievementPageState();
+  _EditAchievementPageState createState() => _EditAchievementPageState();
 }
 
-class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
+class _EditAchievementPageState extends State<EditAchievementPage> {
   late DateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final _controllerHeaderAchiv = TextEditingController();
-  final _controllerDescriptionAchiv = TextEditingController();
+  final _headerEditController = TextEditingController();
+  final _descriptionEditController = TextEditingController();
 
-  Uint8List _imageBytes = Uint8List(0);
+  final List<int> _imageBytes = [];
   final ImagePicker _imagePicker = ImagePicker();
 
   bool _isRemind = false;
@@ -51,23 +51,12 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
   }
 
   @override
-  void dispose() {
-    _controllerHeaderAchiv.dispose();
-    _controllerDescriptionAchiv.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).createAchievement),
         centerTitle: true,
-        actions: [
-          IconButton(icon: Icon(Icons.menu), onPressed: () {}),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _submitForm,
@@ -79,50 +68,13 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
           padding: const EdgeInsets.all(16.0),
           child: ListView(
             children: [
-              TextFormField(
-                controller: _controllerHeaderAchiv,
-                maxLength: 100,
-                decoration: InputDecoration(
-                  hintText: getLocaleOfContext(context).header,
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  icon: IconButton(
-                    padding: EdgeInsets.all(0),
-                    icon: _imageBytes.isEmpty
-                        ? Icon(
-                            Icons.photo,
-                            size: 50,
-                          )
-                        : Image.memory(_imageBytes),
-                    onPressed: () async {
-                      var galleryImage = await _imagePicker.getImage(
-                          source: ImageSource.gallery);
-                      if (galleryImage != null) {
-                        _imageBytes = await galleryImage.readAsBytes();
-                        setState(() {});
-                      }
-                    },
-                  ),
-                ),
-                style: TextStyle(fontSize: 18),
-                cursorHeight: 22,
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 3) {
-                    return getLocaleOfContext(context).header_error;
-                  }
-                  return null;
-                },
+              EditHeaderAchievement(
+                headerEditingController: _headerEditController,
+                imagePicker: _imagePicker,
+                imageBytes: _imageBytes,
               ),
-              TextFormField(
-                controller: _controllerDescriptionAchiv,
-                minLines: 1,
-                maxLines: 5,
-                maxLength: 250,
-                decoration: InputDecoration(
-                  hintText: getLocaleOfContext(context).description,
-                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                ),
-                style: TextStyle(fontSize: 14),
-                cursorHeight: 18,
+              EditDescriptionAchievement(
+                descriptionEditController: _descriptionEditController,
               ),
               DateTimeProgress(
                 start: _dateRangeAchievement.start,
@@ -265,10 +217,10 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
 
       var achievement = AchievementModel(
         id: id,
-        header: _controllerHeaderAchiv.text,
+        header: _headerEditController.text,
         createDate: _dateRangeAchievement.start,
         finishDate: _dateRangeAchievement.end,
-        description: _controllerDescriptionAchiv.text,
+        description: _descriptionEditController.text,
         imagePath: imagePath,
         remindIds: _remindDays.map((value) {
           return value.remindModel.id;
@@ -285,14 +237,14 @@ class _CreateEditAchievementPageState extends State<CreateEditAchievementPage> {
     for (var remind in _remindDays) {
       LocalNotification.scheduleNotification(
           remind.remindModel.id,
-          _controllerHeaderAchiv.text,
-          _controllerDescriptionAchiv.text,
+          _headerEditController.text,
+          _descriptionEditController.text,
           remind.remindModel.remindDateTime.dateTime,
           remind.remindModel.typeRepition);
     }
   }
 
-  Container _remindsPanel() {
+  Widget _remindsPanel() {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -1,7 +1,8 @@
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/widgets/fab/expandable_fab.dart';
+import 'package:achievement/page_routes.dart';
+import 'package:achievement/ui/fab/expandable_fab.dart';
 import 'package:flutter/material.dart';
 
 class FAB extends StatefulWidget {
@@ -47,7 +48,7 @@ class _FABState extends State<FAB> {
         ),
         ActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/create_achievement_page');
+            Navigator.pushNamed(context, RouteEditeAchievementPage);
             _setAchievementState(_achievementModel, AchievementState.active);
           },
           icon: const Icon(Icons.edit),

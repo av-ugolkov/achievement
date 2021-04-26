@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:achievement/enums.dart';
+import 'package:achievement/utils/formate_date.dart';
 
 class RemindModel {
   late int id;
@@ -77,8 +78,12 @@ class RemindDateTime {
     return map;
   }
 
+  String get date => FormateDate.yearMonthDay(dateTime);
+
+  String get time => '$hour:${minute == 0 ? '00' : minute}';
+
   @override
   String toString() {
-    return '$year-$month-$day:$hour:$minute';
+    return '$year-$month-$day:$hour:${minute == 0 ? '00' : minute}';
   }
 }
