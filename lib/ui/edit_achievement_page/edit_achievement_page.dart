@@ -3,19 +3,19 @@ import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_date_time_progress.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_description_achievement.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_header_achievement.dart';
-import 'package:achievement/utils/local_notification.dart';
-import 'package:achievement/utils/utils.dart' as utils;
+import 'package:achievement/core/changed_date_time_range.dart';
+import 'package:achievement/core/local_notification.dart';
+import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
 import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:achievement/utils/extensions.dart';
+import 'package:achievement/core/extensions.dart';
 
 class EditAchievementPage extends StatefulWidget {
   @override
@@ -23,26 +23,24 @@ class EditAchievementPage extends StatefulWidget {
 }
 
 class _EditAchievementPageState extends State<EditAchievementPage> {
-  late DateTimeRange _dateRangeAchievement;
+  late ChangedDateTimeRange _dateRangeAchievement;
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final _headerEditController = TextEditingController();
   final _descriptionEditController = TextEditingController();
-
   final List<int> _imageBytes = [];
-  final ImagePicker _imagePicker = ImagePicker();
+  final _remindDays = <RemindDay>[];
 
   bool _isRemind = false;
-  bool get _hasRemind => _remindDays.isNotEmpty;
 
-  final _remindDays = <RemindDay>[];
+  bool get _hasRemind => _remindDays.isNotEmpty;
 
   @override
   void initState() {
     super.initState();
     var dateNow = DateTime.now().getDate();
-    _dateRangeAchievement = DateTimeRange(
+    _dateRangeAchievement = ChangedDateTimeRange(
       start: dateNow,
       end: dateNow.add(
         Duration(days: 1),
@@ -70,74 +68,14 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
             children: [
               EditHeaderAchievement(
                 headerEditingController: _headerEditController,
-                imagePicker: _imagePicker,
                 imageBytes: _imageBytes,
               ),
               EditDescriptionAchievement(
                 descriptionEditController: _descriptionEditController,
               ),
-              DateTimeProgress(
-                start: _dateRangeAchievement.start,
-                finish: _dateRangeAchievement.end,
-                current: DateTime.now().getDate(),
-                onChangeStart: (dateTime) async {
-                  FocusScope.of(context).unfocus();
-                  var selectDate = await showDatePicker(
-                      context: context,
-                      initialDate: dateTime,
-                      firstDate: DateTime(0),
-                      lastDate: _dateRangeAchievement.end);
-                  setState(() {
-                    if (selectDate != null) {
-                      _dateRangeAchievement = DateTimeRange(
-                        start: selectDate,
-                        end: _dateRangeAchievement.end,
-                      );
-                      if (_hasRemind) {
-                        _remindDays.removeWhere((remind) {
-                          var start = remind.remindDateTime.dateTime
-                              .compareTo(_dateRangeAchievement.start);
-                          var end = remind.remindDateTime.dateTime
-                              .compareTo(_dateRangeAchievement.end);
-                          return start < 0 || end > 0;
-                        });
-                        for (var remindCustomDay in _remindDays) {
-                          remindCustomDay
-                              .setRangeDateTime(_dateRangeAchievement);
-                        }
-                      }
-                    }
-                  });
-                },
-                onChangeFinish: (dateTime) async {
-                  FocusScope.of(context).unfocus();
-                  var selectDate = await showDatePicker(
-                      context: context,
-                      initialDate: dateTime,
-                      firstDate: _dateRangeAchievement.start,
-                      lastDate: DateTime(9999));
-                  setState(() {
-                    if (selectDate != null) {
-                      _dateRangeAchievement = DateTimeRange(
-                        start: _dateRangeAchievement.start,
-                        end: selectDate,
-                      );
-                      if (_hasRemind) {
-                        _remindDays.removeWhere((remind) {
-                          var start = remind.remindDateTime.dateTime
-                              .compareTo(_dateRangeAchievement.start);
-                          var end = remind.remindDateTime.dateTime
-                              .compareTo(_dateRangeAchievement.end);
-                          return start < 0 || end > 0;
-                        });
-                        for (var remindCustomDay in _remindDays) {
-                          remindCustomDay
-                              .setRangeDateTime(_dateRangeAchievement);
-                        }
-                      }
-                    }
-                  });
-                },
+              EditDateTimeProgress(
+                dateRangeAchievement: _dateRangeAchievement,
+                remindDays: _remindDays,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

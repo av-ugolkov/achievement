@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:achievement/enums.dart';
-import 'package:achievement/utils/formate_date.dart';
+import 'package:achievement/core/formate_date.dart';
 
 class RemindModel {
   late int id;

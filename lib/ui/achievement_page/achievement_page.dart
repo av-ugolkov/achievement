@@ -4,7 +4,7 @@ import 'package:achievement/enums.dart';
 import 'package:achievement/page_routes.dart';
 import 'package:achievement/ui/achievement_page/left_panel.dart';
 import 'package:achievement/ui/achievement_page/list_achievement.dart';
-import 'package:achievement/utils/local_notification.dart';
+import 'package:achievement/core/local_notification.dart';
 import 'package:flutter/material.dart';
 
 class AchievementPage extends StatefulWidget {

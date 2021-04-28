@@ -5,12 +5,10 @@ import 'package:image_picker/image_picker.dart';
 
 class EditHeaderAchievement extends StatefulWidget {
   final TextEditingController headerEditingController;
-  final ImagePicker imagePicker;
   final List<int> imageBytes;
 
   EditHeaderAchievement({
     required this.headerEditingController,
-    required this.imagePicker,
     required this.imageBytes,
   });
 
@@ -19,6 +17,8 @@ class EditHeaderAchievement extends StatefulWidget {
 }
 
 class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
+  final ImagePicker _imagePicker = ImagePicker();
+
   @override
   void dispose() {
     super.dispose();
@@ -43,7 +43,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
               : Image.memory(Uint8List.fromList(widget.imageBytes)),
           onPressed: () async {
             var galleryImage =
-                await widget.imagePicker.getImage(source: ImageSource.gallery);
+                await _imagePicker.getImage(source: ImageSource.gallery);
             if (galleryImage != null) {
               var newImage = await galleryImage.readAsBytes();
               if (widget.imageBytes.isNotEmpty) {

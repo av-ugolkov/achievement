@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/utils/formate_date.dart';
+import 'package:achievement/core/formate_date.dart';
 import 'package:flutter/material.dart';
 
 Widget achievementCard(AchievementModel achievement) {

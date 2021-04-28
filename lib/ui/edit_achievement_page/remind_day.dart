@@ -1,6 +1,7 @@
+import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/enums.dart';
 import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/utils/formate_date.dart';
+import 'package:achievement/core/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class RemindDay extends StatefulWidget {
@@ -19,7 +20,7 @@ class RemindDay extends StatefulWidget {
     return _remindDayState;
   }
 
-  void setRangeDateTime(DateTimeRange dateTimeRange) {
+  void setRangeDateTime(ChangedDateTimeRange dateTimeRange) {
     _remindDayState.setRangeDateTime(dateTimeRange);
   }
 }
@@ -27,14 +28,15 @@ class RemindDay extends StatefulWidget {
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
-  late DateTimeRange _dateTimeRange;
+  late ChangedDateTimeRange _dateTimeRange;
   late RemindDateTime remindDateTime;
   late String _day;
 
-  void setRangeDateTime(DateTimeRange dateTimeRange) {
+  void setRangeDateTime(ChangedDateTimeRange dateTimeRange) {
     _dateTimeRange = dateTimeRange;
+    var dateNow = DateTime.now();
     remindDateTime = RemindDateTime.fromDateTime(
-      dateTime: DateTime.now().add(
+      dateTime: dateNow.add(
         Duration(hours: 3),
       ),
     );
