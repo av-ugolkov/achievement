@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/db/db_remind.dart';
-import 'package:achievement/enums.dart';
-import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/ui/edit_achievement_page/edit_date_time_progress.dart';
-import 'package:achievement/ui/edit_achievement_page/edit_description_achievement.dart';
-import 'package:achievement/ui/edit_achievement_page/edit_header_achievement.dart';
+import 'edit_date_time_progress.dart';
+import 'edit_description_achievement.dart';
+import 'edit_header_achievement.dart';
+import 'edit_remind_panel.dart';
 import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
@@ -17,13 +16,11 @@ import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
 import 'package:achievement/core/extensions.dart';
 
-class EditAchievementPage extends StatefulWidget {
-  @override
-  _EditAchievementPageState createState() => _EditAchievementPageState();
-}
-
-class _EditAchievementPageState extends State<EditAchievementPage> {
-  late ChangedDateTimeRange _dateRangeAchievement;
+class EditAchievementPage extends StatelessWidget {
+  final ChangedDateTimeRange _dateRangeAchievement = ChangedDateTimeRange(
+    start: DateTime.now(),
+    end: DateTime.now(),
+  );
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -32,20 +29,12 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
   final List<int> _imageBytes = [];
   final _remindDays = <RemindDay>[];
 
-  bool _isRemind = false;
-
   bool get _hasRemind => _remindDays.isNotEmpty;
 
-  @override
-  void initState() {
-    super.initState();
+  EditAchievementPage() {
     var dateNow = DateTime.now().getDate();
-    _dateRangeAchievement = ChangedDateTimeRange(
-      start: dateNow,
-      end: dateNow.add(
-        Duration(days: 1),
-      ),
-    );
+    _dateRangeAchievement.start = dateNow;
+    _dateRangeAchievement.end = dateNow.add(Duration(days: 1));
   }
 
   @override
@@ -57,7 +46,9 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _submitForm,
+        onPressed: () {
+          _submitForm(context);
+        },
         child: Icon(Icons.check),
       ),
       body: Form(
@@ -77,54 +68,9 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
                 dateRangeAchievement: _dateRangeAchievement,
                 remindDays: _remindDays,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    getLocaleOfContext(context).remind,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  Switch(
-                    value: _isRemind,
-                    onChanged: (value) {
-                      setState(() {
-                        _isRemind = value;
-
-                        if (_remindDays.isEmpty) {
-                          var remindDateTime = RemindDateTime.fromDateTime(
-                              dateTime: _dateRangeAchievement.start);
-                          var remindModel = RemindModel(
-                              id: -1,
-                              typeRepition: TypeRepition.none,
-                              remindDateTime: remindDateTime);
-                          var newRemindDay = RemindDay(
-                            remindModel: remindModel,
-                            callbackRemove: _removeCustomDay,
-                          );
-                          newRemindDay.setRangeDateTime(_dateRangeAchievement);
-                          _remindDays.add(newRemindDay);
-                        } else {
-                          var reCreateRemindDays = <RemindDay>[];
-                          for (var remindDay in _remindDays) {
-                            var newRemindDay = RemindDay(
-                              remindModel: remindDay.remindModel,
-                              callbackRemove: _removeCustomDay,
-                            );
-                            newRemindDay
-                                .setRangeDateTime(_dateRangeAchievement);
-                            reCreateRemindDays.add(newRemindDay);
-                          }
-                          _remindDays.clear();
-                          _remindDays.addAll(reCreateRemindDays);
-                        }
-                      });
-                    },
-                  )
-                ],
-              ),
-              Container(
-                child: _isRemind ? _remindsPanel() : null,
-              )
+              EditRemindPanel(
+                  remindDays: _remindDays,
+                  dateRangeAchievement: _dateRangeAchievement),
             ],
           ),
         ),
@@ -132,7 +78,7 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
     );
   }
 
-  void _submitForm() async {
+  void _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       var id = await DbAchievement.db.getLastId();
 
@@ -180,49 +126,5 @@ class _EditAchievementPageState extends State<EditAchievementPage> {
           remind.remindModel.remindDateTime.dateTime,
           remind.remindModel.typeRepition);
     }
-  }
-
-  Widget _remindsPanel() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _remindDays),
-          IconButton(
-              icon: Icon(
-                Icons.add_circle_outlined,
-                size: 32,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                setState(() {
-                  var remindDateTime = RemindDateTime.fromDateTime(
-                      dateTime: _dateRangeAchievement.start);
-                  var remindModel = RemindModel(
-                      id: -1,
-                      typeRepition: TypeRepition.none,
-                      remindDateTime: remindDateTime);
-                  var newRemindDay = RemindDay(
-                    remindModel: remindModel,
-                    callbackRemove: _removeCustomDay,
-                  );
-                  newRemindDay.setRangeDateTime(_dateRangeAchievement);
-                  _remindDays.add(newRemindDay);
-                });
-              }),
-        ],
-      ),
-    );
-  }
-
-  void _removeCustomDay(RemindDay remindCustomDay) {
-    setState(() {
-      _remindDays.remove(remindCustomDay);
-      if (_remindDays.isEmpty) {
-        _isRemind = false;
-      }
-    });
   }
 }
