@@ -1,10 +1,11 @@
 import 'dart:developer';
-import '/bridge/localization.dart';
-import '/core/enums.dart';
-import '/core/page_routes.dart';
+import '/ui/achievements_page/inherited_achievement_page.dart';
 import '/ui/achievements_page/left_panel.dart';
 import '/ui/achievements_page/list_achievement.dart';
+import '/core/enums.dart';
+import '/core/page_routes.dart';
 import '/core/local_notification.dart';
+import '/bridge/localization.dart';
 import 'package:flutter/material.dart';
 
 class AchievementsPage extends StatefulWidget {
@@ -69,24 +70,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
       ),
     );
   }
-}
-
-class InheritedAchievementPage extends InheritedWidget {
-  final AchievementState state;
-
-  InheritedAchievementPage({required this.state, required Widget child})
-      : super(child: child);
-
-  @override
-  bool updateShouldNotify(covariant InheritedAchievementPage oldWidget) {
-    return oldWidget.state != state;
-  }
-
-  static AchievementState of(BuildContext context) =>
-      context
-          .dependOnInheritedWidgetOfExactType<InheritedAchievementPage>()
-          ?.state ??
-      AchievementState.active;
 }
 
 class TitleAchievementPage extends StatelessWidget {

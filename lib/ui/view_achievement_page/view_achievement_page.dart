@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:achievement/core/formate_date.dart';
+
 import '/bridge/localization.dart';
 import '/db/db_remind.dart';
 import '/core/enums.dart';
@@ -139,7 +141,7 @@ class ViewAchievementPage extends StatelessWidget {
       case TypeRepition.day:
         return 'каждый день';
       case TypeRepition.week:
-        return 'каждую неделю';
+        return 'каждую неделю ${FormateDate.weekDayName(model.remindDateTime.dateTime)}';
       case TypeRepition.month:
         return 'каждый месяц';
       default:

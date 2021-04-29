@@ -65,8 +65,8 @@ class EditAchievementPage extends StatelessWidget {
                 descriptionEditController: _descriptionEditController,
               ),
               EditDateTimeProgress(
-                dateRangeAchievement: _dateRangeAchievement,
                 remindDays: _remindDays,
+                dateRangeAchievement: _dateRangeAchievement,
               ),
               EditRemindPanel(
                   remindDays: _remindDays,
@@ -123,7 +123,7 @@ class EditAchievementPage extends StatelessWidget {
           remind.remindModel.id,
           _headerEditController.text,
           _descriptionEditController.text,
-          remind.remindDateTime.dateTime,
+          remind.remindModel.remindDateTime.dateTime,
           remind.remindModel.typeRepition);
     }
   }

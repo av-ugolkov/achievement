@@ -1,12 +1,12 @@
+import '/ui/achievements_page/inherited_achievement_page.dart';
+import '/ui/achievements_page/achievement_card.dart';
 import '/db/db_achievement.dart';
 import '/db/db_remind.dart';
 import '/core/enums.dart';
-import '/model/achievement_model.dart';
 import '/core/page_routes.dart';
 import '/core/local_notification.dart';
-import '/ui/achievements_page/achievement_card.dart';
+import '/model/achievement_model.dart';
 import 'package:flutter/material.dart';
-import '/ui/achievements_page/achievements_page.dart';
 
 class ListAchievement extends StatefulWidget {
   @override
@@ -42,7 +42,7 @@ class _ListAchievementState extends State<ListAchievement> {
                       onDismissed: (direction) async {
                         await _archivedAchievement(achievement);
                       },
-                      child: achievementCard(achievement),
+                      child: AchievementCard(achievement: achievement),
                     ),
                   );
                 });

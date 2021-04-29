@@ -36,8 +36,11 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
               value: _isRemind,
               onChanged: (value) {
                 setState(() {
+                  FocusScope.of(context).unfocus();
                   _isRemind = value;
-
+                  if (!_isRemind) {
+                    return;
+                  }
                   if (widget.remindDays.isEmpty) {
                     var remindDateTime = RemindDateTime.fromDateTime(
                         dateTime: widget.dateRangeAchievement.start);
@@ -47,19 +50,16 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                         remindDateTime: remindDateTime);
                     var newRemindDay = RemindDay(
                       remindModel: remindModel,
-                      callbackRemove: _removeCustomDay,
+                      dateTimeRange: widget.dateRangeAchievement,
                     );
-                    newRemindDay.setRangeDateTime(widget.dateRangeAchievement);
                     widget.remindDays.add(newRemindDay);
                   } else {
                     var reCreateRemindDays = <RemindDay>[];
                     for (var remindDay in widget.remindDays) {
                       var newRemindDay = RemindDay(
                         remindModel: remindDay.remindModel,
-                        callbackRemove: _removeCustomDay,
+                        dateTimeRange: widget.dateRangeAchievement,
                       );
-                      newRemindDay
-                          .setRangeDateTime(widget.dateRangeAchievement);
                       reCreateRemindDays.add(newRemindDay);
                     }
                     widget.remindDays.clear();
@@ -78,21 +78,43 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
   }
 
   Widget _remindsPanel() {
+    var cards = widget.remindDays.map((card) {
+      return Dismissible(
+        key: Key(card.hashCode.toString()),
+        direction: DismissDirection.endToStart,
+        background: Container(
+          color: Colors.red,
+          alignment: Alignment.centerRight,
+          child: Container(
+            width: 70,
+            child: Icon(
+              Icons.delete,
+            ),
+          ),
+        ),
+        onDismissed: (direction) {
+          _removeCustomDay(card);
+        },
+        child: card,
+      );
+    }).toList();
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.remindDays),
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: cards,
+          ),
           IconButton(
-              icon: Icon(
-                Icons.add_circle_outlined,
-                size: 32,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                setState(() {
+            icon: Icon(
+              Icons.add_circle_outlined,
+              size: 32,
+            ),
+            onPressed: () {
+              FocusScope.of(context).unfocus();
+              setState(
+                () {
                   var remindDateTime = RemindDateTime.fromDateTime(
                       dateTime: widget.dateRangeAchievement.start);
                   var remindModel = RemindModel(
@@ -101,12 +123,13 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                       remindDateTime: remindDateTime);
                   var newRemindDay = RemindDay(
                     remindModel: remindModel,
-                    callbackRemove: _removeCustomDay,
+                    dateTimeRange: widget.dateRangeAchievement,
                   );
-                  newRemindDay.setRangeDateTime(widget.dateRangeAchievement);
                   widget.remindDays.add(newRemindDay);
-                });
-              }),
+                },
+              );
+            },
+          ),
         ],
       ),
     );

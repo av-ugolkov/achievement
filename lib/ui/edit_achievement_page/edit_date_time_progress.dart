@@ -38,15 +38,15 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
             widget.dateRangeAchievement.start = selectDate;
             if (_hasRemind) {
               widget.remindDays.removeWhere((remind) {
-                var start = remind.remindDateTime.dateTime
+                var start = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.start);
-                var end = remind.remindDateTime.dateTime
+                var end = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.end);
                 return start < 0 || end > 0;
               });
-              for (var remindCustomDay in widget.remindDays) {
+              /*for (var remindCustomDay in widget.remindDays) {
                 remindCustomDay.setRangeDateTime(widget.dateRangeAchievement);
-              }
+              }*/
             }
           }
         });
@@ -63,15 +63,15 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
             widget.dateRangeAchievement.end = selectDate;
             if (_hasRemind) {
               widget.remindDays.removeWhere((remind) {
-                var start = remind.remindDateTime.dateTime
+                var start = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.start);
-                var end = remind.remindDateTime.dateTime
+                var end = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.end);
                 return start < 0 || end > 0;
               });
-              for (var remindCustomDay in widget.remindDays) {
+              /*for (var remindCustomDay in widget.remindDays) {
                 remindCustomDay.setRangeDateTime(widget.dateRangeAchievement);
-              }
+              }*/
             }
           }
         });

@@ -6,41 +6,19 @@ import 'package:flutter/material.dart';
 
 class RemindDay extends StatefulWidget {
   final RemindModel remindModel;
+  final ChangedDateTimeRange dateTimeRange;
 
-  final Function(RemindDay) callbackRemove;
-
-  final _RemindDayState _remindDayState = _RemindDayState();
-  RemindDateTime get remindDateTime => _remindDayState.remindDateTime;
-
-  RemindDay({Key? key, required this.remindModel, required this.callbackRemove})
-      : super(key: key);
+  RemindDay({required this.remindModel, required this.dateTimeRange});
 
   @override
-  _RemindDayState createState() {
-    return _remindDayState;
-  }
-
-  void setRangeDateTime(ChangedDateTimeRange dateTimeRange) {
-    _remindDayState.setRangeDateTime(dateTimeRange);
-  }
+  _RemindDayState createState() => _RemindDayState();
 }
 
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
-  late ChangedDateTimeRange _dateTimeRange;
   late RemindDateTime remindDateTime;
   late String _day;
-
-  void setRangeDateTime(ChangedDateTimeRange dateTimeRange) {
-    _dateTimeRange = dateTimeRange;
-    var dateNow = DateTime.now();
-    remindDateTime = RemindDateTime.fromDateTime(
-      dateTime: dateNow.add(
-        Duration(hours: 3),
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -59,56 +37,43 @@ class _RemindDayState extends State<RemindDay> {
             ),
           ));
     }).toList();
+
+    var dateNow = DateTime.now();
+    remindDateTime = RemindDateTime.fromDateTime(
+      dateTime: dateNow.add(
+        Duration(hours: 3),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    remindDateTime = widget.remindDateTime;
-    return Container(
-      child: Dismissible(
-        key: Key(widget.remindModel.hashCode.toString()),
-        direction: DismissDirection.endToStart,
-        background: Container(
-          color: Colors.red,
-          alignment: Alignment.centerRight,
-          child: Container(
-            width: 70,
-            child: Icon(
-              Icons.delete,
+    return Card(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Container(
+            height: 36,
+            child: DropdownButton<TypeRepition>(
+              value: _typeRepition,
+              onChanged: (TypeRepition? value) {
+                setState(() {
+                  _typeRepition = value ?? TypeRepition.none;
+                  widget.remindModel.typeRepition = _typeRepition;
+                });
+              },
+              items: _listTypeRepition,
             ),
           ),
-        ),
-        onDismissed: (direction) {
-          widget.callbackRemove.call(widget);
-        },
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 36,
-                child: DropdownButton<TypeRepition>(
-                  value: _typeRepition,
-                  onChanged: (TypeRepition? value) {
-                    setState(() {
-                      _typeRepition = value ?? TypeRepition.none;
-                      widget.remindModel.typeRepition = _typeRepition;
-                    });
-                  },
-                  items: _listTypeRepition,
-                ),
-              ),
-              Container(
-                height: 36,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: _getRemindView(_typeRepition),
-                ),
-              )
-            ],
-          ),
-        ),
+          Container(
+            height: 36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: _getRemindView(_typeRepition),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -185,8 +150,8 @@ class _RemindDayState extends State<RemindDay> {
         var newRemindDate = await showDatePicker(
             context: context,
             initialDate: remindDateTime.dateTime,
-            firstDate: _dateTimeRange.start,
-            lastDate: _dateTimeRange.end);
+            firstDate: widget.dateTimeRange.start,
+            lastDate: widget.dateTimeRange.end);
 
         if (newRemindDate != null) {
           setState(() {
