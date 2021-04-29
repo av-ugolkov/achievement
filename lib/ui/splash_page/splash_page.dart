@@ -1,8 +1,8 @@
+import '/core/page_routes.dart';
 import '/db/db_achievement.dart';
 import '/db/db_file.dart';
 import '/db/db_progress.dart';
 import '/db/db_remind.dart';
-import '/ui/achievement_page/achievement_page.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {
@@ -29,10 +29,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   void _nextPage() {
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<AchievementPage>(
-            builder: (context) => AchievementPage()));
+    Navigator.pushNamed(context, RouteAchievementPage);
   }
 
   @override

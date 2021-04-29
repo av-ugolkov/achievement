@@ -1,18 +1,18 @@
 import 'dart:developer';
 import '/bridge/localization.dart';
 import '/core/enums.dart';
-import '/page_routes.dart';
-import '/ui/achievement_page/left_panel.dart';
-import '/ui/achievement_page/list_achievement.dart';
+import '/core/page_routes.dart';
+import '/ui/achievements_page/left_panel.dart';
+import '/ui/achievements_page/list_achievement.dart';
 import '/core/local_notification.dart';
 import 'package:flutter/material.dart';
 
-class AchievementPage extends StatefulWidget {
+class AchievementsPage extends StatefulWidget {
   @override
-  _AchievementPageState createState() => _AchievementPageState();
+  _AchievementsPageState createState() => _AchievementsPageState();
 }
 
-class _AchievementPageState extends State<AchievementPage> {
+class _AchievementsPageState extends State<AchievementsPage> {
   late AchievementState _state;
   set state(AchievementState value) {
     if (_state == value) return;

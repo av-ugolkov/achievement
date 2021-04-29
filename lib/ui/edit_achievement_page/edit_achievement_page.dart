@@ -123,7 +123,7 @@ class EditAchievementPage extends StatelessWidget {
           remind.remindModel.id,
           _headerEditController.text,
           _descriptionEditController.text,
-          remind.remindModel.remindDateTime.dateTime,
+          remind.remindDateTime.dateTime,
           remind.remindModel.typeRepition);
     }
   }
