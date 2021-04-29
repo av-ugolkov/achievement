@@ -1,7 +1,7 @@
-import 'package:achievement/core/changed_date_time_range.dart';
-import 'package:achievement/enums.dart';
-import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/core/formate_date.dart';
+import '/core/changed_date_time_range.dart';
+import '/core/enums.dart';
+import '/model/remind_model.dart';
+import '/core/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class RemindDay extends StatefulWidget {

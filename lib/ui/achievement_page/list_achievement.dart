@@ -1,12 +1,12 @@
-import 'package:achievement/db/db_achievement.dart';
-import 'package:achievement/db/db_remind.dart';
-import 'package:achievement/enums.dart';
-import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/page_routes.dart';
-import 'package:achievement/core/local_notification.dart';
-import 'package:achievement/ui/achievement_page/achievement_card.dart';
+import '/db/db_achievement.dart';
+import '/db/db_remind.dart';
+import '/core/enums.dart';
+import '/model/achievement_model.dart';
+import '/page_routes.dart';
+import '/core/local_notification.dart';
+import '/ui/achievement_page/achievement_card.dart';
 import 'package:flutter/material.dart';
-import 'package:achievement/ui/achievement_page/achievement_page.dart';
+import '/ui/achievement_page/achievement_page.dart';
 
 class ListAchievement extends StatefulWidget {
   @override

@@ -1,4 +1,4 @@
-import 'package:achievement/bridge/localization.dart';
+import '/bridge/localization.dart';
 import 'package:flutter/material.dart';
 
 class EditDescriptionAchievement extends StatefulWidget {

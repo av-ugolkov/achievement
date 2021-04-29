@@ -1,12 +1,12 @@
 import 'dart:io';
-import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/db/db_remind.dart';
-import 'package:achievement/enums.dart';
-import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/ui/view_achievement_page/description_progress.dart';
-import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
-import 'package:achievement/ui/fab/floating_action_button.dart';
+import '/bridge/localization.dart';
+import '/db/db_remind.dart';
+import '/core/enums.dart';
+import '/model/achievement_model.dart';
+import '/model/remind_model.dart';
+import '/ui/view_achievement_page/description_progress.dart';
+import '/ui/view_achievement_page/inherited_view_achievement_page.dart';
+import '/ui/fab/floating_action_button.dart';
 import 'package:flutter/material.dart';
 
 class ViewAchievementPage extends StatelessWidget {

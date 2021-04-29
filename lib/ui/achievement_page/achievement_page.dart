@@ -1,10 +1,10 @@
 import 'dart:developer';
-import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/enums.dart';
-import 'package:achievement/page_routes.dart';
-import 'package:achievement/ui/achievement_page/left_panel.dart';
-import 'package:achievement/ui/achievement_page/list_achievement.dart';
-import 'package:achievement/core/local_notification.dart';
+import '/bridge/localization.dart';
+import '/core/enums.dart';
+import '/page_routes.dart';
+import '/ui/achievement_page/left_panel.dart';
+import '/ui/achievement_page/list_achievement.dart';
+import '/core/local_notification.dart';
 import 'package:flutter/material.dart';
 
 class AchievementPage extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:achievement/bloc/bloc_base.dart';
+import '/bloc/bloc_base.dart';
 import 'package:flutter/material.dart';
 
 class BlocProvider<T extends BlocBase> extends StatefulWidget {

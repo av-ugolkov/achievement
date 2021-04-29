@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
 class ChangedDateTimeRange {
+  Function(DateTime)? onChangedStartDate;
   DateTime _start;
   DateTime get start => _start;
   set start(DateTime value) {
     if (_start == value) return;
     _start = value;
+    onChangedStartDate?.call(_start);
   }
 
+  Function(DateTime)? onChangedEndDate;
   DateTime _end;
   DateTime get end => _end;
   set end(DateTime value) {
     if (_end == value) return;
     _end = value;
+    onChangedEndDate?.call(_end);
   }
 
   ChangedDateTimeRange({
     required DateTime start,
     required DateTime end,
-  })   : _start = start,
+    this.onChangedStartDate,
+    this.onChangedEndDate,
+  })  : _start = start,
         _end = end,
         assert(!start.isAfter(end));
 

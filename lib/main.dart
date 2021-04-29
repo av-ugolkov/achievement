@@ -1,8 +1,8 @@
-import 'package:achievement/page_routes.dart';
-import 'package:achievement/ui/achievement_page/achievement_page.dart';
-import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
-import 'package:achievement/ui/splash_page/splash_page.dart';
-import 'package:achievement/ui/view_achievement_page/view_achievement_page.dart';
+import '/page_routes.dart';
+import '/ui/achievement_page/achievement_page.dart';
+import '/ui/edit_achievement_page/edit_achievement_page.dart';
+import '/ui/splash_page/splash_page.dart';
+import '/ui/view_achievement_page/view_achievement_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:path_provider/path_provider.dart';

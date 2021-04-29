@@ -1,4 +1,4 @@
-import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
+import '/ui/edit_achievement_page/remind_day.dart';
 import 'package:flutter/material.dart';
 
 class InheritedEditAchievementPage extends InheritedWidget {

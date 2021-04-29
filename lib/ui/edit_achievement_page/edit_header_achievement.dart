@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-import 'package:achievement/bridge/localization.dart';
+import '/bridge/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,5 +1,5 @@
-import 'package:achievement/db/db_file.dart';
-import 'package:achievement/model/progress_model.dart';
+import '/db/db_file.dart';
+import '/model/progress_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DbProgress {

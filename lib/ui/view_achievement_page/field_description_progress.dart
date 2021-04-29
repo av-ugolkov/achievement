@@ -1,7 +1,7 @@
-import 'package:achievement/model/progress_model.dart';
-import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
+import '/model/progress_model.dart';
+import '/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:flutter/material.dart';
-import 'package:achievement/core/extensions.dart';
+import '/core/extensions.dart';
 
 class FieldDescriptionProgress extends StatefulWidget {
   final DateTime currentDateTime;

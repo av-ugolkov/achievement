@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:achievement/bloc/bloc_base.dart';
-import 'package:achievement/enums.dart';
+import '/bloc/bloc_base.dart';
+import '/core/enums.dart';
 
 class BlocAchievementState extends BlocBase {
   late AchievementState _state;

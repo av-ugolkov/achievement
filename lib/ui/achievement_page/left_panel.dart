@@ -1,5 +1,5 @@
-import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/enums.dart';
+import '/bridge/localization.dart';
+import '/core/enums.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
