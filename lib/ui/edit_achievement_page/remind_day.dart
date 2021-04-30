@@ -18,10 +18,39 @@ class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
   late RemindDateTime _remindDateTime;
+  List<DropdownMenuItem<DateTime>> _weekDays = [];
 
   @override
   void initState() {
     super.initState();
+
+    var items = <DateTime>[];
+    for (var i = 0; i < 7; ++i) {
+      items.add(
+        DateTime(1, 1, i + 1, 12, 0),
+      );
+    }
+
+    _weekDays = items
+        .map(
+          (item) => DropdownMenuItem<DateTime>(
+            value: item,
+            onTap: () {
+              setState(() {
+                _setRemindDateTime(RemindDateTime.fromDateTime(dateTime: item));
+              });
+            },
+            child: Text(
+              FormateDate.weekDayName(item),
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
+        .toList();
+
     _listTypeRepition =
         TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
       return DropdownMenuItem<TypeRepition>(
@@ -68,6 +97,7 @@ class _RemindDayState extends State<RemindDay> {
                   if (_typeRepition == TypeRepition.week) {
                     _setRemindDateTime(RemindDateTime(
                         year: 1, month: 1, day: 1, hour: 12, minute: 0));
+                    widget.remindModel.remindDateTime = _remindDateTime;
                   } else {
                     _setRemindDateTime(
                       RemindDateTime.fromDateTime(
@@ -125,32 +155,6 @@ class _RemindDayState extends State<RemindDay> {
   }
 
   Widget _getDay() {
-    var items = <DateTime>[];
-    for (var i = 0; i < 7; ++i) {
-      items.add(
-        DateTime(1, 1, i + 1, 12, 0),
-      );
-    }
-
-    var weekDays = items
-        .map(
-          (item) => DropdownMenuItem<DateTime>(
-            value: item,
-            onTap: () {
-              setState(() {
-                _setRemindDateTime(RemindDateTime.fromDateTime(dateTime: item));
-              });
-            },
-            child: Text(
-              FormateDate.weekDayName(item),
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        )
-        .toList();
     return DropdownButton<DateTime>(
       value: _remindDateTime.dateTime,
       onChanged: (DateTime? value) {
@@ -158,9 +162,10 @@ class _RemindDayState extends State<RemindDay> {
           _setRemindDateTime(
             RemindDateTime.fromDateTime(dateTime: value!),
           );
+          widget.remindModel.remindDateTime = _remindDateTime;
         });
       },
-      items: weekDays,
+      items: _weekDays,
     );
   }
 
