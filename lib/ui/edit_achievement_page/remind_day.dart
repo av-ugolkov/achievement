@@ -17,13 +17,11 @@ class RemindDay extends StatefulWidget {
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
-  late RemindDateTime remindDateTime;
-  late String _day;
+  late RemindDateTime _remindDateTime;
 
   @override
   void initState() {
     super.initState();
-    _day = FormateDate.weekDayName(DateTime(1, 1, 1));
     _listTypeRepition =
         TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
       return DropdownMenuItem<TypeRepition>(
@@ -39,11 +37,17 @@ class _RemindDayState extends State<RemindDay> {
     }).toList();
 
     var dateNow = DateTime.now();
-    remindDateTime = RemindDateTime.fromDateTime(
-      dateTime: dateNow.add(
-        Duration(hours: 3),
+    _setRemindDateTime(
+      RemindDateTime.fromDateTime(
+        dateTime: dateNow.add(
+          Duration(hours: 3),
+        ),
       ),
     );
+  }
+
+  void _setRemindDateTime(RemindDateTime remindDateTime) {
+    _remindDateTime = remindDateTime;
   }
 
   @override
@@ -61,6 +65,18 @@ class _RemindDayState extends State<RemindDay> {
                 setState(() {
                   _typeRepition = value ?? TypeRepition.none;
                   widget.remindModel.typeRepition = _typeRepition;
+                  if (_typeRepition == TypeRepition.week) {
+                    _setRemindDateTime(RemindDateTime(
+                        year: 1, month: 1, day: 1, hour: 12, minute: 0));
+                  } else {
+                    _setRemindDateTime(
+                      RemindDateTime.fromDateTime(
+                        dateTime: DateTime.now().add(
+                          Duration(hours: 3),
+                        ),
+                      ),
+                    );
+                  }
                 });
               },
               items: _listTypeRepition,
@@ -109,38 +125,42 @@ class _RemindDayState extends State<RemindDay> {
   }
 
   Widget _getDay() {
-    var items = <String>[];
+    var items = <DateTime>[];
     for (var i = 0; i < 7; ++i) {
-      var date = DateTime(1, 1, i + 1);
-      items.add(FormateDate.weekDayName(date));
+      items.add(
+        DateTime(1, 1, i + 1, 12, 0),
+      );
     }
 
-    return DropdownButton<String>(
-      value: _day,
-      onChanged: (String? value) {
+    var weekDays = items
+        .map(
+          (item) => DropdownMenuItem<DateTime>(
+            value: item,
+            onTap: () {
+              setState(() {
+                _setRemindDateTime(RemindDateTime.fromDateTime(dateTime: item));
+              });
+            },
+            child: Text(
+              FormateDate.weekDayName(item),
+              style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        )
+        .toList();
+    return DropdownButton<DateTime>(
+      value: _remindDateTime.dateTime,
+      onChanged: (DateTime? value) {
         setState(() {
-          _day = value!;
+          _setRemindDateTime(
+            RemindDateTime.fromDateTime(dateTime: value!),
+          );
         });
       },
-      items: items
-          .map(
-            (item) => DropdownMenuItem(
-              value: item,
-              onTap: () {
-                setState(() {
-                  _day = item;
-                });
-              },
-              child: Text(
-                item,
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          )
-          .toList(),
+      items: weekDays,
     );
   }
 
@@ -149,20 +169,20 @@ class _RemindDayState extends State<RemindDay> {
       onTap: () async {
         var newRemindDate = await showDatePicker(
             context: context,
-            initialDate: remindDateTime.dateTime,
+            initialDate: _remindDateTime.dateTime,
             firstDate: widget.dateTimeRange.start,
             lastDate: widget.dateTimeRange.end);
 
         if (newRemindDate != null) {
           setState(() {
-            remindDateTime =
-                RemindDateTime.fromDateTime(dateTime: newRemindDate);
-            widget.remindModel.remindDateTime = remindDateTime;
+            _setRemindDateTime(
+                RemindDateTime.fromDateTime(dateTime: newRemindDate));
+            widget.remindModel.remindDateTime = _remindDateTime;
           });
         }
       },
       child: Text(
-        FormateDate.yearNumMonthDay(remindDateTime.dateTime),
+        FormateDate.yearNumMonthDay(_remindDateTime.dateTime),
         textAlign: TextAlign.center,
         overflow: TextOverflow.visible,
         style: TextStyle(
@@ -179,19 +199,19 @@ class _RemindDayState extends State<RemindDay> {
       onTap: () async {
         var newTimeOfDay = await showTimePicker(
           context: context,
-          initialTime: TimeOfDay.fromDateTime(remindDateTime.dateTime),
+          initialTime: TimeOfDay.fromDateTime(_remindDateTime.dateTime),
         );
 
         if (newTimeOfDay != null) {
           setState(() {
-            remindDateTime.hour = newTimeOfDay.hour;
-            remindDateTime.minute = newTimeOfDay.minute;
-            widget.remindModel.remindDateTime = remindDateTime;
+            _remindDateTime.hour = newTimeOfDay.hour;
+            _remindDateTime.minute = newTimeOfDay.minute;
+            widget.remindModel.remindDateTime = _remindDateTime;
           });
         }
       },
       child: Text(
-        FormateDate.hour24Minute(remindDateTime.dateTime),
+        FormateDate.hour24Minute(_remindDateTime.dateTime),
         textAlign: TextAlign.center,
         overflow: TextOverflow.visible,
         style: TextStyle(

@@ -1,8 +1,8 @@
 import '/ui/edit_achievement_page/remind_day.dart';
 import '/core/changed_date_time_range.dart';
+import '/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
-import '/core/extensions.dart';
 
 class EditDateTimeProgress extends StatefulWidget {
   final List<RemindDay> remindDays;
@@ -44,9 +44,6 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
                     .compareTo(widget.dateRangeAchievement.end);
                 return start < 0 || end > 0;
               });
-              /*for (var remindCustomDay in widget.remindDays) {
-                remindCustomDay.setRangeDateTime(widget.dateRangeAchievement);
-              }*/
             }
           }
         });
@@ -69,9 +66,6 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
                     .compareTo(widget.dateRangeAchievement.end);
                 return start < 0 || end > 0;
               });
-              /*for (var remindCustomDay in widget.remindDays) {
-                remindCustomDay.setRangeDateTime(widget.dateRangeAchievement);
-              }*/
             }
           }
         });
