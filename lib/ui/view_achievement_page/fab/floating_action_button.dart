@@ -2,7 +2,7 @@ import '/db/db_achievement.dart';
 import '/core/enums.dart';
 import '/model/achievement_model.dart';
 import '/core/page_routes.dart';
-import '/ui/fab/expandable_fab.dart';
+import 'expandable_fab.dart';
 import 'package:flutter/material.dart';
 
 class FAB extends StatefulWidget {
