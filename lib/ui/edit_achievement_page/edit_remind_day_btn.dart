@@ -13,7 +13,8 @@ class EditRemindDayBtn extends StatefulWidget {
 
 class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
   List<DropdownMenuItem<DateTime>> _weekDays = [];
-  late RemindDateTime _remindDateTime;
+  RemindDateTime _remindDateTime =
+      RemindDateTime(year: 1, month: 1, day: 1, hour: 12, minute: 0);
 
   @override
   void initState() {
@@ -46,7 +47,6 @@ class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
           ),
         )
         .toList();
-    _remindDateTime = RemindDateTime.fromDateTime(dateTime: items[0]);
   }
 
   @override
