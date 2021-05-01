@@ -19,7 +19,6 @@ class RemindDay extends StatefulWidget {
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
-  //late RemindDateTime _remindDateTime;
 
   @override
   void initState() {
@@ -38,20 +37,7 @@ class _RemindDayState extends State<RemindDay> {
             ),
           ));
     }).toList();
-
-    /*var dateNow = DateTime.now();
-    _setRemindDateTime(
-      RemindDateTime.fromDateTime(
-        dateTime: dateNow.add(
-          Duration(hours: 3),
-        ),
-      ),
-    );*/
   }
-
-  /*void _setRemindDateTime(RemindDateTime remindDateTime) {
-    _remindDateTime = remindDateTime;
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -68,19 +54,6 @@ class _RemindDayState extends State<RemindDay> {
                 setState(() {
                   _typeRepition = value ?? TypeRepition.none;
                   widget.remindModel.typeRepition = _typeRepition;
-                  /*if (_typeRepition == TypeRepition.week) {
-                    _setRemindDateTime(RemindDateTime(
-                        year: 1, month: 1, day: 1, hour: 12, minute: 0));
-                    widget.remindModel.remindDateTime = _remindDateTime;
-                  } else {
-                    _setRemindDateTime(
-                      RemindDateTime.fromDateTime(
-                        dateTime: DateTime.now().add(
-                          Duration(hours: 3),
-                        ),
-                      ),
-                    );
-                  }*/
                 });
               },
               items: _listTypeRepition,
