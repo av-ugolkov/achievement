@@ -1,7 +1,9 @@
+import 'edit_remind_date_btn.dart';
+import 'edit_remind_day_btn.dart';
+import 'edit_remind_time_btn.dart';
 import '/core/changed_date_time_range.dart';
 import '/core/enums.dart';
 import '/model/remind_model.dart';
-import '/core/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class RemindDay extends StatefulWidget {
@@ -17,39 +19,11 @@ class RemindDay extends StatefulWidget {
 class _RemindDayState extends State<RemindDay> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
-  late RemindDateTime _remindDateTime;
-  List<DropdownMenuItem<DateTime>> _weekDays = [];
+  //late RemindDateTime _remindDateTime;
 
   @override
   void initState() {
     super.initState();
-
-    var items = <DateTime>[];
-    for (var i = 0; i < 7; ++i) {
-      items.add(
-        DateTime(1, 1, i + 1, 12, 0),
-      );
-    }
-
-    _weekDays = items
-        .map(
-          (item) => DropdownMenuItem<DateTime>(
-            value: item,
-            onTap: () {
-              setState(() {
-                _setRemindDateTime(RemindDateTime.fromDateTime(dateTime: item));
-              });
-            },
-            child: Text(
-              FormateDate.weekDayName(item),
-              style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold),
-            ),
-          ),
-        )
-        .toList();
 
     _listTypeRepition =
         TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
@@ -65,19 +39,19 @@ class _RemindDayState extends State<RemindDay> {
           ));
     }).toList();
 
-    var dateNow = DateTime.now();
+    /*var dateNow = DateTime.now();
     _setRemindDateTime(
       RemindDateTime.fromDateTime(
         dateTime: dateNow.add(
           Duration(hours: 3),
         ),
       ),
-    );
+    );*/
   }
 
-  void _setRemindDateTime(RemindDateTime remindDateTime) {
+  /*void _setRemindDateTime(RemindDateTime remindDateTime) {
     _remindDateTime = remindDateTime;
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +68,7 @@ class _RemindDayState extends State<RemindDay> {
                 setState(() {
                   _typeRepition = value ?? TypeRepition.none;
                   widget.remindModel.typeRepition = _typeRepition;
-                  if (_typeRepition == TypeRepition.week) {
+                  /*if (_typeRepition == TypeRepition.week) {
                     _setRemindDateTime(RemindDateTime(
                         year: 1, month: 1, day: 1, hour: 12, minute: 0));
                     widget.remindModel.remindDateTime = _remindDateTime;
@@ -106,7 +80,7 @@ class _RemindDayState extends State<RemindDay> {
                         ),
                       ),
                     );
-                  }
+                  }*/
                 });
               },
               items: _listTypeRepition,
@@ -138,94 +112,34 @@ class _RemindDayState extends State<RemindDay> {
 
   List<Widget> _getNoneRepition() {
     return <Widget>[
-      _getDateButton(),
-      _getTimeButton(),
+      EditRemindDateBtn(
+        remindModel: widget.remindModel,
+        dateTimeRange: widget.dateTimeRange,
+      ),
+      EditRemindTimeBtn(
+        remindModel: widget.remindModel,
+        dateTimeRange: widget.dateTimeRange,
+      ),
     ];
   }
 
   List<Widget> _getDayRepition() {
-    return <Widget>[_getTimeButton()];
+    return <Widget>[
+      EditRemindTimeBtn(
+        remindModel: widget.remindModel,
+        dateTimeRange: widget.dateTimeRange,
+      )
+    ];
   }
 
   List<Widget> _getWeekRepition() {
     return <Widget>[
-      _getDay(),
-      _getTimeButton(),
+      EditRemindDayBtn(remindModel: widget.remindModel),
+      EditRemindTimeBtn(
+        remindModel: widget.remindModel,
+        dateTimeRange: widget.dateTimeRange,
+      ),
     ];
-  }
-
-  Widget _getDay() {
-    return DropdownButton<DateTime>(
-      value: _remindDateTime.dateTime,
-      onChanged: (DateTime? value) {
-        setState(() {
-          _setRemindDateTime(
-            RemindDateTime.fromDateTime(dateTime: value!),
-          );
-          widget.remindModel.remindDateTime = _remindDateTime;
-        });
-      },
-      items: _weekDays,
-    );
-  }
-
-  GestureDetector _getDateButton() {
-    return GestureDetector(
-      onTap: () async {
-        var newRemindDate = await showDatePicker(
-            context: context,
-            initialDate: _remindDateTime.dateTime,
-            firstDate: widget.dateTimeRange.start,
-            lastDate: widget.dateTimeRange.end);
-
-        if (newRemindDate != null) {
-          setState(() {
-            _setRemindDateTime(
-                RemindDateTime.fromDateTime(dateTime: newRemindDate));
-            widget.remindModel.remindDateTime = _remindDateTime;
-          });
-        }
-      },
-      child: Text(
-        FormateDate.yearNumMonthDay(_remindDateTime.dateTime),
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.visible,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
-  GestureDetector _getTimeButton() {
-    return GestureDetector(
-      onTap: () async {
-        var newTimeOfDay = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.fromDateTime(_remindDateTime.dateTime),
-        );
-
-        if (newTimeOfDay != null) {
-          setState(() {
-            _remindDateTime.hour = newTimeOfDay.hour;
-            _remindDateTime.minute = newTimeOfDay.minute;
-            widget.remindModel.remindDateTime = _remindDateTime;
-          });
-        }
-      },
-      child: Text(
-        FormateDate.hour24Minute(_remindDateTime.dateTime),
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.visible,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
   }
 
   String _getStringRepition(TypeRepition typeRepition) {
