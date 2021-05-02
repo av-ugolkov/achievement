@@ -1,20 +1,20 @@
 import 'dart:io';
-import '/bridge/localization.dart';
-import '/db/db_remind.dart';
-import 'edit_date_time_progress.dart';
-import 'edit_description_achievement.dart';
-import 'edit_header_achievement.dart';
-import 'edit_remind_panel.dart';
-import '/core/changed_date_time_range.dart';
-import '/core/local_notification.dart';
-import '/core/utils.dart' as utils;
-import '/db/db_achievement.dart';
-import '/model/achievement_model.dart';
-import '/ui/edit_achievement_page/remind_day.dart';
+import 'package:achievement/bridge/localization.dart';
+import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_date_time_progress.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_description_achievement.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_header_achievement.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_remind_panel.dart';
+import 'package:achievement/core/changed_date_time_range.dart';
+import 'package:achievement/core/local_notification.dart';
+import 'package:achievement/core/utils.dart' as utils;
+import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
-import '/core/extensions.dart';
+import 'package:achievement/core/extensions.dart';
 
 class EditAchievementPage extends StatelessWidget {
   final ChangedDateTimeRange _dateRangeAchievement = ChangedDateTimeRange(

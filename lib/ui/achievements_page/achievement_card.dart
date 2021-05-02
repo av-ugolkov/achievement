@@ -1,6 +1,6 @@
 import 'dart:io';
-import '/model/achievement_model.dart';
-import '/core/formate_date.dart';
+import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/core/formate_date.dart';
 import 'package:flutter/material.dart';
 
 class AchievementCard extends StatelessWidget {

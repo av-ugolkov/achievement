@@ -1,6 +1,6 @@
-import '/ui/edit_achievement_page/remind_day.dart';
-import '/core/changed_date_time_range.dart';
-import '/core/extensions.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
+import 'package:achievement/core/changed_date_time_range.dart';
+import 'package:achievement/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 

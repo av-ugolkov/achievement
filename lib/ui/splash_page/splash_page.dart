@@ -1,8 +1,8 @@
-import '/core/page_routes.dart';
-import '/db/db_achievement.dart';
-import '/db/db_file.dart';
-import '/db/db_progress.dart';
-import '/db/db_remind.dart';
+import 'package:achievement/core/page_routes.dart';
+import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/db/db_file.dart';
+import 'package:achievement/db/db_progress.dart';
+import 'package:achievement/db/db_remind.dart';
 import 'package:flutter/material.dart';
 
 class SplashPage extends StatefulWidget {

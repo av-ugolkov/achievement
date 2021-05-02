@@ -1,8 +1,8 @@
-import '/bridge/localization.dart';
-import '/core/changed_date_time_range.dart';
-import '/core/enums.dart';
-import '/model/remind_model.dart';
-import '/ui/edit_achievement_page/remind_day.dart';
+import 'package:achievement/bridge/localization.dart';
+import 'package:achievement/core/changed_date_time_range.dart';
+import 'package:achievement/core/enums.dart';
+import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
 import 'package:flutter/material.dart';
 
 class EditRemindPanel extends StatefulWidget {

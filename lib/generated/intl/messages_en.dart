@@ -7,7 +7,7 @@
 // ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
-// ignore_for_file:unused_import, file_names
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -20,18 +20,21 @@ class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
-  static _notInlinedMessages(_) => <String, Function> {
-    "active" : MessageLookupByLibrary.simpleMessage("Active"),
-    "appName" : MessageLookupByLibrary.simpleMessage("Achievement"),
-    "archived" : MessageLookupByLibrary.simpleMessage("Archived"),
-    "createAchievement" : MessageLookupByLibrary.simpleMessage("Create achievement"),
-    "description" : MessageLookupByLibrary.simpleMessage("Description"),
-    "done" : MessageLookupByLibrary.simpleMessage("Done"),
-    "fail" : MessageLookupByLibrary.simpleMessage("Fail"),
-    "header" : MessageLookupByLibrary.simpleMessage("Header"),
-    "header_error" : MessageLookupByLibrary.simpleMessage("The title cannot be less than 3 characters"),
-    "remind" : MessageLookupByLibrary.simpleMessage("Remind"),
-    "repeat" : MessageLookupByLibrary.simpleMessage("Repeat"),
-    "viewAchievementTitle" : MessageLookupByLibrary.simpleMessage("Achievement")
-  };
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "active": MessageLookupByLibrary.simpleMessage("Active"),
+        "appName": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "archived": MessageLookupByLibrary.simpleMessage("Archived"),
+        "createAchievement":
+            MessageLookupByLibrary.simpleMessage("Create achievement"),
+        "description": MessageLookupByLibrary.simpleMessage("Description"),
+        "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "fail": MessageLookupByLibrary.simpleMessage("Fail"),
+        "header": MessageLookupByLibrary.simpleMessage("Header"),
+        "header_error": MessageLookupByLibrary.simpleMessage(
+            "The title cannot be less than 3 characters"),
+        "remind": MessageLookupByLibrary.simpleMessage("Remind"),
+        "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
+        "viewAchievementTitle":
+            MessageLookupByLibrary.simpleMessage("Achievement")
+      };
 }

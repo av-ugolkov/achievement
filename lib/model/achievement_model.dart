@@ -1,5 +1,5 @@
 import 'dart:convert';
-import '/core/enums.dart';
+import 'package:achievement/core/enums.dart';
 
 class AchievementModel {
   static AchievementModel get empty => AchievementModel(

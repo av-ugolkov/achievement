@@ -1,4 +1,4 @@
-import '/generated/l10n.dart';
+import 'package:achievement/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 
 S getLocaleOfContext(BuildContext context) {

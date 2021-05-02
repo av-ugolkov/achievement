@@ -1,4 +1,4 @@
-import '/core/enums.dart';
+import 'package:achievement/core/enums.dart';
 import 'package:flutter/material.dart';
 
 class InheritedAchievementPage extends InheritedWidget {

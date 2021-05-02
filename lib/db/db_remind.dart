@@ -1,4 +1,4 @@
-import '/model/remind_model.dart';
+import 'package:achievement/model/remind_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'db_file.dart';
 

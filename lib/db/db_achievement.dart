@@ -1,5 +1,5 @@
-import '/core/enums.dart';
-import '/model/achievement_model.dart';
+import 'package:achievement/core/enums.dart';
+import 'package:achievement/model/achievement_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db_file.dart';

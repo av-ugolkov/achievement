@@ -1,11 +1,11 @@
-import '/ui/achievements_page/inherited_achievement_page.dart';
-import '/ui/achievements_page/achievement_card.dart';
-import '/db/db_achievement.dart';
-import '/db/db_remind.dart';
-import '/core/enums.dart';
-import '/core/page_routes.dart';
-import '/core/local_notification.dart';
-import '/model/achievement_model.dart';
+import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
+import 'package:achievement/ui/achievements_page/achievement_card.dart';
+import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/page_routes.dart';
+import 'package:achievement/core/local_notification.dart';
+import 'package:achievement/model/achievement_model.dart';
 import 'package:flutter/material.dart';
 
 class ListAchievement extends StatefulWidget {

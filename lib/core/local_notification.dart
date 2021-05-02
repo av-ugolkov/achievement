@@ -1,4 +1,4 @@
-import '/core/enums.dart';
+import 'package:achievement/core/enums.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/standalone.dart' as tz;
 
