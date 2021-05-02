@@ -1,16 +1,16 @@
-import 'package:achievement/ui/edit_achievement_page/remind_card.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_remind_card.dart';
 import 'package:flutter/material.dart';
 
 class InheritedEditAchievementPage extends InheritedWidget {
-  final List<RemindCard> remindDays;
+  final List<EditRemindCard> remindCards;
 
   InheritedEditAchievementPage({
-    required this.remindDays,
+    required this.remindCards,
     required Widget child,
   }) : super(child: child);
 
   @override
   bool updateShouldNotify(covariant InheritedEditAchievementPage oldWidget) {
-    return oldWidget.remindDays != remindDays;
+    return oldWidget.remindCards != remindCards;
   }
 }

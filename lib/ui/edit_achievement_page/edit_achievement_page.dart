@@ -10,7 +10,7 @@ import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/ui/edit_achievement_page/remind_card.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_remind_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
@@ -27,7 +27,7 @@ class EditAchievementPage extends StatelessWidget {
   final _headerEditController = TextEditingController();
   final _descriptionEditController = TextEditingController();
   final List<int> _imageBytes = [];
-  final _remindCards = <RemindCard>[];
+  final _remindCards = <EditRemindCard>[];
 
   bool get _hasRemind => _remindCards.isNotEmpty;
 

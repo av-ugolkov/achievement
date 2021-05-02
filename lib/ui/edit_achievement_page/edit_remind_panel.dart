@@ -2,11 +2,11 @@ import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/model/remind_model.dart';
-import 'package:achievement/ui/edit_achievement_page/remind_card.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_remind_card.dart';
 import 'package:flutter/material.dart';
 
 class EditRemindPanel extends StatefulWidget {
-  final List<RemindCard> remindCards;
+  final List<EditRemindCard> remindCards;
   final ChangedDateTimeRange dateRangeAchievement;
 
   EditRemindPanel({
@@ -51,22 +51,22 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                         id: -1,
                         typeRepition: TypeRepition.none,
                         remindDateTime: remindDateTime);
-                    var newRemindDay = RemindCard(
+                    var newRemindCard = EditRemindCard(
                       remindModel: remindModel,
                       dateTimeRange: widget.dateRangeAchievement,
                     );
-                    widget.remindCards.add(newRemindDay);
+                    widget.remindCards.add(newRemindCard);
                   } else {
-                    var reCreateRemindDays = <RemindCard>[];
-                    for (var remindDay in widget.remindCards) {
-                      var newRemindDay = RemindCard(
-                        remindModel: remindDay.remindModel,
+                    var reCreateRemindCard = <EditRemindCard>[];
+                    for (var remindCard in widget.remindCards) {
+                      var newRemindDay = EditRemindCard(
+                        remindModel: remindCard.remindModel,
                         dateTimeRange: widget.dateRangeAchievement,
                       );
-                      reCreateRemindDays.add(newRemindDay);
+                      reCreateRemindCard.add(newRemindDay);
                     }
                     widget.remindCards.clear();
-                    widget.remindCards.addAll(reCreateRemindDays);
+                    widget.remindCards.addAll(reCreateRemindCard);
                   }
                 });
               },
@@ -127,11 +127,11 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                       id: -1,
                       typeRepition: TypeRepition.none,
                       remindDateTime: remindDateTime);
-                  var newRemindDay = RemindCard(
+                  var newRemindCard = EditRemindCard(
                     remindModel: remindModel,
                     dateTimeRange: widget.dateRangeAchievement,
                   );
-                  widget.remindCards.add(newRemindDay);
+                  widget.remindCards.add(newRemindCard);
                 },
               );
             },
@@ -141,7 +141,7 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
     );
   }
 
-  void _removeCustomDay(RemindCard remindCard) {
+  void _removeCustomDay(EditRemindCard remindCard) {
     setState(() {
       widget.remindCards.remove(remindCard);
       if (widget.remindCards.isEmpty) {
