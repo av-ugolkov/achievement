@@ -43,7 +43,10 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                   }
                   if (widget.remindDays.isEmpty) {
                     var remindDateTime = RemindDateTime.fromDateTime(
-                        dateTime: widget.dateRangeAchievement.start);
+                      dateTime: widget.dateRangeAchievement.start.add(
+                        Duration(hours: 12),
+                      ),
+                    );
                     var remindModel = RemindModel(
                         id: -1,
                         typeRepition: TypeRepition.none,
@@ -116,7 +119,10 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
               setState(
                 () {
                   var remindDateTime = RemindDateTime.fromDateTime(
-                      dateTime: widget.dateRangeAchievement.start);
+                    dateTime: widget.dateRangeAchievement.start.add(
+                      Duration(hours: 12),
+                    ),
+                  );
                   var remindModel = RemindModel(
                       id: -1,
                       typeRepition: TypeRepition.none,

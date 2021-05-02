@@ -1,7 +1,6 @@
 import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
 import 'package:achievement/ui/achievements_page/achievement_card.dart';
 import 'package:achievement/db/db_achievement.dart';
-import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/core/local_notification.dart';
@@ -59,7 +58,6 @@ class _ListAchievementState extends State<ListAchievement> {
   Future<void> _archivedAchievement(AchievementModel achievement) async {
     for (var remindId in achievement.remindIds) {
       await LocalNotification.cancelNotification(remindId);
-      await DbRemind.db.delete(remindId);
     }
     achievement.state = AchievementState.archived;
     await DbAchievement.db.update(achievement);

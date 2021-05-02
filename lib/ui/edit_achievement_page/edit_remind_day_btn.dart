@@ -47,6 +47,8 @@ class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
           ),
         )
         .toList();
+
+    widget.remindModel.remindDateTime = _remindDateTime;
   }
 
   @override
