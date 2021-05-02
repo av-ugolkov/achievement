@@ -1,15 +1,15 @@
-import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_card.dart';
 import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 
 class EditDateTimeProgress extends StatefulWidget {
-  final List<RemindDay> remindDays;
+  final List<RemindCard> remindCards;
   final ChangedDateTimeRange dateRangeAchievement;
 
   EditDateTimeProgress({
-    required this.remindDays,
+    required this.remindCards,
     required this.dateRangeAchievement,
   });
 
@@ -18,7 +18,7 @@ class EditDateTimeProgress extends StatefulWidget {
 }
 
 class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
-  bool get _hasRemind => widget.remindDays.isNotEmpty;
+  bool get _hasRemind => widget.remindCards.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
           if (selectDate != null) {
             widget.dateRangeAchievement.start = selectDate;
             if (_hasRemind) {
-              widget.remindDays.removeWhere((remind) {
+              widget.remindCards.removeWhere((remind) {
                 var start = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.start);
                 var end = remind.remindModel.remindDateTime.dateTime
@@ -59,7 +59,7 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
           if (selectDate != null) {
             widget.dateRangeAchievement.end = selectDate;
             if (_hasRemind) {
-              widget.remindDays.removeWhere((remind) {
+              widget.remindCards.removeWhere((remind) {
                 var start = remind.remindModel.remindDateTime.dateTime
                     .compareTo(widget.dateRangeAchievement.start);
                 var end = remind.remindModel.remindDateTime.dateTime

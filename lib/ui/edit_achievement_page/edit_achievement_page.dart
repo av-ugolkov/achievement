@@ -10,7 +10,7 @@ import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/ui/edit_achievement_page/remind_day.dart';
+import 'package:achievement/ui/edit_achievement_page/remind_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
@@ -27,9 +27,9 @@ class EditAchievementPage extends StatelessWidget {
   final _headerEditController = TextEditingController();
   final _descriptionEditController = TextEditingController();
   final List<int> _imageBytes = [];
-  final _remindDays = <RemindDay>[];
+  final _remindCards = <RemindCard>[];
 
-  bool get _hasRemind => _remindDays.isNotEmpty;
+  bool get _hasRemind => _remindCards.isNotEmpty;
 
   EditAchievementPage() {
     var dateNow = DateTime.now().getDate();
@@ -65,11 +65,11 @@ class EditAchievementPage extends StatelessWidget {
                 descriptionEditController: _descriptionEditController,
               ),
               EditDateTimeProgress(
-                remindDays: _remindDays,
+                remindCards: _remindCards,
                 dateRangeAchievement: _dateRangeAchievement,
               ),
               EditRemindPanel(
-                  remindDays: _remindDays,
+                  remindCards: _remindCards,
                   dateRangeAchievement: _dateRangeAchievement),
             ],
           ),
@@ -92,7 +92,7 @@ class EditAchievementPage extends StatelessWidget {
       }
       if (_hasRemind) {
         var lastIndex = await DbRemind.db.getLastId();
-        for (var remind in _remindDays) {
+        for (var remind in _remindCards) {
           remind.remindModel.id = lastIndex;
           await DbRemind.db.insert(remind.remindModel);
           ++lastIndex;
@@ -106,7 +106,7 @@ class EditAchievementPage extends StatelessWidget {
         finishDate: _dateRangeAchievement.end,
         description: _descriptionEditController.text,
         imagePath: imagePath,
-        remindIds: _remindDays.map((value) {
+        remindIds: _remindCards.map((value) {
           return value.remindModel.id;
         }).toList(),
         progressId: -1,
@@ -118,7 +118,7 @@ class EditAchievementPage extends StatelessWidget {
   }
 
   void _createNotifications() {
-    for (var remind in _remindDays) {
+    for (var remind in _remindCards) {
       LocalNotification.scheduleNotification(
           remind.remindModel.id,
           _headerEditController.text,

@@ -6,17 +6,17 @@ import 'package:achievement/core/enums.dart';
 import 'package:achievement/model/remind_model.dart';
 import 'package:flutter/material.dart';
 
-class RemindDay extends StatefulWidget {
+class RemindCard extends StatefulWidget {
   final RemindModel remindModel;
   final ChangedDateTimeRange dateTimeRange;
 
-  RemindDay({required this.remindModel, required this.dateTimeRange});
+  RemindCard({required this.remindModel, required this.dateTimeRange});
 
   @override
-  _RemindDayState createState() => _RemindDayState();
+  _RemindCardState createState() => _RemindCardState();
 }
 
-class _RemindDayState extends State<RemindDay> {
+class _RemindCardState extends State<RemindCard> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
 

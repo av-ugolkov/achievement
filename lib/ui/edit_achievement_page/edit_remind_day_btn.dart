@@ -12,33 +12,38 @@ class EditRemindDayBtn extends StatefulWidget {
 }
 
 class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
-  List<DropdownMenuItem<DateTime>> _weekDays = [];
-  RemindDateTime _remindDateTime =
-      RemindDateTime(year: 1, month: 1, day: 1, hour: 12, minute: 0);
+  List<DropdownMenuItem<int>> _weekDays = [];
+  RemindDateTime _remindDateTime = RemindDateTime(
+    year: 1,
+    month: 1,
+    day: 1,
+    hour: DateTime.now().hour,
+    minute: DateTime.now().minute,
+  );
 
   @override
   void initState() {
     super.initState();
 
-    var items = <DateTime>[];
+    var days = <int>[];
     for (var i = 0; i < 7; ++i) {
-      items.add(
-        DateTime(1, 1, i + 1, 12, 0),
-      );
+      days.add(i + 1);
     }
 
-    _weekDays = items
+    _weekDays = days
         .map(
-          (item) => DropdownMenuItem<DateTime>(
-            value: item,
+          (day) => DropdownMenuItem<int>(
+            value: day,
             onTap: () {
               setState(() {
-                widget.remindModel.remindDateTime =
-                    RemindDateTime.fromDateTime(dateTime: item);
+                var now = DateTime.now();
+                widget.remindModel.remindDateTime = RemindDateTime.fromDateTime(
+                  dateTime: DateTime(1, 1, day, now.hour, now.minute),
+                );
               });
             },
             child: Text(
-              FormateDate.weekDayName(item),
+              FormateDate.weekDayName(DateTime(1, 1, day, 12, 0)),
               style: TextStyle(
                   color: Colors.black87,
                   fontSize: 16,
@@ -53,11 +58,14 @@ class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<DateTime>(
-      value: _remindDateTime.dateTime,
-      onChanged: (DateTime? value) {
+    return DropdownButton<int>(
+      value: _remindDateTime.dateTime.day,
+      onChanged: (int? day) {
         setState(() {
-          _remindDateTime = RemindDateTime.fromDateTime(dateTime: value!);
+          var now = DateTime.now();
+          _remindDateTime = RemindDateTime.fromDateTime(
+            dateTime: DateTime(1, 1, day!, now.hour, now.minute),
+          );
           widget.remindModel.remindDateTime = _remindDateTime;
         });
       },
