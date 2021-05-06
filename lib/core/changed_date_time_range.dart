@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ChangedDateTimeRange {
-  Function(DateTime)? onChangedStartDate;
+  ValueChanged<DateTime>? onChangedStartDate;
   DateTime _start;
   DateTime get start => _start;
   set start(DateTime value) {
@@ -10,7 +10,7 @@ class ChangedDateTimeRange {
     onChangedStartDate?.call(_start);
   }
 
-  Function(DateTime)? onChangedEndDate;
+  ValueChanged<DateTime>? onChangedEndDate;
   DateTime _end;
   DateTime get end => _end;
   set end(DateTime value) {
