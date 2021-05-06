@@ -1,11 +1,11 @@
-import 'package:achievement/ui/edit_achievement_page/edit_remind_card.dart';
 import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/core/extensions.dart';
+import 'package:achievement/ui/edit_achievement_page/edit_remind_card/form_edit_remind_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 
 class EditDateTimeProgress extends StatefulWidget {
-  final List<EditRemindCard> remindCards;
+  final List<FormEditRemindCard> remindCards;
   final ChangedDateTimeRange dateRangeAchievement;
 
   EditDateTimeProgress({

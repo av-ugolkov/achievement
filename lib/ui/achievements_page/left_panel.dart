@@ -3,7 +3,7 @@ import 'package:achievement/core/enums.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
-  final Function(AchievementState) onChangeState;
+  final ValueChanged<AchievementState> onChangeState;
   LeftPanel({required this.onChangeState});
   @override
   _LeftPanelState createState() => _LeftPanelState();

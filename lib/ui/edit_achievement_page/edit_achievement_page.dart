@@ -10,11 +10,11 @@ import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/ui/edit_achievement_page/edit_remind_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
 import 'package:achievement/core/extensions.dart';
+import 'edit_remind_card/form_edit_remind_card.dart';
 
 class EditAchievementPage extends StatelessWidget {
   final ChangedDateTimeRange _dateRangeAchievement = ChangedDateTimeRange(
@@ -27,7 +27,7 @@ class EditAchievementPage extends StatelessWidget {
   final _headerEditController = TextEditingController();
   final _descriptionEditController = TextEditingController();
   final List<int> _imageBytes = [];
-  final _remindCards = <EditRemindCard>[];
+  final _remindCards = <FormEditRemindCard>[];
 
   bool get _hasRemind => _remindCards.isNotEmpty;
 
@@ -69,8 +69,9 @@ class EditAchievementPage extends StatelessWidget {
                 dateRangeAchievement: _dateRangeAchievement,
               ),
               EditRemindPanel(
-                  remindCards: _remindCards,
-                  dateRangeAchievement: _dateRangeAchievement),
+                remindCards: _remindCards,
+                dateRangeAchievement: _dateRangeAchievement,
+              ),
             ],
           ),
         ),

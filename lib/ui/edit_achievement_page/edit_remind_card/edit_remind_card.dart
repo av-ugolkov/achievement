@@ -9,8 +9,15 @@ import 'package:flutter/material.dart';
 class EditRemindCard extends StatefulWidget {
   final RemindModel remindModel;
   final ChangedDateTimeRange dateTimeRange;
+  final ValueChanged<DateTime>? onChanged;
+  final String? textError;
 
-  EditRemindCard({required this.remindModel, required this.dateTimeRange});
+  EditRemindCard({
+    required this.remindModel,
+    required this.dateTimeRange,
+    this.onChanged,
+    this.textError,
+  });
 
   @override
   _EditRemindCardState createState() => _EditRemindCardState();
@@ -19,6 +26,9 @@ class EditRemindCard extends StatefulWidget {
 class _EditRemindCardState extends State<EditRemindCard> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
+
+  bool get _hasError =>
+      widget.textError != null && widget.textError!.isNotEmpty;
 
   @override
   void initState() {
@@ -42,6 +52,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: _hasError ? Colors.red : Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -88,10 +99,12 @@ class _EditRemindCardState extends State<EditRemindCard> {
       EditRemindDateBtn(
         remindModel: widget.remindModel,
         dateTimeRange: widget.dateTimeRange,
+        onChangeDate: _onChangeDateTime,
       ),
       EditRemindTimeBtn(
         remindModel: widget.remindModel,
         dateTimeRange: widget.dateTimeRange,
+        onChangeTime: _onChangeDateTime,
       ),
     ];
   }
@@ -101,6 +114,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
       EditRemindTimeBtn(
         remindModel: widget.remindModel,
         dateTimeRange: widget.dateTimeRange,
+        onChangeTime: _onChangeDateTime,
       )
     ];
   }
@@ -111,8 +125,13 @@ class _EditRemindCardState extends State<EditRemindCard> {
       EditRemindTimeBtn(
         remindModel: widget.remindModel,
         dateTimeRange: widget.dateTimeRange,
+        onChangeTime: _onChangeDateTime,
       ),
     ];
+  }
+
+  void _onChangeDateTime(DateTime value) {
+    widget.onChanged?.call(value);
   }
 
   String _getStringRepition(TypeRepition typeRepition) {

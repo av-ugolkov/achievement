@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 class EditRemindDateBtn extends StatefulWidget {
   final ChangedDateTimeRange dateTimeRange;
   final RemindModel remindModel;
+  final ValueChanged<DateTime>? onChangeDate;
 
   EditRemindDateBtn({
     required this.remindModel,
     required this.dateTimeRange,
+    this.onChangeDate,
   });
 
   @override
@@ -29,8 +31,11 @@ class _EditRemindDateBtnState extends State<EditRemindDateBtn> {
 
         if (remindDate != null) {
           setState(() {
-            widget.remindModel.remindDateTime =
-                RemindDateTime.fromDateTime(dateTime: remindDate);
+            widget.remindModel.remindDateTime.year = remindDate.year;
+            widget.remindModel.remindDateTime.month = remindDate.month;
+            widget.remindModel.remindDateTime.day = remindDate.day;
+            widget.onChangeDate
+                ?.call(widget.remindModel.remindDateTime.dateTime);
           });
         }
       },
