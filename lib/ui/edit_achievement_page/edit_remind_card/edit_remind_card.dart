@@ -10,13 +10,13 @@ class EditRemindCard extends StatefulWidget {
   final RemindModel remindModel;
   final ChangedDateTimeRange dateTimeRange;
   final ValueChanged<DateTime>? onChanged;
-  final String? textError;
+  final InputDecoration? decoration;
 
   EditRemindCard({
     required this.remindModel,
     required this.dateTimeRange,
     this.onChanged,
-    this.textError,
+    this.decoration,
   });
 
   @override
@@ -28,7 +28,9 @@ class _EditRemindCardState extends State<EditRemindCard> {
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
 
   bool get _hasError =>
-      widget.textError != null && widget.textError!.isNotEmpty;
+      widget.decoration != null &&
+      widget.decoration!.errorText != null &&
+      widget.decoration!.errorText!.isNotEmpty;
 
   @override
   void initState() {
@@ -52,7 +54,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: _hasError ? Colors.red : Colors.white,
+      color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -76,10 +78,23 @@ class _EditRemindCardState extends State<EditRemindCard> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: _getRemindView(_typeRepition),
             ),
-          )
+          ),
+          _getShowErrorText(),
         ],
       ),
     );
+  }
+
+  Widget _getShowErrorText() {
+    if (_hasError) {
+      return Text(
+        widget.decoration!.errorText!,
+        style: TextStyle(
+          color: Colors.red,
+        ),
+      );
+    }
+    return Container();
   }
 
   List<Widget> _getRemindView(TypeRepition typeRepition) {

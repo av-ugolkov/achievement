@@ -13,15 +13,15 @@ class FormEditRemindCard extends FormField<DateTime> {
     required this.dateTimeRange,
     ValueChanged<DateTime>? onChanged,
     FormFieldValidator<DateTime>? validator,
+    InputDecoration? decoration = const InputDecoration(),
   }) : super(
           key: key,
           validator: validator,
           initialValue: remindModel.remindDateTime.dateTime,
           builder: (FormFieldState<DateTime> field) {
-            /*final _FormRemindCardState state = field as _FormRemindCardState;
-            final InputDecoration effectiveDecoration = (decoration ??
-                    const InputDecoration())
-                .applyDefaults(Theme.of(field.context).inputDecorationTheme);*/
+            /*final _FormRemindCardState state = field as _FormRemindCardState;*/
+            final effectiveDecoration = (decoration ?? const InputDecoration())
+                .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             void onChangedHandler(DateTime value) {
               field.didChange(value);
               if (onChanged != null) {
@@ -33,7 +33,8 @@ class FormEditRemindCard extends FormField<DateTime> {
               remindModel: remindModel,
               dateTimeRange: dateTimeRange,
               onChanged: onChangedHandler,
-              textError: field.errorText,
+              decoration:
+                  effectiveDecoration.copyWith(errorText: field.errorText),
             );
           },
         );

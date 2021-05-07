@@ -57,7 +57,7 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                       validator: (value) {
                         print(remindModel.remindDateTime.dateTime);
                         if (value!.isBefore(DateTime.now())) {
-                          return 'asdfad asdf adf asdf a';
+                          return 'Дата в прошлом';
                         }
                         return null;
                       },
