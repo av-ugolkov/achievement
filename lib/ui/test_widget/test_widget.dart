@@ -25,6 +25,7 @@ class _TestWidgetState extends State<TestWidget> {
   );
 
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +34,30 @@ class _TestWidgetState extends State<TestWidget> {
         onPressed: _submitForm,
         child: Icon(Icons.done),
       ),
-      body: Form(
-        key: _formKey,
-        child: Center(
-          child: FormEditRemindCard(
-            remindModel: _remindModel,
-            dateTimeRange: _dateTimeRange,
-            validator: (value) {
-              if (value!.isAfter(DateTime.now())) {
-                return 'asdfad asdf adf asdf a';
-              }
-              return null;
-            },
-          ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Form(
+              key: _formKey,
+              child: FormEditRemindCard(
+                remindModel: _remindModel,
+                dateTimeRange: _dateTimeRange,
+                validator: (value) {
+                  if (value!.isAfter(DateTime.now())) {
+                    return 'asdfad asdf adf asdf a';
+                  }
+                  return null;
+                },
+              ),
+            ),
+            TextField(
+              controller: _textEditingController,
+              decoration: const InputDecoration()
+                  .applyDefaults(Theme.of(context).inputDecorationTheme)
+                  .copyWith(errorText: 'Проверка ошибки TextField'),
+            ),
+          ],
         ),
       ),
     );
