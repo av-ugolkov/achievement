@@ -19,7 +19,6 @@ class FormEditRemindCard extends FormField<DateTime> {
           validator: validator,
           initialValue: remindModel.remindDateTime.dateTime,
           builder: (FormFieldState<DateTime> field) {
-            /*final _FormRemindCardState state = field as _FormRemindCardState;*/
             final effectiveDecoration = (decoration ?? const InputDecoration())
                 .applyDefaults(Theme.of(field.context).inputDecorationTheme);
             void onChangedHandler(DateTime value) {

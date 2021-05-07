@@ -54,7 +54,6 @@ class _EditRemindCardState extends State<EditRemindCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
