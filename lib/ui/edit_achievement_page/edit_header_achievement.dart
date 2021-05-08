@@ -59,7 +59,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
       cursorHeight: 22,
       validator: (value) {
         if (value!.isEmpty || value.length < 3) {
-          return getLocaleOfContext(context).header_error;
+          return getLocaleOfContext(context).error_header;
         }
         return null;
       },

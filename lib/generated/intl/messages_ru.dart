@@ -28,10 +28,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Создать достижение"),
         "description": MessageLookupByLibrary.simpleMessage("Описание"),
         "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
+        "error_header": MessageLookupByLibrary.simpleMessage(
+            "Заголовок не может быть меньше 3 символов"),
+        "error_remind_card":
+            MessageLookupByLibrary.simpleMessage("Выбранная дата в прошлом"),
         "fail": MessageLookupByLibrary.simpleMessage("Проваленные"),
         "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
-        "header_error": MessageLookupByLibrary.simpleMessage(
-            "Заголовок не может быть меньше 3 символов"),
         "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
         "viewAchievementTitle":

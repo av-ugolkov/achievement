@@ -28,10 +28,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create achievement"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
+        "error_header": MessageLookupByLibrary.simpleMessage(
+            "The title cannot be less than 3 characters"),
+        "error_remind_card":
+            MessageLookupByLibrary.simpleMessage("Selected date in the past"),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),
         "header": MessageLookupByLibrary.simpleMessage("Header"),
-        "header_error": MessageLookupByLibrary.simpleMessage(
-            "The title cannot be less than 3 characters"),
         "remind": MessageLookupByLibrary.simpleMessage("Remind"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
         "viewAchievementTitle":

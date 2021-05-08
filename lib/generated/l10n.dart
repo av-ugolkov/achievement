@@ -110,6 +110,26 @@ class S {
     );
   }
 
+  /// `The title cannot be less than 3 characters`
+  String get error_header {
+    return Intl.message(
+      'The title cannot be less than 3 characters',
+      name: 'error_header',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Selected date in the past`
+  String get error_remind_card {
+    return Intl.message(
+      'Selected date in the past',
+      name: 'error_remind_card',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Fail`
   String get fail {
     return Intl.message(
@@ -125,16 +145,6 @@ class S {
     return Intl.message(
       'Header',
       name: 'header',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `The title cannot be less than 3 characters`
-  String get header_error {
-    return Intl.message(
-      'The title cannot be less than 3 characters',
-      name: 'header_error',
       desc: '',
       args: [],
     );

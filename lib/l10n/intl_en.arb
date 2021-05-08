@@ -6,9 +6,10 @@
   "createAchievement": "Create achievement",
   "description": "Description",
   "done": "Done",
+  "error_header": "The title cannot be less than 3 characters",
+  "error_remind_card": "Selected date in the past",
   "fail": "Fail",
   "header": "Header",
-  "header_error": "The title cannot be less than 3 characters",
   "remind": "Remind",
   "repeat": "Repeat",
   "viewAchievementTitle": "Achievement"
