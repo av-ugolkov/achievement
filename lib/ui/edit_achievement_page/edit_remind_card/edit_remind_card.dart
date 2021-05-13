@@ -27,6 +27,9 @@ class _EditRemindCardState extends State<EditRemindCard> {
   TypeRepition _typeRepition = TypeRepition.none;
   late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
 
+  DateTime get _12am => DateTime(1, 1, 1, 12, 0);
+  DateTime get _getTimeAdd12Hours => DateTime.now().add(Duration(hours: 12));
+
   bool get _hasError =>
       widget.decoration != null &&
       widget.decoration!.errorText != null &&
@@ -66,6 +69,15 @@ class _EditRemindCardState extends State<EditRemindCard> {
                 setState(() {
                   _typeRepition = value ?? TypeRepition.none;
                   widget.remindModel.typeRepition = _typeRepition;
+                  if (_typeRepition == TypeRepition.week) {
+                    widget.remindModel.remindDateTime =
+                        RemindDateTime.fromDateTime(dateTime: _12am);
+                  } else {
+                    widget.remindModel.remindDateTime =
+                        RemindDateTime.fromDateTime(
+                      dateTime: _getTimeAdd12Hours,
+                    );
+                  }
                 });
               },
               items: _listTypeRepition,
