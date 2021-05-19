@@ -41,6 +41,17 @@ class _LeftPanelState extends State<LeftPanel> {
           ),
           ListTile(
             leading: Icon(
+              Icons.event_available_outlined,
+              size: _sizeIcon,
+              color: Colors.lightBlue,
+            ),
+            title: Text(getLocaleOfContext(context).finished),
+            onTap: () {
+              _setAchievementState(AchievementState.finished);
+            },
+          ),
+          ListTile(
+            leading: Icon(
               Icons.done_all_outlined,
               size: _sizeIcon,
               color: Colors.green,

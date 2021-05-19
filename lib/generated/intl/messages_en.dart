@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "error_remind_card":
             MessageLookupByLibrary.simpleMessage("Selected date in the past"),
         "fail": MessageLookupByLibrary.simpleMessage("Fail"),
+        "finished": MessageLookupByLibrary.simpleMessage("Finished"),
         "header": MessageLookupByLibrary.simpleMessage("Header"),
         "remind": MessageLookupByLibrary.simpleMessage("Remind"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),

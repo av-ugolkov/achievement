@@ -140,6 +140,16 @@ class S {
     );
   }
 
+  /// `Finished`
+  String get finished {
+    return Intl.message(
+      'Finished',
+      name: 'finished',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Header`
   String get header {
     return Intl.message(

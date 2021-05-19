@@ -84,6 +84,8 @@ class TitleAchievementPage extends StatelessWidget {
     switch (state) {
       case AchievementState.active:
         return getLocaleCurrent().active;
+      case AchievementState.finished:
+        return getLocaleCurrent().finished;
       case AchievementState.done:
         return getLocaleCurrent().done;
       case AchievementState.fail:
