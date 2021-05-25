@@ -19,9 +19,15 @@ class EditRemindPanel extends StatefulWidget {
 }
 
 class _EditRemindPanelState extends State<EditRemindPanel> {
-  bool _isRemind = false;
+  late bool _isRemind;
 
   DateTime get _getTimeAdd12Hours => DateTime.now().add(Duration(hours: 12));
+
+  @override
+  void initState() {
+    super.initState();
+    _isRemind = widget.remindCards.isNotEmpty;
+  }
 
   @override
   Widget build(BuildContext context) {

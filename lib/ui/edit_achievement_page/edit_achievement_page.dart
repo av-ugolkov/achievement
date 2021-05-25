@@ -31,6 +31,8 @@ class EditAchievementPage extends StatelessWidget {
 
   bool get _hasRemind => _remindCards.isNotEmpty;
 
+  final AchievementModel _model = AchievementModel.empty;
+
   EditAchievementPage() {
     var dateNow = DateTime.now().getDate();
     _dateRangeAchievement.start = dateNow;
@@ -39,6 +41,20 @@ class EditAchievementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var settings = ModalRoute.of(context)?.settings;
+    if (settings!.arguments != null) {
+      var model = settings.arguments as AchievementModel;
+      _model.createDate = model.createDate;
+      _model.description = model.description;
+      _model.finishDate = model.finishDate;
+      _model.header = model.header;
+      _model.id = model.id;
+      _model.imagePath = model.imagePath;
+      _model.progressId = model.progressId;
+      _model.remindIds = model.remindIds;
+      _model.state = model.state;
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -51,32 +67,65 @@ class EditAchievementPage extends StatelessWidget {
         },
         child: Icon(Icons.check),
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView(
-            children: [
-              EditHeaderAchievement(
-                headerEditingController: _headerEditController,
-                imageBytes: _imageBytes,
-              ),
-              EditDescriptionAchievement(
-                descriptionEditController: _descriptionEditController,
-              ),
-              EditDateTimeProgress(
-                remindCards: _remindCards,
-                dateRangeAchievement: _dateRangeAchievement,
-              ),
-              EditRemindPanel(
-                remindCards: _remindCards,
-                dateRangeAchievement: _dateRangeAchievement,
-              ),
-            ],
-          ),
+      body: FutureBuilder(
+        future: _loadModel(_model),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return _body();
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _body() {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            EditHeaderAchievement(
+              headerEditingController: _headerEditController,
+              imageBytes: _imageBytes,
+            ),
+            EditDescriptionAchievement(
+              descriptionEditController: _descriptionEditController,
+            ),
+            EditDateTimeProgress(
+              remindCards: _remindCards,
+              dateRangeAchievement: _dateRangeAchievement,
+            ),
+            EditRemindPanel(
+              remindCards: _remindCards,
+              dateRangeAchievement: _dateRangeAchievement,
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  Future<FormEditRemindCard> _remindCard(
+      int id, ChangedDateTimeRange dateTimeRange) async {
+    var remind = await DbRemind.db.getRemind(id);
+    var remindCard =
+        FormEditRemindCard(remindModel: remind, dateTimeRange: dateTimeRange);
+    return remindCard;
+  }
+
+  Future<AchievementModel> _loadModel(AchievementModel model) async {
+    _dateRangeAchievement.start = model.createDate;
+    _dateRangeAchievement.end = model.finishDate;
+    _headerEditController.text = model.header;
+    _descriptionEditController.text = model.description;
+    for (var id in model.remindIds) {
+      var rc = await _remindCard(id, _dateRangeAchievement);
+      _remindCards.add(rc);
+    }
+    return model;
   }
 
   void _submitForm(BuildContext context) async {

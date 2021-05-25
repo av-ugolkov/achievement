@@ -20,7 +20,7 @@ class ViewAchievementPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).viewAchievementTitle),
       ),
-      floatingActionButton: FAB(),
+      floatingActionButton: FAB(model: achievementModel),
       body: InheritedViewAchievementPage(
         model: achievementModel,
         child: ListView(

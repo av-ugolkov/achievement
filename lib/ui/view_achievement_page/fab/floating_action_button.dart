@@ -6,13 +6,15 @@ import 'expandable_fab.dart';
 import 'package:flutter/material.dart';
 
 class FAB extends StatefulWidget {
+  final AchievementModel model;
+
+  FAB({required this.model});
+
   @override
   _FABState createState() => _FABState();
 }
 
 class _FABState extends State<FAB> {
-  late AchievementModel _achievementModel;
-
   @override
   Widget build(BuildContext context) {
     return _floatingActionButton();
@@ -24,7 +26,7 @@ class _FABState extends State<FAB> {
       children: [
         ActionButton(
           onPressed: () {
-            _setAchievementState(_achievementModel, AchievementState.fail);
+            _setAchievementState(AchievementState.fail);
             Navigator.pop(context);
           },
           icon: const Icon(Icons.block_outlined),
@@ -32,7 +34,7 @@ class _FABState extends State<FAB> {
         ),
         ActionButton(
           onPressed: () {
-            _setAchievementState(_achievementModel, AchievementState.archived);
+            _setAchievementState(AchievementState.archived);
             Navigator.pop(context);
           },
           icon: const Icon(Icons.archive_outlined),
@@ -40,7 +42,7 @@ class _FABState extends State<FAB> {
         ),
         ActionButton(
           onPressed: () {
-            _setAchievementState(_achievementModel, AchievementState.done);
+            _setAchievementState(AchievementState.done);
             Navigator.pop(context);
           },
           icon: const Icon(Icons.done),
@@ -48,8 +50,12 @@ class _FABState extends State<FAB> {
         ),
         ActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, RouteEditeAchievementPage);
-            _setAchievementState(_achievementModel, AchievementState.active);
+            _setAchievementState(AchievementState.active);
+            Navigator.pushNamed(
+              context,
+              RouteEditeAchievementPage,
+              arguments: widget.model,
+            );
           },
           icon: const Icon(Icons.edit),
         ),
@@ -57,9 +63,8 @@ class _FABState extends State<FAB> {
     );
   }
 
-  void _setAchievementState(
-      AchievementModel achievementModel, AchievementState state) {
-    achievementModel.state = state;
-    DbAchievement.db.update(achievementModel);
+  void _setAchievementState(AchievementState state) {
+    widget.model.state = state;
+    DbAchievement.db.update(widget.model);
   }
 }
