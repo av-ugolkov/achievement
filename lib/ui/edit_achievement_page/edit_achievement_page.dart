@@ -44,15 +44,7 @@ class EditAchievementPage extends StatelessWidget {
     var settings = ModalRoute.of(context)?.settings;
     if (settings!.arguments != null) {
       var model = settings.arguments as AchievementModel;
-      _model.createDate = model.createDate;
-      _model.description = model.description;
-      _model.finishDate = model.finishDate;
-      _model.header = model.header;
-      _model.id = model.id;
-      _model.imagePath = model.imagePath;
-      _model.progressId = model.progressId;
-      _model.remindIds = model.remindIds;
-      _model.state = model.state;
+      _model.setModel(model);
     }
 
     return Scaffold(

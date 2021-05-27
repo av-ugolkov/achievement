@@ -124,4 +124,40 @@ class AchievementModel {
     map['progress_ids'] = progressId;
     return map;
   }
+
+  void setData({
+    int? id,
+    String? header,
+    DateTime? createDate,
+    DateTime? finishDate,
+    AchievementState? state,
+    String? description,
+    String? imagePath,
+    List<int>? remindIds,
+    int? progressId,
+  }) {
+    _id = id ?? _id;
+    _header = header ?? _header;
+    _description = description ?? _description;
+    _createDate = createDate ?? _createDate;
+    _finishDate = finishDate ?? _finishDate;
+    _state = state ?? _state;
+    _imagePath = imagePath ?? _imagePath;
+    _remindIds = remindIds ?? _remindIds;
+    _progressId = progressId ?? _progressId;
+  }
+
+  void setModel(AchievementModel model) {
+    setData(
+      id: model.id,
+      header: model.header,
+      createDate: model.createDate,
+      finishDate: model.finishDate,
+      state: model.state,
+      description: model.description,
+      imagePath: model.imagePath,
+      remindIds: model.remindIds,
+      progressId: model.progressId,
+    );
+  }
 }
