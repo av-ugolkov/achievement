@@ -50,7 +50,7 @@ class EditAchievementPage extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text(getLocaleOfContext(context).createAchievement),
+        title: Text(getLocaleOfContext(context).create_achievement),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(

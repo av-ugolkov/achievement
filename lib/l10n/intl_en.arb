@@ -1,9 +1,9 @@
 {
   "@@locale": "en",
   "active": "Active",
-  "appName": "Achievement",
+  "app_name": "Achievement",
   "archived": "Archived",
-  "createAchievement": "Create achievement",
+  "create_achievement": "Create achievement",
   "description": "Description",
   "done": "Done",
   "error_header": "The title cannot be less than 3 characters",
@@ -13,5 +13,7 @@
   "header": "Header",
   "remind": "Remind",
   "repeat": "Repeat",
-  "viewAchievementTitle": "Achievement"
+  "view_achievement_title": "Achievement",
+  "what_do_you_do": "What do you do?",
+  "what_do_you_do_or_not_do": "What do you do or not do"
 }

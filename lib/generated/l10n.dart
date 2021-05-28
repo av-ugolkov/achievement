@@ -61,10 +61,10 @@ class S {
   }
 
   /// `Achievement`
-  String get appName {
+  String get app_name {
     return Intl.message(
       'Achievement',
-      name: 'appName',
+      name: 'app_name',
       desc: '',
       args: [],
     );
@@ -81,10 +81,10 @@ class S {
   }
 
   /// `Create achievement`
-  String get createAchievement {
+  String get create_achievement {
     return Intl.message(
       'Create achievement',
-      name: 'createAchievement',
+      name: 'create_achievement',
       desc: '',
       args: [],
     );
@@ -181,10 +181,30 @@ class S {
   }
 
   /// `Achievement`
-  String get viewAchievementTitle {
+  String get view_achievement_title {
     return Intl.message(
       'Achievement',
-      name: 'viewAchievementTitle',
+      name: 'view_achievement_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What do you do?`
+  String get what_do_you_do {
+    return Intl.message(
+      'What do you do?',
+      name: 'what_do_you_do',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What do you do or not do`
+  String get what_do_you_do_or_not_do {
+    return Intl.message(
+      'What do you do or not do',
+      name: 'what_do_you_do_or_not_do',
       desc: '',
       args: [],
     );

@@ -18,7 +18,7 @@ class ViewAchievementPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(getLocaleOfContext(context).viewAchievementTitle),
+        title: Text(getLocaleOfContext(context).view_achievement_title),
       ),
       floatingActionButton: FAB(model: achievementModel),
       body: InheritedViewAchievementPage(

@@ -22,9 +22,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "active": MessageLookupByLibrary.simpleMessage("Active"),
-        "appName": MessageLookupByLibrary.simpleMessage("Achievement"),
+        "app_name": MessageLookupByLibrary.simpleMessage("Achievement"),
         "archived": MessageLookupByLibrary.simpleMessage("Archived"),
-        "createAchievement":
+        "create_achievement":
             MessageLookupByLibrary.simpleMessage("Create achievement"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
@@ -37,7 +37,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "header": MessageLookupByLibrary.simpleMessage("Header"),
         "remind": MessageLookupByLibrary.simpleMessage("Remind"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
-        "viewAchievementTitle":
-            MessageLookupByLibrary.simpleMessage("Achievement")
+        "view_achievement_title":
+            MessageLookupByLibrary.simpleMessage("Achievement"),
+        "what_do_you_do":
+            MessageLookupByLibrary.simpleMessage("What do you do?"),
+        "what_do_you_do_or_not_do":
+            MessageLookupByLibrary.simpleMessage("What do you do or not do")
       };
 }

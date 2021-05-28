@@ -22,9 +22,9 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "active": MessageLookupByLibrary.simpleMessage("Активные"),
-        "appName": MessageLookupByLibrary.simpleMessage("Достигатор"),
+        "app_name": MessageLookupByLibrary.simpleMessage("Достигатор"),
         "archived": MessageLookupByLibrary.simpleMessage("Архивные"),
-        "createAchievement":
+        "create_achievement":
             MessageLookupByLibrary.simpleMessage("Создать достижение"),
         "description": MessageLookupByLibrary.simpleMessage("Описание"),
         "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
@@ -37,7 +37,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
         "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
-        "viewAchievementTitle":
-            MessageLookupByLibrary.simpleMessage("Достижение")
+        "view_achievement_title":
+            MessageLookupByLibrary.simpleMessage("Достижение"),
+        "what_do_you_do":
+            MessageLookupByLibrary.simpleMessage("Ты делал что либо?"),
+        "what_do_you_do_or_not_do": MessageLookupByLibrary.simpleMessage(
+            "Что делал или почему ни чего не делал")
       };
 }

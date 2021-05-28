@@ -1,3 +1,4 @@
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/model/progress_model.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,10 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
 
   @override
   Widget build(BuildContext context) {
-    return _fieldDescriptionProgress();
+    return Column(children: [
+      _buttonActiveProgressField(),
+      _fieldDescriptionProgress(),
+    ]);
   }
 
   @override
@@ -54,13 +58,7 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
       }
       _isDoAnythink = progressDesc.isDoAnythink;
       _textEditingController.text = progressDesc.description;
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          _fieldProgressDescription(),
-          _buttonActiveProgressField(),
-        ],
-      );
+      return _fieldProgressDescription();
     } else {
       return Container();
     }
@@ -68,23 +66,20 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
 
   Widget _fieldProgressDescription() {
     return TextField(
-      readOnly: !_isDoAnythink,
       controller: _textEditingController,
       minLines: 1,
       maxLines: 7,
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: _isDoAnythink ? Colors.blue : Colors.grey),
+          borderSide: BorderSide(color: Colors.blue),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide:
-              BorderSide(color: _isDoAnythink ? Colors.blue : Colors.grey),
+          borderSide: BorderSide(color: Colors.blue),
         ),
+        hintText: getLocaleOfContext(context).what_do_you_do_or_not_do,
       ),
       onTap: () {
         setState(() {
-          _isDoAnythink = true;
           _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
         });
       },
@@ -95,30 +90,20 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
   }
 
   Widget _buttonActiveProgressField() {
-    return Positioned(
-      right: -20,
-      top: -20,
-      child: IconButton(
-        icon: Stack(
-          children: [
-            Icon(
-              Icons.circle,
-              color: Colors.white,
-            ),
-            Icon(
-              Icons.check_circle,
-              color: _isDoAnythink ? Colors.green : Colors.grey,
-            ),
-          ],
-        ),
-        onPressed: () {
-          setState(() {
-            _isDoAnythink = !_isDoAnythink;
-            _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
-          });
-        },
-        iconSize: 30,
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(getLocaleOfContext(context).what_do_you_do),
+        Switch(
+          value: _isDoAnythink,
+          onChanged: (value) {
+            setState(() {
+              _isDoAnythink = !_isDoAnythink;
+              _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
+            });
+          },
+        )
+      ],
     );
   }
 }
