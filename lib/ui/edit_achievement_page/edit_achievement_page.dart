@@ -42,7 +42,7 @@ class EditAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var settings = ModalRoute.of(context)?.settings;
-    if (settings!.arguments != null) {
+    if (settings != null && settings.arguments != null) {
       var model = settings.arguments as AchievementModel;
       _model.setModel(model);
     }
@@ -109,6 +109,9 @@ class EditAchievementPage extends StatelessWidget {
   }
 
   Future<AchievementModel> _loadModel(AchievementModel model) async {
+    if (model.id == -1) {
+      return _model;
+    }
     _dateRangeAchievement.start = model.createDate;
     _dateRangeAchievement.end = model.finishDate;
     _headerEditController.text = model.header;
