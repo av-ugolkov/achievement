@@ -25,8 +25,11 @@ class ViewAchievementPage extends StatelessWidget {
           padding: EdgeInsets.all(10),
           children: [
             TitleViewAchievement(),
+            SizedBox(height: 3),
             DescriptionViewAchievement(),
+            SizedBox(height: 3),
             DescriptionProgress(),
+            SizedBox(height: 3),
             RemindsViewAchievement(),
           ],
         ),

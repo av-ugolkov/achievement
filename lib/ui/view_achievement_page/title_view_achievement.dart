@@ -25,17 +25,12 @@ class TitleViewAchievement extends StatelessWidget {
                 ),
         ),
         SizedBox(width: 4),
-        DecoratedBox(
-          decoration: BoxDecoration(
-              border:
-                  Border(bottom: BorderSide(color: Colors.black, width: 2))),
-          child: Text(
-            achievementModel.header,
-            maxLines: 2,
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
+        Text(
+          achievementModel.header,
+          maxLines: 2,
+          style: TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],

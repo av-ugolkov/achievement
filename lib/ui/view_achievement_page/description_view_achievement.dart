@@ -5,14 +5,20 @@ class DescriptionViewAchievement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var achievementModel = InheritedViewAchievementPage.of(context);
+    var descController =
+        TextEditingController(text: achievementModel.description);
 
-    if (achievementModel.description.isEmpty) {
-      return Container();
-    }
-
-    return Text(
-      achievementModel.description,
-      style: TextStyle(fontSize: 18, color: Colors.black54),
+    return TextField(
+      enabled: false,
+      controller: descController,
+      style: TextStyle(fontSize: 18, color: Colors.black87),
+      decoration: InputDecoration(
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: descController.text.isNotEmpty ? Colors.blue : Colors.grey,
+          ),
+        ),
+      ),
     );
   }
 }
