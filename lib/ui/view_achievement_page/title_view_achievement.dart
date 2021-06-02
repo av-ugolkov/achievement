@@ -25,22 +25,22 @@ class TitleViewAchievement extends StatelessWidget {
                 ),
         ),
         SizedBox(width: 4),
-        _TitleText(header: achievementModel.header),
+        TitleText(header: achievementModel.header),
       ],
     );
   }
 }
 
-class _TitleText extends StatefulWidget {
+class TitleText extends StatefulWidget {
   final String header;
 
-  const _TitleText({Key? key, required this.header}) : super(key: key);
+  const TitleText({Key? key, required this.header}) : super(key: key);
 
   @override
   _TitleTextState createState() => _TitleTextState();
 }
 
-class _TitleTextState extends State<_TitleText> {
+class _TitleTextState extends State<TitleText> {
   int _maxLines = 2;
 
   @override

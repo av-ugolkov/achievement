@@ -16,16 +16,34 @@ class _ListAchievementState extends State<ListAchievement> {
   @override
   Widget build(BuildContext context) {
     var state = InheritedAchievementPage.of(context);
-    var achievements = DbAchievement.db.getAchievementsByState(state: state);
+    var futureAchievements =
+        DbAchievement.db.getAchievementsByState(state: state);
     return FutureBuilder<List<AchievementModel>>(
-      future: achievements,
+      future: futureAchievements,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data!.isNotEmpty) {
+            var achievements = <AchievementModel>[];
+            if (state == AchievementState.active ||
+                state == AchievementState.finished) {
+              for (var item in snapshot.data!) {
+                if (item.finishDate.isAfter(DateTime.now())) {
+                  item.state = AchievementState.active;
+                  DbAchievement.db.update(item);
+                } else if (item.finishDate.isBefore(DateTime.now())) {
+                  item.state = AchievementState.finished;
+                  DbAchievement.db.update(item);
+                }
+                achievements.add(item);
+              }
+            } else {
+              achievements.addAll(snapshot.data!);
+            }
+
             return ListView.builder(
-                itemCount: snapshot.data!.length,
+                itemCount: achievements.length,
                 itemBuilder: (context, index) {
-                  var achievement = snapshot.data![index];
+                  var achievement = achievements[index];
                   return GestureDetector(
                     onTap: () {
                       _openViewAchievementPage(achievement);
