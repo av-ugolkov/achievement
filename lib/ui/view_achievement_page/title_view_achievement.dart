@@ -25,15 +25,42 @@ class TitleViewAchievement extends StatelessWidget {
                 ),
         ),
         SizedBox(width: 4),
-        Text(
-          achievementModel.header,
-          maxLines: 2,
+        _TitleText(header: achievementModel.header),
+      ],
+    );
+  }
+}
+
+class _TitleText extends StatefulWidget {
+  final String header;
+
+  const _TitleText({Key? key, required this.header}) : super(key: key);
+
+  @override
+  _TitleTextState createState() => _TitleTextState();
+}
+
+class _TitleTextState extends State<_TitleText> {
+  int _maxLines = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () => setState(() {
+          _maxLines = _maxLines == 2 ? 100 : 2;
+        }),
+        child: Text(
+          widget.header,
+          maxLines: _maxLines,
+          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
           ),
         ),
-      ],
+      ),
     );
   }
 }
