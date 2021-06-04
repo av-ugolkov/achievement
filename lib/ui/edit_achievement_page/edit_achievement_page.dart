@@ -125,7 +125,7 @@ class EditAchievementPage extends StatelessWidget {
 
   void _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      var id = await DbAchievement.db.getLastId();
+      var id = _model.id == -1 ? await DbAchievement.db.getLastId() : _model.id;
 
       var imagePath = '';
       if (_imageBytes.isNotEmpty) {
@@ -154,10 +154,14 @@ class EditAchievementPage extends StatelessWidget {
         remindIds: _remindCards.map((value) {
           return value.remindModel.id;
         }).toList(),
-        progressId: -1,
+        progressId: _model.progressId,
       );
-      await DbAchievement.db.insert(achievement);
-      _createNotifications();
+      if (_model.id == -1) {
+        await DbAchievement.db.insert(achievement);
+        _createNotifications();
+      } else {
+        await DbAchievement.db.update(achievement);
+      }
       Navigator.pop(context);
     }
   }

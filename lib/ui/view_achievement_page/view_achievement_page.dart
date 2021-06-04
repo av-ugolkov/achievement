@@ -8,7 +8,12 @@ import 'package:achievement/ui/view_achievement_page/reminds_view_achievement.da
 import 'package:achievement/ui/view_achievement_page/title_view_achievement.dart';
 import 'package:flutter/material.dart';
 
-class ViewAchievementPage extends StatelessWidget {
+class ViewAchievementPage extends StatefulWidget {
+  @override
+  _ViewAchievementPageState createState() => _ViewAchievementPageState();
+}
+
+class _ViewAchievementPageState extends State<ViewAchievementPage> {
   @override
   Widget build(BuildContext context) {
     var settings = ModalRoute.of(context)?.settings;
