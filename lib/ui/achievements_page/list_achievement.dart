@@ -81,7 +81,11 @@ class _ListAchievementState extends State<ListAchievement> {
     await DbAchievement.db.update(achievement);
   }
 
-  void _openViewAchievementPage(AchievementModel model) {
-    Navigator.pushNamed(context, RouteViewAchievementPage, arguments: model);
+  void _openViewAchievementPage(AchievementModel model) async {
+    var result = await Navigator.pushNamed(context, RouteViewAchievementPage,
+        arguments: model);
+    var newModel = result as AchievementModel;
+    model.setModel(newModel);
+    setState(() {});
   }
 }

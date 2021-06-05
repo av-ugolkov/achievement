@@ -58,7 +58,7 @@ class _FABState extends State<FAB> {
             var model = result as AchievementModel;
             widget.model.setModel(model);
             _setAchievementState(AchievementState.active);
-            setState(() {});
+            widget.onUpdateModel();
           },
           icon: const Icon(Icons.edit),
         ),
@@ -69,6 +69,5 @@ class _FABState extends State<FAB> {
   void _setAchievementState(AchievementState state) {
     widget.model.state = state;
     DbAchievement.db.update(widget.model);
-    widget.onUpdateModel();
   }
 }

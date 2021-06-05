@@ -22,6 +22,11 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).view_achievement_title),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, achievementModel);
+            },
+            icon: Icon(Icons.arrow_back)),
       ),
       floatingActionButton: FAB(
           model: achievementModel,

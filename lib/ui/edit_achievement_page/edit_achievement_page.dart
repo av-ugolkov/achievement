@@ -161,7 +161,6 @@ class EditAchievementPage extends StatelessWidget {
         _createNotifications();
         Navigator.pop(context);
       } else {
-        await DbAchievement.db.update(achievement);
         Navigator.pop(context, achievement);
       }
     }
