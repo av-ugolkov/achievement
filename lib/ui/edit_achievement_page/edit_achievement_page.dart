@@ -159,10 +159,11 @@ class EditAchievementPage extends StatelessWidget {
       if (_model.id == -1) {
         await DbAchievement.db.insert(achievement);
         _createNotifications();
+        Navigator.pop(context);
       } else {
         await DbAchievement.db.update(achievement);
+        Navigator.pop(context, achievement);
       }
-      Navigator.pop(context);
     }
   }
 

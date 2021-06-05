@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 
 class FAB extends StatefulWidget {
   final AchievementModel model;
-
-  FAB({required this.model});
+  final VoidCallback onUpdateModel;
+  FAB({required this.model, required this.onUpdateModel});
 
   @override
   _FABState createState() => _FABState();
@@ -49,13 +49,16 @@ class _FABState extends State<FAB> {
           color: Colors.green,
         ),
         ActionButton(
-          onPressed: () {
-            _setAchievementState(AchievementState.active);
-            Navigator.pushNamed(
+          onPressed: () async {
+            var result = await Navigator.pushNamed(
               context,
               RouteEditeAchievementPage,
               arguments: widget.model,
             );
+            var model = result as AchievementModel;
+            widget.model.setModel(model);
+            _setAchievementState(AchievementState.active);
+            setState(() {});
           },
           icon: const Icon(Icons.edit),
         ),
@@ -66,5 +69,6 @@ class _FABState extends State<FAB> {
   void _setAchievementState(AchievementState state) {
     widget.model.state = state;
     DbAchievement.db.update(widget.model);
+    widget.onUpdateModel();
   }
 }

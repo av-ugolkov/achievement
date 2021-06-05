@@ -23,7 +23,11 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
       appBar: AppBar(
         title: Text(getLocaleOfContext(context).view_achievement_title),
       ),
-      floatingActionButton: FAB(model: achievementModel),
+      floatingActionButton: FAB(
+          model: achievementModel,
+          onUpdateModel: () {
+            setState(() {});
+          }),
       body: InheritedViewAchievementPage(
         model: achievementModel,
         child: ListView(
