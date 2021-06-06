@@ -50,13 +50,13 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
     return FutureBuilder<ProgressModel>(
       future: _futureProgressModel,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done) {
           var data = snapshot.data;
           if (data != null) {
             if (_pd.isEmpty) {
               _pd = data.progressDescription;
             }
-            return _dateTimeProgress(data);
+            return _dateTimeProgress();
           }
         }
         return Container();
@@ -64,7 +64,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
     );
   }
 
-  Widget _dateTimeProgress(ProgressModel progressModel) {
+  Widget _dateTimeProgress() {
     return InheritedDescriptionProgress(
       progressDescription: _pd,
       child: Column(

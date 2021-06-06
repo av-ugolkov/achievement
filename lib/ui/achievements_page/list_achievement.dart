@@ -21,7 +21,7 @@ class _ListAchievementState extends State<ListAchievement> {
     return FutureBuilder<List<AchievementModel>>(
       future: futureAchievements,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data!.isNotEmpty) {
             var achievements = <AchievementModel>[];
             if (state == AchievementState.active ||

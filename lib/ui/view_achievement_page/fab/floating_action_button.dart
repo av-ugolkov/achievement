@@ -27,7 +27,7 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.fail);
-            Navigator.pop(context);
+            _navigatorPop();
           },
           icon: const Icon(Icons.block_outlined),
           color: Colors.red,
@@ -35,7 +35,7 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.archived);
-            Navigator.pop(context);
+            _navigatorPop();
           },
           icon: const Icon(Icons.archive_outlined),
           color: Colors.grey,
@@ -43,7 +43,7 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.done);
-            Navigator.pop(context);
+            _navigatorPop();
           },
           icon: const Icon(Icons.done),
           color: Colors.green,
@@ -55,15 +55,21 @@ class _FABState extends State<FAB> {
               RouteEditeAchievementPage,
               arguments: widget.model,
             );
-            var model = result as AchievementModel;
-            widget.model.setModel(model);
-            _setAchievementState(AchievementState.active);
-            widget.onUpdateModel();
+            if (result != null) {
+              var model = result as AchievementModel;
+              widget.model.setModel(model);
+              _setAchievementState(AchievementState.active);
+              widget.onUpdateModel();
+            }
           },
           icon: const Icon(Icons.edit),
         ),
       ],
     );
+  }
+
+  void _navigatorPop() {
+    Navigator.pop(context, widget.model);
   }
 
   void _setAchievementState(AchievementState state) {

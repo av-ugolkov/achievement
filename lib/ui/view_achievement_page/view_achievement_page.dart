@@ -19,33 +19,39 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
     var settings = ModalRoute.of(context)?.settings;
     var achievementModel = settings!.arguments as AchievementModel;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(getLocaleOfContext(context).view_achievement_title),
-        leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context, achievementModel);
-            },
-            icon: Icon(Icons.arrow_back)),
-      ),
-      floatingActionButton: FAB(
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, achievementModel);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(getLocaleOfContext(context).view_achievement_title),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context, achievementModel);
+              },
+              icon: Icon(Icons.arrow_back)),
+        ),
+        floatingActionButton: FAB(
+            model: achievementModel,
+            onUpdateModel: () {
+              setState(() {});
+            }),
+        body: InheritedViewAchievementPage(
           model: achievementModel,
-          onUpdateModel: () {
-            setState(() {});
-          }),
-      body: InheritedViewAchievementPage(
-        model: achievementModel,
-        child: ListView(
-          padding: EdgeInsets.all(10),
-          children: [
-            TitleViewAchievement(),
-            SizedBox(height: 3),
-            DescriptionViewAchievement(),
-            SizedBox(height: 3),
-            DescriptionProgress(),
-            SizedBox(height: 3),
-            RemindsViewAchievement(),
-          ],
+          child: ListView(
+            padding: EdgeInsets.all(10),
+            children: [
+              TitleViewAchievement(),
+              SizedBox(height: 3),
+              DescriptionViewAchievement(),
+              SizedBox(height: 3),
+              DescriptionProgress(),
+              SizedBox(height: 3),
+              RemindsViewAchievement(),
+            ],
+          ),
         ),
       ),
     );
