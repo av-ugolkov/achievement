@@ -1,5 +1,5 @@
 import 'package:achievement/core/changed_date_time_range.dart';
-import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/data/model/remind_model.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_remind_card/edit_remind_card.dart';
 import 'package:flutter/material.dart';
 

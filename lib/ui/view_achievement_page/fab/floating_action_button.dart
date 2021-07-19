@@ -1,6 +1,6 @@
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/core/enums.dart';
-import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'expandable_fab.dart';
 import 'package:flutter/material.dart';

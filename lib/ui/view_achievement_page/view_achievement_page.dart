@@ -1,7 +1,7 @@
 import 'package:achievement/ui/view_achievement_page/description_view_achievement.dart';
 import 'package:achievement/ui/view_achievement_page/fab/floating_action_button.dart';
 import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/ui/view_achievement_page/description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
 import 'package:achievement/ui/view_achievement_page/reminds_view_achievement.dart';

@@ -1,5 +1,5 @@
 import 'package:achievement/bridge/localization.dart';
-import 'package:achievement/model/progress_model.dart';
+import 'package:achievement/data/model/progress_model.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/core/extensions.dart';

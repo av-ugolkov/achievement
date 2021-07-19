@@ -1,7 +1,7 @@
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_progress.dart';
-import 'package:achievement/model/achievement_model.dart';
-import 'package:achievement/model/progress_model.dart';
+import 'package:achievement/data/model/achievement_model.dart';
+import 'package:achievement/data/model/progress_model.dart';
 import 'package:achievement/ui/view_achievement_page/field_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';

@@ -9,7 +9,7 @@ import 'package:achievement/core/changed_date_time_range.dart';
 import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
-import 'package:achievement/model/achievement_model.dart';
+import 'package:achievement/data/model/achievement_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;

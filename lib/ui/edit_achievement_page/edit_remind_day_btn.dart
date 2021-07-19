@@ -1,5 +1,5 @@
 import 'package:achievement/core/formate_date.dart';
-import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/data/model/remind_model.dart';
 import 'package:flutter/material.dart';
 
 class EditRemindDayBtn extends StatefulWidget {

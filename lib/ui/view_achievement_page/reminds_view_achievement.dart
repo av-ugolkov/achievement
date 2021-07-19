@@ -1,7 +1,7 @@
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/formate_date.dart';
 import 'package:achievement/db/db_remind.dart';
-import 'package:achievement/model/remind_model.dart';
+import 'package:achievement/data/model/remind_model.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
 import 'package:flutter/material.dart';
 

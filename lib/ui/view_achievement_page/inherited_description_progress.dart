@@ -1,4 +1,4 @@
-import 'package:achievement/model/progress_model.dart';
+import 'package:achievement/data/model/progress_model.dart';
 import 'package:flutter/material.dart';
 
 class InheritedDescriptionProgress extends InheritedWidget {
