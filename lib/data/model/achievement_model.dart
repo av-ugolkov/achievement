@@ -18,8 +18,8 @@ class AchievementModel extends AchievementEntity {
     AchievementState state = AchievementState.active,
     String description = '',
     String imagePath = '',
-    List<int>? remindIds,
-    int? progressId,
+    List<int> remindIds = const [],
+    int progressId = -1,
   }) : super(
             id: id,
             header: header,

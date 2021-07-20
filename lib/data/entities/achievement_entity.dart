@@ -7,19 +7,19 @@ class AchievementEntity {
   late String imagePath;
   late DateTime createDate;
   late DateTime finishDate;
+  late AchievementState state;
   late List<int> remindIds;
   late int progressId;
-  late AchievementState state;
 
   AchievementEntity({
-    required int id,
-    required String header,
-    required DateTime createDate,
-    required DateTime finishDate,
-    AchievementState state = AchievementState.active,
-    String description = '',
-    String imagePath = '',
-    List<int>? remindIds,
-    int? progressId,
+    required this.id,
+    required this.header,
+    required this.createDate,
+    required this.finishDate,
+    this.state = AchievementState.active,
+    this.description = '',
+    this.imagePath = '',
+    this.remindIds = const [],
+    this.progressId = -1,
   });
 }
