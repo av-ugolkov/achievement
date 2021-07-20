@@ -1,23 +1,29 @@
 import 'dart:convert';
+import 'package:achievement/data/entities/progress_entity.dart';
 
-class ProgressModel {
-  late int id;
-  late Map<String, ProgressDescription> progressDescription;
-
+class ProgressModel extends ProgressEntity {
   static ProgressModel get empty =>
       ProgressModel(id: -1, progressDescription: {});
 
-  ProgressModel({required this.id, required this.progressDescription});
+  ProgressModel({
+    required int id,
+    required Map<String, ProgressDescription> progressDescription,
+  }) : super(
+          id: id,
+          progressDescription: progressDescription,
+        );
 
-  ProgressModel.fromJson(Map<String, dynamic> map) : id = map['id'] as int {
+  factory ProgressModel.fromJson(Map<String, dynamic> map) {
     var mapValue = map['progressDescription'] as String;
     var newP = jsonDecode(mapValue) as Map<String, dynamic>;
-    progressDescription = {};
+    var progressDescription = <String, ProgressDescription>{};
     for (var entity in newP.entries) {
       var value = jsonDecode(entity.value.toString()) as Map<String, dynamic>;
       var progDesc = ProgressDescription.fromJson(value);
       progressDescription.putIfAbsent(entity.key, () => progDesc);
     }
+    return ProgressModel(
+        id: map['id'] as int, progressDescription: progressDescription);
   }
 
   Map<String, dynamic> toJson() {
@@ -28,24 +34,6 @@ class ProgressModel {
       newP.putIfAbsent(entity.key, () => jsonEncode(entity.value));
     }
     map['progressDescription'] = jsonEncode(newP);
-    return map;
-  }
-}
-
-class ProgressDescription {
-  late bool isDoAnythink;
-  late String description;
-
-  ProgressDescription({required this.isDoAnythink, required this.description});
-
-  ProgressDescription.fromJson(Map<String, dynamic> map)
-      : isDoAnythink = map['isDoAnythink'] as int == 1,
-        description = map['description'] as String;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['isDoAnythink'] = isDoAnythink ? 1 : 0;
-    map['description'] = description;
     return map;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:achievement/data/entities/progress_entity.dart';
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_progress.dart';
 import 'package:achievement/data/model/achievement_model.dart';
