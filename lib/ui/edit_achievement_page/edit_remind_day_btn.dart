@@ -1,4 +1,5 @@
 import 'package:achievement/core/formate_date.dart';
+import 'package:achievement/data/entities/remind_entity.dart';
 import 'package:achievement/data/model/remind_model.dart';
 import 'package:flutter/material.dart';
 

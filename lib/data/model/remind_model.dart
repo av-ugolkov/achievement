@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'package:achievement/core/enums.dart';
-import 'package:achievement/core/formate_date.dart';
+import 'package:achievement/data/entities/remind_entity.dart';
 
-class RemindModel {
-  late int id;
-  late TypeRepition typeRepition;
-  late RemindDateTime remindDateTime;
-
+class RemindModel extends RemindEntity {
   static RemindModel get empty => RemindModel(
       id: -1,
       remindDateTime: RemindDateTime(
@@ -17,16 +13,23 @@ class RemindModel {
         minute: 0,
       ));
 
-  RemindModel(
-      {required this.id,
-      this.typeRepition = TypeRepition.none,
-      required this.remindDateTime});
+  RemindModel({
+    required int id,
+    required RemindDateTime remindDateTime,
+    TypeRepition typeRepition = TypeRepition.none,
+  }) : super(
+          id: id,
+          typeRepition: typeRepition,
+          remindDateTime: remindDateTime,
+        );
 
-  RemindModel.fromJson(Map<String, dynamic> map)
-      : id = map['id'] as int,
-        typeRepition = TypeRepition.values[map['typeRepition'] as int],
-        remindDateTime = RemindDateTime.fromJson(
-            jsonDecode(map['dateTime'] as String) as Map<String, dynamic>);
+  factory RemindModel.fromJson(Map<String, dynamic> map) {
+    return RemindModel(
+        id: map['id'] as int,
+        remindDateTime: RemindDateTime.fromJson(
+            jsonDecode(map['dateTime'] as String) as Map<String, dynamic>),
+        typeRepition: TypeRepition.values[map['typeRepition'] as int]);
+  }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -34,56 +37,5 @@ class RemindModel {
     map['typeRepition'] = typeRepition.index;
     map['dateTime'] = jsonEncode(remindDateTime.toJson());
     return map;
-  }
-}
-
-class RemindDateTime {
-  late int year;
-  late int month;
-  late int day;
-  late int hour;
-  late int minute;
-
-  DateTime get dateTime => DateTime(year, month, day, hour, minute);
-
-  RemindDateTime({
-    required this.year,
-    required this.month,
-    required this.day,
-    required this.hour,
-    required this.minute,
-  });
-
-  RemindDateTime.fromDateTime({required DateTime dateTime})
-      : year = dateTime.year,
-        month = dateTime.month,
-        day = dateTime.day,
-        hour = dateTime.hour,
-        minute = dateTime.minute;
-
-  RemindDateTime.fromJson(Map<String, dynamic> map)
-      : year = map['year'] as int,
-        month = map['month'] as int,
-        day = map['day'] as int,
-        hour = map['hour'] as int,
-        minute = map['minute'] as int;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['year'] = year;
-    map['month'] = month;
-    map['day'] = day;
-    map['hour'] = hour;
-    map['minute'] = minute;
-    return map;
-  }
-
-  String get date => FormateDate.yearMonthDay(dateTime);
-
-  String get time => '$hour:${minute == 0 ? '00' : minute}';
-
-  @override
-  String toString() {
-    return '$year-$month-$day:$hour:${minute == 0 ? '00' : minute}';
   }
 }

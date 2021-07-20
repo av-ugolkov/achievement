@@ -1,3 +1,4 @@
+import 'package:achievement/data/entities/remind_entity.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_remind_date_btn.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_remind_day_btn.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_remind_time_btn.dart';
