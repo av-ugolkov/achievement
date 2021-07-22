@@ -3,8 +3,9 @@ import 'package:achievement/core/enums.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
+  final AchievementState currentState;
   final ValueChanged<AchievementState> onChangeState;
-  LeftPanel({required this.onChangeState});
+  LeftPanel({required this.currentState, required this.onChangeState});
   @override
   _LeftPanelState createState() => _LeftPanelState();
 }
@@ -29,10 +30,10 @@ class _LeftPanelState extends State<LeftPanel> {
             color: Colors.grey,
           )),
           ListTile(
-            leading: Icon(
+            tileColor: _getBackgraundColorTile(AchievementState.active),
+            leading: _getLeadingWidget(
               Icons.emoji_events_outlined,
-              size: _sizeIcon,
-              color: Colors.yellow[600],
+              Colors.yellow[600],
             ),
             title: Text(getLocaleOfContext(context).active),
             onTap: () {
@@ -40,10 +41,10 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            leading: Icon(
+            tileColor: _getBackgraundColorTile(AchievementState.finished),
+            leading: _getLeadingWidget(
               Icons.event_available_outlined,
-              size: _sizeIcon,
-              color: Colors.lightBlue,
+              Colors.lightBlue,
             ),
             title: Text(getLocaleOfContext(context).finished),
             onTap: () {
@@ -51,10 +52,10 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            leading: Icon(
+            tileColor: _getBackgraundColorTile(AchievementState.done),
+            leading: _getLeadingWidget(
               Icons.done_all_outlined,
-              size: _sizeIcon,
-              color: Colors.green,
+              Colors.green,
             ),
             title: Text(getLocaleOfContext(context).done),
             onTap: () {
@@ -62,10 +63,10 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            leading: Icon(
+            tileColor: _getBackgraundColorTile(AchievementState.fail),
+            leading: _getLeadingWidget(
               Icons.block_outlined,
-              size: _sizeIcon,
-              color: Colors.red,
+              Colors.red,
             ),
             title: Text(getLocaleOfContext(context).fail),
             onTap: () {
@@ -73,10 +74,10 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            leading: Icon(
+            tileColor: _getBackgraundColorTile(AchievementState.archived),
+            leading: _getLeadingWidget(
               Icons.archive_outlined,
-              size: _sizeIcon,
-              color: Colors.grey,
+              Colors.grey,
             ),
             title: Text(getLocaleOfContext(context).archived),
             onTap: () {
@@ -85,10 +86,9 @@ class _LeftPanelState extends State<LeftPanel> {
           ),
           SizedBox(height: 25),
           ListTile(
-            leading: Icon(
+            leading: _getLeadingWidget(
               Icons.settings,
-              size: _sizeIcon,
-              color: Theme.of(context).accentColor,
+              Theme.of(context).accentColor,
             ),
             title: Text('Настройки'),
             onTap: () {},
@@ -101,6 +101,22 @@ class _LeftPanelState extends State<LeftPanel> {
   void _setAchievementState(AchievementState state) {
     widget.onChangeState(state);
     close();
+  }
+
+  Color? _getBackgraundColorTile(AchievementState state) {
+    if (widget.currentState == state) {
+      return Colors.grey[300];
+    } else {
+      return Colors.white24;
+    }
+  }
+
+  Icon _getLeadingWidget(IconData? iconData, Color? color) {
+    return Icon(
+      iconData,
+      size: _sizeIcon,
+      color: color,
+    );
   }
 
   void close() {

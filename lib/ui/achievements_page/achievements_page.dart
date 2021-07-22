@@ -51,6 +51,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
         centerTitle: true,
       ),
       drawer: LeftPanel(
+        currentState: _state,
         onChangeState: (value) {
           setState(() {
             state = value;
