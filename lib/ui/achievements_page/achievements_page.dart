@@ -96,7 +96,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
   }
 
   Future<Database> _initDB() async {
-    log('initDB');
     var database = await DbFile.db.initDB(
       onCreate: (db, version) async {
         await DbAchievement.db.createTable(db);
@@ -104,7 +103,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
         await DbProgress.db.createTable(db);
       },
     );
-    log('end initDB');
     return database;
   }
 }

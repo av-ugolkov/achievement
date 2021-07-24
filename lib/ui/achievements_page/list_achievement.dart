@@ -64,12 +64,10 @@ class _ListAchievementState extends State<ListAchievement> {
                     ),
                   );
                 });
-          } else {
-            return Container();
           }
-        } else {
-          return const Loading();
+          return Container();
         }
+        return const Loading();
       },
     );
   }
