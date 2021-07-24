@@ -1,5 +1,9 @@
 import 'dart:developer';
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/db/db_file.dart';
+import 'package:achievement/db/db_progress.dart';
+import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
 import 'package:achievement/ui/achievements_page/left_panel.dart';
 import 'package:achievement/ui/achievements_page/list_achievement.dart';
@@ -7,6 +11,7 @@ import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 class AchievementsPage extends StatefulWidget {
   @override
@@ -46,7 +51,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
       appBar: AppBar(
         title: InheritedAchievementPage(
           state: _state,
-          child: TitleAchievementPage(),
+          child: _TitleAchievementPage(),
         ),
         centerTitle: true,
       ),
@@ -67,13 +72,51 @@ class _AchievementsPageState extends State<AchievementsPage> {
       ),
       body: InheritedAchievementPage(
         state: _state,
-        child: ListAchievement(),
+        child: FutureBuilder(
+          future: _initDB(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return ListAchievement();
+              } else if (snapshot.hasError) {
+                return Container(
+                  child: Center(
+                    child: Text(snapshot.error.toString()),
+                  ),
+                );
+              }
+              return _loading();
+            }
+            return _loading();
+          },
+        ),
       ),
     );
   }
+
+  Container _loading() {
+    return Container(
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  Future<Database> _initDB() async {
+    log('initDB');
+    var database = await DbFile.db.initDB(
+      onCreate: (db, version) async {
+        await DbAchievement.db.createTable(db);
+        await DbRemind.db.createTable(db);
+        await DbProgress.db.createTable(db);
+      },
+    );
+    log('end initDB');
+    return database;
+  }
 }
 
-class TitleAchievementPage extends StatelessWidget {
+class _TitleAchievementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var state = InheritedAchievementPage.of(context);

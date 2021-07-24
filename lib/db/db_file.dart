@@ -10,7 +10,7 @@ class DbFile {
   static final DbFile db = DbFile._();
   static late Database _database;
 
-  Future<void> initDB(
+  Future<Database> initDB(
       {OnDatabaseCreateFn? onCreate,
       OnDatabaseVersionChangeFn? onUpgrade,
       OnDatabaseVersionChangeFn? onDowngrade,
@@ -23,6 +23,7 @@ class DbFile {
         onDowngrade: onDowngrade,
         onOpen: onOpen);
     await _database.setVersion(Config.version);
+    return _database;
   }
 
   Future<String> _getPathDB() async {

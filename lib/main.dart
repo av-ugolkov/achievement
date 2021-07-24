@@ -1,7 +1,6 @@
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
-import 'package:achievement/ui/splash_page/splash_page.dart';
 import 'package:achievement/ui/view_achievement_page/view_achievement_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -37,7 +36,6 @@ class MyApp extends StatelessWidget {
       title: 'Achievement',
       initialRoute: '/',
       routes: {
-        RouteAchievementPage: (context) => AchievementsPage(),
         RouteEditeAchievementPage: (context) => EditAchievementPage(),
         RouteViewAchievementPage: (context) => ViewAchievementPage()
       },
@@ -45,7 +43,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashPage(),
+      home: AchievementsPage(),
     );
   }
 }
