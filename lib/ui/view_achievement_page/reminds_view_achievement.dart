@@ -53,7 +53,7 @@ class RemindsViewAchievement extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(_getStringRepition(model)),
-              Text(' в '),
+              const Text(' в '),
               Text(model.remindDateTime.time),
             ],
           )
@@ -69,7 +69,7 @@ class RemindsViewAchievement extends StatelessWidget {
       case TypeRepition.week:
         return 'каждую неделю ${FormateDate.weekDayName(model.remindDateTime.dateTime)}';
       case TypeRepition.month:
-        return 'каждый месяц';
+        return 'каждый месяц ${model.remindDateTime.day} числа';
       default:
         return model.remindDateTime.date;
     }
