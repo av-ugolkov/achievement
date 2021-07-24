@@ -53,6 +53,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
             ),
           ));
     }).toList();
+    _typeRepition = widget.remindModel.typeRepition;
   }
 
   @override
