@@ -5,6 +5,7 @@ import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/core/local_notification.dart';
 import 'package:achievement/data/model/achievement_model.dart';
+import 'package:achievement/ui/common/loading_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ListAchievement extends StatefulWidget {
@@ -67,7 +68,7 @@ class _ListAchievementState extends State<ListAchievement> {
             return Container();
           }
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Loading();
         }
       },
     );
