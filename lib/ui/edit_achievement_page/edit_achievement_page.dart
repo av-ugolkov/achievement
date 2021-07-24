@@ -156,9 +156,9 @@ class EditAchievementPage extends StatelessWidget {
         }).toList(),
         progressId: _model.progressId,
       );
+      _createNotifications(); //TODO нужно создавать уведомления только тогда когда они были созданы или изменены
       if (_model.id == -1) {
         await DbAchievement.db.insert(achievement);
-        _createNotifications();
         Navigator.pop(context);
       } else {
         Navigator.pop(context, achievement);
@@ -168,6 +168,7 @@ class EditAchievementPage extends StatelessWidget {
 
   void _createNotifications() {
     for (var remind in _remindCards) {
+      LocalNotification.cancelNotification(remind.remindModel.id);
       LocalNotification.scheduleNotification(
           remind.remindModel.id,
           _headerEditController.text,
