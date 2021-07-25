@@ -54,7 +54,8 @@ class RemindsViewAchievement extends StatelessWidget {
             children: [
               Text(_getStringRepition(model)),
               const Text(' в '),
-              Text(model.remindDateTime.time),
+              Text(
+                  '${FormateDate.hour24Minute(model.remindDateTime.dateTime)}'),
             ],
           )
         ],
