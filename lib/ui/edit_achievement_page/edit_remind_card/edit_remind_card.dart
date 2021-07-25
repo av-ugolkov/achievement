@@ -116,7 +116,6 @@ class _EditRemindCardState extends State<EditRemindCard> {
         return _getDayRepition();
       case TypeRepition.week:
         return _getWeekRepition();
-      case TypeRepition.month:
       default:
         return _getNoneRepition();
     }
@@ -168,8 +167,6 @@ class _EditRemindCardState extends State<EditRemindCard> {
         return 'каждый день';
       case TypeRepition.week:
         return 'каждую неделю';
-      case TypeRepition.month:
-        return 'каждый месяц';
       default:
         return 'без повтора';
     }

@@ -68,8 +68,6 @@ class RemindsViewAchievement extends StatelessWidget {
         return 'каждый день';
       case TypeRepition.week:
         return 'каждую неделю ${FormateDate.weekDayName(model.remindDateTime.dateTime)}';
-      case TypeRepition.month:
-        return 'каждый месяц ${model.remindDateTime.day} числа';
       default:
         return model.remindDateTime.date;
     }

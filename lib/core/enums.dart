@@ -1,3 +1,3 @@
-enum TypeRepition { none, day, week, month }
+enum TypeRepition { none, day, week }
 
 enum AchievementState { active, finished, done, fail, archived }
