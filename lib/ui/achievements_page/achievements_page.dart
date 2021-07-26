@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/notification/payload.dart';
+import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_file.dart';
 import 'package:achievement/db/db_progress.dart';
@@ -8,7 +11,7 @@ import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart
 import 'package:achievement/ui/achievements_page/left_panel.dart';
 import 'package:achievement/ui/achievements_page/list_achievement.dart';
 import 'package:achievement/core/page_routes.dart';
-import 'package:achievement/core/local_notification.dart';
+import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/ui/common/loading_widgets.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,7 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
+  bool _initDb = false;
   late AchievementState _state;
   set state(AchievementState value) {
     if (_state == value) return;
@@ -34,16 +38,37 @@ class _AchievementsPageState extends State<AchievementsPage> {
   }
 
   Future<void> onSelectNotification(String? payload) async {
-    //var achievements = await DbAchievement.db.getList();
-    switch (payload) {
+    if (payload == null || payload.isEmpty) {
+      return;
+    }
+    while (!_initDb) {}
+    var p = Payload.fromJson(jsonDecode(payload) as Map<String, dynamic>);
+    switch (p.command) {
       case 'open':
-        log('Нужна обработка открытия ачивки');
-        //var index = int.tryParse(payload);
-        //openViewAchievementPage(achievements[index]);
+        var achievements = await DbAchievement.db.getList();
+        var model = achievements[p.achievementId];
+        var result = await Navigator.pushNamed(
+            context, RouteViewAchievementPage,
+            arguments: model);
+        var newModel = result as AchievementModel;
+        model.setModel(newModel);
+        setState(() {});
         break;
       default:
         log('Error open achievement');
     }
+  }
+
+  Future<Database> _initDB() async {
+    var database = await DbFile.db.initDB(
+      onCreate: (db, version) async {
+        await DbAchievement.db.createTable(db);
+        await DbRemind.db.createTable(db);
+        await DbProgress.db.createTable(db);
+      },
+    );
+    _initDb = true;
+    return database;
   }
 
   @override
@@ -93,17 +118,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
         ),
       ),
     );
-  }
-
-  Future<Database> _initDB() async {
-    var database = await DbFile.db.initDB(
-      onCreate: (db, version) async {
-        await DbAchievement.db.createTable(db);
-        await DbRemind.db.createTable(db);
-        await DbProgress.db.createTable(db);
-      },
-    );
-    return database;
   }
 }
 

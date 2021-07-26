@@ -6,7 +6,7 @@ import 'package:achievement/ui/edit_achievement_page/edit_description_achievemen
 import 'package:achievement/ui/edit_achievement_page/edit_header_achievement.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_remind_panel.dart';
 import 'package:achievement/core/changed_date_time_range.dart';
-import 'package:achievement/core/local_notification.dart';
+import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/data/model/achievement_model.dart';
@@ -174,7 +174,8 @@ class EditAchievementPage extends StatelessWidget {
           _headerEditController.text,
           _descriptionEditController.text,
           remind.remindModel.remindDateTime.dateTime,
-          remind.remindModel.typeRepition);
+          remind.remindModel.typeRepition,
+          _model.id);
     }
   }
 }

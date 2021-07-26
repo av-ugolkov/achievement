@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/notification/payload.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/standalone.dart' as tz;
 
@@ -25,15 +28,16 @@ class LocalNotification {
         onSelectNotification: selectNotification);
   }
 
-  static Future<void> scheduleNotification(int id, String title, String body,
-      DateTime scheduledDate, TypeRepition typeRepition) async {
+  static Future<void> scheduleNotification(
+      int id,
+      String title,
+      String body,
+      DateTime scheduledDate,
+      TypeRepition typeRepition,
+      int achievementId) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '0',
-      _inst.channel,
-      'channel description',
-      //icon: 'flutter_devs',
-      //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
-    );
+        '0', _inst.channel, 'channel description',
+        playSound: true);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
@@ -46,7 +50,8 @@ class LocalNotification {
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
-        matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition));
+        matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition),
+        payload: jsonEncode(Payload('open', achievementId).toJson()));
   }
 
   static Future<void> periodicallyShow(
