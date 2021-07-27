@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:async';
 import 'dart:developer';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/notification/payload.dart';
@@ -23,7 +23,6 @@ class AchievementsPage extends StatefulWidget {
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
-  bool _initDb = false;
   late AchievementState _state;
   set state(AchievementState value) {
     if (_state == value) return;
@@ -33,20 +32,16 @@ class _AchievementsPageState extends State<AchievementsPage> {
   @override
   void initState() {
     super.initState();
-    LocalNotification.init(onSelectNotification);
     _state = AchievementState.active;
   }
 
-  Future<void> onSelectNotification(String? payload) async {
-    if (payload == null || payload.isEmpty) {
-      return;
-    }
-    while (!_initDb) {}
-    var p = Payload.fromJson(jsonDecode(payload) as Map<String, dynamic>);
-    switch (p.command) {
+  Future<void> onLoadPayload(Payload payload) async {
+    switch (payload.command) {
       case 'open':
+        log('start open');
         var achievements = await DbAchievement.db.getList();
-        var model = achievements[p.achievementId];
+        var model = achievements[payload.achievementId];
+        LocalNotification.clearPayload();
         var result = await Navigator.pushNamed(
             context, RouteViewAchievementPage,
             arguments: model);
@@ -67,7 +62,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
         await DbProgress.db.createTable(db);
       },
     );
-    _initDb = true;
     return database;
   }
 
@@ -103,7 +97,11 @@ class _AchievementsPageState extends State<AchievementsPage> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
-                return ListAchievement();
+                if (LocalNotification.payload?.command != null) {
+                  onLoadPayload(LocalNotification.payload!);
+                } else {
+                  return ListAchievement();
+                }
               } else if (snapshot.hasError) {
                 return Container(
                   child: Center(

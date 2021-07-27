@@ -1,3 +1,4 @@
+import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
@@ -18,6 +19,7 @@ void main() {
     runApp(MyApp());
   }
 
+  LocalNotification.init();
   startApp();
 }
 

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/notification/payload.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -11,12 +10,22 @@ class LocalNotification {
   final String channel = 'Achievement';
 
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  Payload? _payload;
+  static Payload? get payload => _inst._payload;
 
-  static void init(SelectNotificationCallback selectNotification) {
-    _inst = LocalNotification._(selectNotification);
+  static void init() {
+    _inst = LocalNotification._();
   }
 
-  LocalNotification._(SelectNotificationCallback selectNotification) {
+  LocalNotification._() {
+    _initialize();
+  }
+
+  static void clearPayload() {
+    _inst._payload = null;
+  }
+
+  Future<void> _initialize() async {
     var initSettingAndroid = AndroidInitializationSettings('icon_achievement');
     var initSettingIOS = IOSInitializationSettings();
 
@@ -24,8 +33,22 @@ class LocalNotification {
         android: initSettingAndroid, iOS: initSettingIOS);
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    flutterLocalNotificationsPlugin.initialize(initSetting,
-        onSelectNotification: selectNotification);
+
+    final notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    if (notificationAppLaunchDetails != null &&
+        notificationAppLaunchDetails.didNotificationLaunchApp) {
+      await onSelectNotification(notificationAppLaunchDetails.payload);
+    }
+    await flutterLocalNotificationsPlugin.initialize(initSetting,
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future<void> onSelectNotification(String? payload) async {
+    if (payload == null || payload.isEmpty) {
+      return;
+    }
+    _payload = Payload.fromJson(jsonDecode(payload) as Map<String, dynamic>);
   }
 
   static Future<void> scheduleNotification(
