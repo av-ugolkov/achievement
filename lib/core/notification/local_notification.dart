@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/event.dart';
 import 'package:achievement/core/notification/payload.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/standalone.dart' as tz;
@@ -7,9 +8,13 @@ import 'package:timezone/standalone.dart' as tz;
 class LocalNotification {
   static late LocalNotification _inst;
 
-  final String channel = 'Achievement';
+  final _openPayload = Event<Payload>();
+
+  static const String channel = 'Achievement';
+  static const String channel_desc = 'channel description';
 
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   Payload? _payload;
   static Payload? get payload => _inst._payload;
 
@@ -41,7 +46,7 @@ class LocalNotification {
       await onSelectNotification(notificationAppLaunchDetails.payload);
     }
     await flutterLocalNotificationsPlugin.initialize(initSetting,
-        onSelectNotification: onSelectNotification);
+        onSelectNotification: onSelectNotificationCallback);
   }
 
   Future<void> onSelectNotification(String? payload) async {
@@ -51,6 +56,25 @@ class LocalNotification {
     _payload = Payload.fromJson(jsonDecode(payload) as Map<String, dynamic>);
   }
 
+  Future<void> onSelectNotificationCallback(String? payload) async {
+    await onSelectNotification(payload);
+    if (_payload != null) {
+      _openPayload.call(_payload);
+    }
+  }
+
+  static void subscribeOpenPayloadEvent(Function(Payload?) func) {
+    _inst._openPayload.subscribe(func);
+  }
+
+  static bool unsubscribeOpenPayloadEvent(Function(Payload?) func) {
+    return _inst._openPayload.unsubscribe(func);
+  }
+
+  static void unsubscribeAllOpenPayloadEvent() {
+    _inst._openPayload.unsubscribeAll();
+  }
+
   static Future<void> scheduleNotification(
       int id,
       String title,
@@ -58,9 +82,8 @@ class LocalNotification {
       DateTime scheduledDate,
       TypeRepition typeRepition,
       int achievementId) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        '0', _inst.channel, 'channel description',
-        playSound: true);
+    var androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('0', channel, channel_desc, playSound: true);
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
@@ -84,9 +107,7 @@ class LocalNotification {
     String? body,
   }) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '0',
-      _inst.channel,
-      'channel description',
+      '0', channel, channel_desc,
       //icon: 'flutter_devs',
       //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
     );

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/notification/page_notification.dart';
 import 'package:achievement/core/notification/payload.dart';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/db/db_achievement.dart';
@@ -22,7 +23,8 @@ class AchievementsPage extends StatefulWidget {
   _AchievementsPageState createState() => _AchievementsPageState();
 }
 
-class _AchievementsPageState extends State<AchievementsPage> {
+class _AchievementsPageState extends State<AchievementsPage>
+    with PageNotification {
   late AchievementState _state;
   set state(AchievementState value) {
     if (_state == value) return;
@@ -33,12 +35,12 @@ class _AchievementsPageState extends State<AchievementsPage> {
   void initState() {
     super.initState();
     _state = AchievementState.active;
+    initOpenPayload(context);
   }
 
   Future<void> onLoadPayload(Payload payload) async {
     switch (payload.command) {
       case 'open':
-        log('start open');
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
