@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:achievement/core/enums.dart';
+
 import 'package:achievement/core/event.dart';
 import 'package:achievement/core/notification/payload.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -59,7 +60,7 @@ class LocalNotification {
   Future<void> onSelectNotificationCallback(String? payload) async {
     await onSelectNotification(payload);
     if (_payload != null) {
-      _openPayload.call(_payload);
+      _openPayload.callLastHandler(_payload);
     }
   }
 

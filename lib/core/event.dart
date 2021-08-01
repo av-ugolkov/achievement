@@ -27,9 +27,15 @@ class Event<T> {
     return _handlers.length;
   }
 
-  void call([T? args]) {
+  void callHandlers([T? args]) {
     for (var i = 0; i < _handlers.length; i++) {
       _handlers[i].call(args);
+    }
+  }
+
+  void callLastHandler([T? args]) {
+    if (_handlers.isNotEmpty) {
+      _handlers[_handlers.length - 1].call(args);
     }
   }
 
