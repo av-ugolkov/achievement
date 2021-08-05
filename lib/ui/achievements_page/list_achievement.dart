@@ -1,3 +1,4 @@
+import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
 import 'package:achievement/ui/achievements_page/achievement_card.dart';
 import 'package:achievement/db/db_achievement.dart';
@@ -81,7 +82,7 @@ class _ListAchievementState extends State<ListAchievement> {
   }
 
   void _openViewAchievementPage(AchievementModel model) async {
-    var result = await Navigator.pushNamed(context, RouteViewAchievementPage,
+    var result = await PageManager.pushNamed(context, RouteViewAchievementPage,
         arguments: model);
     var newModel = result as AchievementModel;
     model.setModel(newModel);

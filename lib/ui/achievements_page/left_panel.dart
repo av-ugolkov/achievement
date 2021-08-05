@@ -1,5 +1,6 @@
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/enums.dart';
+import 'package:achievement/core/page_manager.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -100,7 +101,7 @@ class _LeftPanelState extends State<LeftPanel> {
 
   void _setAchievementState(AchievementState state) {
     widget.onChangeState(state);
-    close();
+    _closePage();
   }
 
   Color? _getBackgraundColorTile(AchievementState state) {
@@ -119,7 +120,7 @@ class _LeftPanelState extends State<LeftPanel> {
     );
   }
 
-  void close() {
-    Navigator.pop(context);
+  void _closePage() {
+    PageManager.pop(context);
   }
 }

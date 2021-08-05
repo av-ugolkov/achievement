@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
+import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_date_time_progress.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_description_achievement.dart';
@@ -47,27 +48,39 @@ class EditAchievementPage extends StatelessWidget {
       _model.setModel(model);
     }
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(getLocaleOfContext(context).create_achievement),
-        centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _submitForm(context);
-        },
-        child: Icon(Icons.check),
-      ),
-      body: FutureBuilder(
-        future: _loadModel(_model),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return _body();
-          } else {
-            return Container();
-          }
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        PageManager.pop(context);
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(getLocaleOfContext(context).create_achievement),
+          centerTitle: true,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              PageManager.pop(context);
+            },
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _submitForm(context);
+          },
+          child: Icon(Icons.check),
+        ),
+        body: FutureBuilder(
+          future: _loadModel(_model),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return _body();
+            } else {
+              return Container();
+            }
+          },
+        ),
       ),
     );
   }
@@ -156,17 +169,26 @@ class EditAchievementPage extends StatelessWidget {
         }).toList(),
         progressId: _model.progressId,
       );
-      _createNotifications(); //TODO нужно создавать уведомления только тогда когда они были созданы или изменены
+      _createNotifications(
+          id); //TODO нужно создавать уведомления только тогда когда они были созданы или изменены
       if (_model.id == -1) {
         await DbAchievement.db.insert(achievement);
-        Navigator.pop(context);
+        _closePage(context);
       } else {
-        Navigator.pop(context, achievement);
+        _closePage(context, achievement);
       }
     }
   }
 
-  void _createNotifications() {
+  void _closePage(BuildContext context, [AchievementModel? achievement]) {
+    if (achievement == null) {
+      PageManager.pop(context);
+    } else {
+      PageManager.pop(context, achievement);
+    }
+  }
+
+  void _createNotifications(int achivId) {
     for (var remind in _remindCards) {
       LocalNotification.cancelNotification(remind.remindModel.id);
       LocalNotification.scheduleNotification(
@@ -175,7 +197,7 @@ class EditAchievementPage extends StatelessWidget {
           _descriptionEditController.text,
           remind.remindModel.remindDateTime.dateTime,
           remind.remindModel.typeRepition,
-          _model.id);
+          achivId);
     }
   }
 }

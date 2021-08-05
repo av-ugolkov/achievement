@@ -1,3 +1,4 @@
+import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/data/model/achievement_model.dart';
@@ -27,7 +28,7 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.fail);
-            _navigatorPop();
+            _closePage();
           },
           icon: const Icon(Icons.block_outlined),
           color: Colors.red,
@@ -35,7 +36,7 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.archived);
-            _navigatorPop();
+            _closePage();
           },
           icon: const Icon(Icons.archive_outlined),
           color: Colors.grey,
@@ -43,14 +44,14 @@ class _FABState extends State<FAB> {
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.done);
-            _navigatorPop();
+            _closePage();
           },
           icon: const Icon(Icons.done),
           color: Colors.green,
         ),
         ActionButton(
           onPressed: () async {
-            var result = await Navigator.pushNamed(
+            var result = await PageManager.pushNamed(
               context,
               RouteEditeAchievementPage,
               arguments: widget.model,
@@ -68,8 +69,8 @@ class _FABState extends State<FAB> {
     );
   }
 
-  void _navigatorPop() {
-    Navigator.pop(context, widget.model);
+  void _closePage() {
+    PageManager.pop(context, widget.model);
   }
 
   void _setAchievementState(AchievementState state) {

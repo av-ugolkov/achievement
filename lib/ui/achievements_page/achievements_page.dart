@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:achievement/core/enums.dart';
-import 'package:achievement/core/notification/page_notification.dart';
 import 'package:achievement/core/notification/payload.dart';
+import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/db/db_file.dart';
@@ -23,8 +23,7 @@ class AchievementsPage extends StatefulWidget {
   _AchievementsPageState createState() => _AchievementsPageState();
 }
 
-class _AchievementsPageState extends State<AchievementsPage>
-    with PageNotification {
+class _AchievementsPageState extends State<AchievementsPage> {
   late AchievementState _state;
   set state(AchievementState value) {
     if (_state == value) return;
@@ -35,7 +34,8 @@ class _AchievementsPageState extends State<AchievementsPage>
   void initState() {
     super.initState();
     _state = AchievementState.active;
-    initOpenPayload(context);
+
+    PageManager.init(context);
   }
 
   Future<void> onLoadPayload(Payload payload) async {
@@ -44,7 +44,7 @@ class _AchievementsPageState extends State<AchievementsPage>
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
-        var result = await Navigator.pushNamed(
+        var result = await PageManager.pushNamed(
             context, RouteViewAchievementPage,
             arguments: model);
         var newModel = result as AchievementModel;
@@ -87,7 +87,7 @@ class _AchievementsPageState extends State<AchievementsPage>
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, RouteEditeAchievementPage)
+          PageManager.pushNamed(context, RouteEditeAchievementPage)
               .then((value) => setState(() {}));
         },
         child: Icon(Icons.add),

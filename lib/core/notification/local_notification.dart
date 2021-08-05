@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:achievement/core/enums.dart';
 
 import 'package:achievement/core/event.dart';
@@ -66,10 +67,13 @@ class LocalNotification {
 
   static void subscribeOpenPayloadEvent(Function(Payload?) func) {
     _inst._openPayload.subscribe(func);
+    log(_inst._openPayload.subscriberCount.toString());
   }
 
   static bool unsubscribeOpenPayloadEvent(Function(Payload?) func) {
-    return _inst._openPayload.unsubscribe(func);
+    var value = _inst._openPayload.unsubscribe(func);
+    log(_inst._openPayload.subscriberCount.toString());
+    return value;
   }
 
   static void unsubscribeAllOpenPayloadEvent() {

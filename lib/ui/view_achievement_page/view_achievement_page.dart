@@ -1,3 +1,4 @@
+import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/ui/view_achievement_page/description_view_achievement.dart';
 import 'package:achievement/ui/view_achievement_page/fab/floating_action_button.dart';
 import 'package:achievement/bridge/localization.dart';
@@ -21,7 +22,7 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, achievementModel);
+        PageManager.pop(context, achievementModel);
         return false;
       },
       child: Scaffold(
@@ -29,7 +30,7 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
           title: Text(getLocaleOfContext(context).view_achievement_title),
           leading: IconButton(
               onPressed: () {
-                Navigator.pop(context, achievementModel);
+                PageManager.pop(context, achievementModel);
               },
               icon: Icon(Icons.arrow_back)),
         ),
