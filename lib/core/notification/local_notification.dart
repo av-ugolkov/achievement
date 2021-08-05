@@ -67,13 +67,10 @@ class LocalNotification {
 
   static void subscribeOpenPayloadEvent(Function(Payload?) func) {
     _inst._openPayload.subscribe(func);
-    log(_inst._openPayload.subscriberCount.toString());
   }
 
   static bool unsubscribeOpenPayloadEvent(Function(Payload?) func) {
-    var value = _inst._openPayload.unsubscribe(func);
-    log(_inst._openPayload.subscriberCount.toString());
-    return value;
+    return _inst._openPayload.unsubscribe(func);
   }
 
   static void unsubscribeAllOpenPayloadEvent() {
