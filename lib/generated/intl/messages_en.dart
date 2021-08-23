@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "header": MessageLookupByLibrary.simpleMessage("Header"),
         "remind": MessageLookupByLibrary.simpleMessage("Remind"),
         "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
+        "settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "view_achievement_title":
             MessageLookupByLibrary.simpleMessage("Achievement"),
         "what_do_you_do":

@@ -180,6 +180,16 @@ class S {
     );
   }
 
+  /// `Settings`
+  String get settings {
+    return Intl.message(
+      'Settings',
+      name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Achievement`
   String get view_achievement_title {
     return Intl.message(

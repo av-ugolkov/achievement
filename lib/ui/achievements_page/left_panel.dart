@@ -1,6 +1,7 @@
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/page_manager.dart';
+import 'package:achievement/core/page_routes.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -31,7 +32,7 @@ class _LeftPanelState extends State<LeftPanel> {
             color: Colors.grey,
           )),
           ListTile(
-            tileColor: _getBackgraundColorTile(AchievementState.active),
+            tileColor: _getBackgroundColorTile(AchievementState.active),
             leading: _getLeadingWidget(
               Icons.emoji_events_outlined,
               Colors.yellow[600],
@@ -42,7 +43,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgraundColorTile(AchievementState.finished),
+            tileColor: _getBackgroundColorTile(AchievementState.finished),
             leading: _getLeadingWidget(
               Icons.event_available_outlined,
               Colors.lightBlue,
@@ -53,7 +54,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgraundColorTile(AchievementState.done),
+            tileColor: _getBackgroundColorTile(AchievementState.done),
             leading: _getLeadingWidget(
               Icons.done_all_outlined,
               Colors.green,
@@ -64,7 +65,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgraundColorTile(AchievementState.fail),
+            tileColor: _getBackgroundColorTile(AchievementState.fail),
             leading: _getLeadingWidget(
               Icons.block_outlined,
               Colors.red,
@@ -75,7 +76,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgraundColorTile(AchievementState.archived),
+            tileColor: _getBackgroundColorTile(AchievementState.archived),
             leading: _getLeadingWidget(
               Icons.archive_outlined,
               Colors.grey,
@@ -92,7 +93,9 @@ class _LeftPanelState extends State<LeftPanel> {
               Theme.of(context).accentColor,
             ),
             title: Text('Настройки'),
-            onTap: () {},
+            onTap: () async {
+              await PageManager.pushNamed(context, RouteSettingsPage);
+            },
           ),
         ],
       ),
@@ -104,7 +107,7 @@ class _LeftPanelState extends State<LeftPanel> {
     _closePage();
   }
 
-  Color? _getBackgraundColorTile(AchievementState state) {
+  Color? _getBackgroundColorTile(AchievementState state) {
     if (widget.currentState == state) {
       return Colors.grey[300];
     } else {

@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
         "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
+        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
         "view_achievement_title":
             MessageLookupByLibrary.simpleMessage("Достижение"),
         "what_do_you_do":
