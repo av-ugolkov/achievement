@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class ExpandableFab extends StatefulWidget {
-  const ExpandableFab({
+  ExpandableFab({
     Key? key,
     this.initialOpen,
     required this.distance,
@@ -13,8 +13,16 @@ class ExpandableFab extends StatefulWidget {
   final double distance;
   final List<Widget> children;
 
+  final _ExpandableFabState _state = _ExpandableFabState();
+
+  void hide() {
+    _state.hide();
+  }
+
   @override
-  _ExpandableFabState createState() => _ExpandableFabState();
+  _ExpandableFabState createState() {
+    return _state;
+  }
 }
 
 class _ExpandableFabState extends State<ExpandableFab>
@@ -55,6 +63,11 @@ class _ExpandableFabState extends State<ExpandableFab>
         _controller.reverse();
       }
     });
+  }
+
+  void hide() {
+    _open = false;
+    _controller.reverse();
   }
 
   @override

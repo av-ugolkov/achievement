@@ -16,23 +16,17 @@ class FAB extends StatefulWidget {
 }
 
 class _FABState extends State<FAB> {
+  late ExpandableFab _fab;
+
   @override
   Widget build(BuildContext context) {
     return _floatingActionButton();
   }
 
   Widget _floatingActionButton() {
-    return ExpandableFab(
+    _fab = ExpandableFab(
       distance: 112.0,
       children: [
-        ActionButton(
-          onPressed: () {
-            _setAchievementState(AchievementState.fail);
-            _closePage();
-          },
-          icon: const Icon(Icons.block_outlined),
-          color: Colors.red,
-        ),
         ActionButton(
           onPressed: () {
             _setAchievementState(AchievementState.archived);
@@ -40,6 +34,14 @@ class _FABState extends State<FAB> {
           },
           icon: const Icon(Icons.archive_outlined),
           color: Colors.grey,
+        ),
+        ActionButton(
+          onPressed: () {
+            _setAchievementState(AchievementState.fail);
+            _closePage();
+          },
+          icon: const Icon(Icons.block_outlined),
+          color: Colors.red,
         ),
         ActionButton(
           onPressed: () {
@@ -51,6 +53,7 @@ class _FABState extends State<FAB> {
         ),
         ActionButton(
           onPressed: () async {
+            _fab.hide();
             var result = await PageManager.pushNamed(
               context,
               RouteEditAchievementPage,
@@ -67,9 +70,11 @@ class _FABState extends State<FAB> {
         ),
       ],
     );
+    return _fab;
   }
 
   void _closePage() {
+    _fab.hide();
     PageManager.pop(context, widget.model);
   }
 
