@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/page_manager.dart';
@@ -27,7 +28,7 @@ class EditAchievementPage extends StatelessWidget {
 
   final _headerEditController = TextEditingController();
   final _descriptionEditController = TextEditingController();
-  final List<int> _imageBytes = [];
+  final _imageBytes = <int>[];
   final _remindCards = <FormEditRemindCard>[];
 
   bool get _hasRemind => _remindCards.isNotEmpty;
@@ -151,9 +152,13 @@ class EditAchievementPage extends StatelessWidget {
       if (_hasRemind) {
         var lastIndex = await DbRemind.db.getLastId();
         for (var remind in _remindCards) {
-          remind.remindModel.id = lastIndex;
-          await DbRemind.db.insert(remind.remindModel);
-          ++lastIndex;
+          if (remind.remindModel.id == -1) {
+            remind.remindModel.id = lastIndex;
+            ++lastIndex;
+            await DbRemind.db.insert(remind.remindModel);
+          } else {
+            await DbRemind.db.update(remind.remindModel);
+          }
         }
       }
 
@@ -169,8 +174,7 @@ class EditAchievementPage extends StatelessWidget {
         }).toList(),
         progressId: _model.progressId,
       );
-      _createNotifications(
-          id); //TODO нужно создавать уведомления только тогда когда они были созданы или изменены
+      _createNotifications(id);
       if (_model.id == -1) {
         await DbAchievement.db.insert(achievement);
         _closePage(context);
@@ -188,7 +192,7 @@ class EditAchievementPage extends StatelessWidget {
     }
   }
 
-  void _createNotifications(int achivId) {
+  void _createNotifications(int achievementId) {
     for (var remind in _remindCards) {
       LocalNotification.cancelNotification(remind.remindModel.id);
       LocalNotification.scheduleNotification(
@@ -197,7 +201,7 @@ class EditAchievementPage extends StatelessWidget {
           _descriptionEditController.text,
           remind.remindModel.remindDateTime.dateTime,
           remind.remindModel.typeRepition,
-          achivId);
+          achievementId);
     }
   }
 }

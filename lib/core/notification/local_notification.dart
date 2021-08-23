@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:achievement/core/enums.dart';
-
 import 'package:achievement/core/event.dart';
 import 'package:achievement/core/notification/payload.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
