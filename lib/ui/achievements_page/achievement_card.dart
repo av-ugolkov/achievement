@@ -25,16 +25,10 @@ class AchievementCard extends StatelessWidget {
                     ),
                   )
                 : Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black54,
-                      ),
-                      child: Icon(
-                        Icons.not_interested,
-                        color: Colors.grey[300],
-                        size: 55,
-                      ),
+                    child: Icon(
+                      Icons.photo,
+                      size: 60,
+                      color: Colors.grey[500],
                     ),
                   ),
           ),

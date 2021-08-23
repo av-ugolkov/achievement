@@ -39,6 +39,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
               ? Icon(
                   Icons.photo,
                   size: 50,
+                  color: Colors.grey[500],
                 )
               : Image.memory(Uint8List.fromList(widget.imageBytes)),
           onPressed: () async {

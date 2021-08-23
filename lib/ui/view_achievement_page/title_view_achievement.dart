@@ -16,9 +16,9 @@ class TitleViewAchievement extends StatelessWidget {
           height: 75,
           child: achievementModel.imagePath.isEmpty
               ? Icon(
-                  Icons.not_interested,
-                  color: Colors.grey[300],
+                  Icons.photo,
                   size: 75,
+                  color: Colors.grey[500],
                 )
               : Image.file(
                   File(achievementModel.imagePath),
