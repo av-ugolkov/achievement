@@ -2,6 +2,7 @@ import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
+import 'package:achievement/ui/settings_page/settings_page.dart';
 import 'package:achievement/ui/view_achievement_page/view_achievement_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -38,8 +39,9 @@ class MyApp extends StatelessWidget {
       title: 'Achievement',
       initialRoute: '/',
       routes: {
-        RouteEditeAchievementPage: (context) => EditAchievementPage(),
-        RouteViewAchievementPage: (context) => ViewAchievementPage()
+        RouteEditAchievementPage: (context) => EditAchievementPage(),
+        RouteViewAchievementPage: (context) => ViewAchievementPage(),
+        RouteSettingsPage: (context) => SettingsPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

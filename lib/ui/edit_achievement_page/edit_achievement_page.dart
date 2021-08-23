@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/page_manager.dart';

@@ -53,7 +53,7 @@ class _FABState extends State<FAB> {
           onPressed: () async {
             var result = await PageManager.pushNamed(
               context,
-              RouteEditeAchievementPage,
+              RouteEditAchievementPage,
               arguments: widget.model,
             );
             if (result != null) {
