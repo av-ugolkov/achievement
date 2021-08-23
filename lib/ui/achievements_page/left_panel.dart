@@ -94,6 +94,7 @@ class _LeftPanelState extends State<LeftPanel> {
             ),
             title: Text('Настройки'),
             onTap: () async {
+              _closePage();
               await PageManager.pushNamed(context, RouteSettingsPage);
             },
           ),
