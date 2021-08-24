@@ -37,7 +37,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
         icon: IconButton(
           padding: EdgeInsets.all(0),
           icon: widget.imageBytes.isEmpty
-              ? IconPhotoWidget(size: 50)
+              ? IconPhotoWidget(size: 60)
               : Image.memory(Uint8List.fromList(widget.imageBytes)),
           onPressed: () async {
             var galleryImage =
