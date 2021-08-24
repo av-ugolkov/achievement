@@ -1,5 +1,6 @@
 import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/page_routes.dart';
+import 'package:achievement/ui/about_page/about_page.dart';
 import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
 import 'package:achievement/ui/settings_page/settings_page.dart';
@@ -41,7 +42,8 @@ class MyApp extends StatelessWidget {
       routes: {
         RouteEditAchievementPage: (context) => EditAchievementPage(),
         RouteViewAchievementPage: (context) => ViewAchievementPage(),
-        RouteSettingsPage: (context) => SettingsPage()
+        RouteSettingsPage: (context) => SettingsPage(),
+        RouteAboutPage: (context) => AboutPage()
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

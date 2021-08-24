@@ -1,6 +1,10 @@
 import 'dart:developer';
 
+import 'package:achievement/core/page_manager.dart';
+import 'package:achievement/core/page_routes.dart';
 import 'package:flutter/material.dart';
+
+enum _TypeMenu { settings, about }
 
 class PopupMenuWidget extends StatefulWidget {
   const PopupMenuWidget({Key? key}) : super(key: key);
@@ -8,8 +12,6 @@ class PopupMenuWidget extends StatefulWidget {
   @override
   _PopupMenuWidgetState createState() => _PopupMenuWidgetState();
 }
-
-enum _TypeMenu { settings, about }
 
 class _PopupMenuWidgetState extends State<PopupMenuWidget> {
   @override
@@ -28,7 +30,15 @@ class _PopupMenuWidgetState extends State<PopupMenuWidget> {
         ];
       },
       onSelected: (value) {
-        log(value.index.toString());
+        switch (value) {
+          case _TypeMenu.settings:
+            PageManager.pushNamed(context, RouteSettingsPage);
+            break;
+          case _TypeMenu.about:
+            PageManager.pushNamed(context, RouteAboutPage);
+            break;
+          default:
+        }
       },
     );
   }
