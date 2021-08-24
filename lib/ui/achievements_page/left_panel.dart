@@ -1,7 +1,6 @@
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/core/page_manager.dart';
-import 'package:achievement/core/page_routes.dart';
 import 'package:flutter/material.dart';
 
 class LeftPanel extends StatefulWidget {
@@ -84,18 +83,6 @@ class _LeftPanelState extends State<LeftPanel> {
             title: Text(getLocaleOfContext(context).archived),
             onTap: () {
               _setAchievementState(AchievementState.archived);
-            },
-          ),
-          SizedBox(height: 25),
-          ListTile(
-            leading: _getLeadingWidget(
-              Icons.settings,
-              Theme.of(context).accentColor,
-            ),
-            title: Text('Настройки'),
-            onTap: () async {
-              _closePage();
-              await PageManager.pushNamed(context, RouteSettingsPage);
             },
           ),
         ],

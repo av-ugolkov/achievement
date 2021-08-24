@@ -15,6 +15,7 @@ import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/ui/common/loading_widgets.dart';
+import 'package:achievement/ui/common/popup_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -71,12 +72,12 @@ class _AchievementsPageState extends State<AchievementsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: InheritedAchievementPage(
-          state: _state,
-          child: _TitleAchievementPage(),
-        ),
-        centerTitle: true,
-      ),
+          title: InheritedAchievementPage(
+            state: _state,
+            child: _TitleAchievementPage(),
+          ),
+          centerTitle: true,
+          actions: [PopupMenuWidget()]),
       drawer: LeftPanel(
         currentState: _state,
         onChangeState: (value) {
