@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:achievement/ui/common/icon_photo_widget.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +16,8 @@ class TitleViewAchievement extends StatelessWidget {
           width: 75,
           height: 75,
           child: achievementModel.imagePath.isEmpty
-              ? Icon(
-                  Icons.photo,
-                  size: 75,
-                  color: Colors.grey[500],
-                )
-              : Image.file(
-                  File(achievementModel.imagePath),
-                ),
+              ? IconPhotoWidget(size: 75)
+              : Image.file(File(achievementModel.imagePath)),
         ),
         SizedBox(width: 4),
         TitleText(header: achievementModel.header),
