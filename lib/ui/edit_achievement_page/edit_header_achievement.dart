@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:achievement/bridge/localization.dart';
+import 'package:achievement/ui/common/icon_photo_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -36,11 +37,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
         icon: IconButton(
           padding: EdgeInsets.all(0),
           icon: widget.imageBytes.isEmpty
-              ? Icon(
-                  Icons.photo,
-                  size: 50,
-                  color: Colors.grey[500],
-                )
+              ? IconPhotoWidget(size: 50)
               : Image.memory(Uint8List.fromList(widget.imageBytes)),
           onPressed: () async {
             var galleryImage =

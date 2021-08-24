@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/core/formate_date.dart';
+import 'package:achievement/ui/common/icon_photo_widget.dart';
 import 'package:flutter/material.dart';
 
 class AchievementCard extends StatelessWidget {
@@ -16,21 +17,13 @@ class AchievementCard extends StatelessWidget {
       decoration: BoxDecoration(),
       child: Row(
         children: [
-          Expanded(
-            flex: 1,
-            child: achievement.imagePath.isNotEmpty
-                ? Center(
-                    child: Image.file(
-                      File(achievement.imagePath),
-                    ),
-                  )
-                : Center(
-                    child: Icon(
-                      Icons.photo,
-                      size: 60,
-                      color: Colors.grey[500],
-                    ),
-                  ),
+          Center(
+            child: Expanded(
+              flex: 1,
+              child: achievement.imagePath.isEmpty
+                  ? IconPhotoWidget(size: 60)
+                  : Image.file(File(achievement.imagePath)),
+            ),
           ),
           Expanded(
             flex: 5,
