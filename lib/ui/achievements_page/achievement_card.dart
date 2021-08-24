@@ -17,13 +17,11 @@ class AchievementCard extends StatelessWidget {
       decoration: BoxDecoration(),
       child: Row(
         children: [
-          Center(
-            child: Expanded(
-              flex: 1,
-              child: achievement.imagePath.isEmpty
-                  ? IconPhotoWidget(size: 60)
-                  : Image.file(File(achievement.imagePath)),
-            ),
+          Expanded(
+            flex: 1,
+            child: achievement.imagePath.isEmpty
+                ? IconPhotoWidget(size: 70)
+                : Image.file(File(achievement.imagePath)),
           ),
           Expanded(
             flex: 5,
