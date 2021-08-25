@@ -1,3 +1,4 @@
+import 'package:achievement/core/data_application.dart';
 import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/ui/about_page/about_page.dart';
@@ -20,6 +21,8 @@ void main() {
 
     runApp(MyApp());
   }
+
+  DataApplication();
 
   LocalNotification.init();
   startApp();

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:flutter/material.dart';
