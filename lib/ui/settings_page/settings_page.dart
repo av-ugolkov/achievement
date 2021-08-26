@@ -9,7 +9,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text(getLocaleOfContext(context).settings),
       ),
       body: Row(

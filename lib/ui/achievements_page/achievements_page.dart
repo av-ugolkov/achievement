@@ -76,7 +76,6 @@ class _AchievementsPageState extends State<AchievementsPage> {
             state: _state,
             child: _TitleAchievementPage(),
           ),
-          centerTitle: true,
           actions: [PopupMenuWidget()]),
       drawer: LeftPanel(
         currentState: _state,

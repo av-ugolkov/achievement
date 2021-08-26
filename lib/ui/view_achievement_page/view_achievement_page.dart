@@ -29,10 +29,11 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
         appBar: AppBar(
           title: Text(getLocaleOfContext(context).view_achievement_title),
           leading: IconButton(
-              onPressed: () {
-                PageManager.pop(context, achievementModel);
-              },
-              icon: Icon(Icons.arrow_back)),
+            onPressed: () {
+              PageManager.pop(context, achievementModel);
+            },
+            icon: Icon(Icons.arrow_back),
+          ),
         ),
         floatingActionButton: FAB(
             model: achievementModel,

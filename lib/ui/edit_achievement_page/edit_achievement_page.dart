@@ -57,7 +57,6 @@ class EditAchievementPage extends StatelessWidget {
         key: _scaffoldKey,
         appBar: AppBar(
           title: Text(getLocaleOfContext(context).create_achievement),
-          centerTitle: true,
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
