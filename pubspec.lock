@@ -89,7 +89,7 @@ packages:
       path: "."
       ref: HEAD
       resolved-ref: "2c5461906ab3ad56bbb95e8f959d3cb9d8435855"
-      url: "https://github.com/makedonskiy/flutter_components.git"
+      url: "https://github.com/av-ugolkov/flutter_components.git"
     source: git
     version: "0.210424.1725"
   flutter_local_notifications:

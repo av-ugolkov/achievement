@@ -27,7 +27,7 @@ dependencies:
 
   flutter_components:
     git:
-      url: https://github.com/makedonskiy/flutter_components.git
+      url: https://github.com/av-ugolkov/flutter_components.git
 
 dev_dependencies:
   flutter_test:
