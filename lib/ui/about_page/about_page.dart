@@ -1,34 +1,72 @@
+import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/data_application.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
+  static const String _iconAchievement =
+      'android/app/src/main/res/drawable/icon_achievement.png';
+
   const AboutPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: Text('О приложении'),
       ),
       body: Container(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Stack(
+            fit: StackFit.expand,
             children: [
-              Text(DataApplication.version),
-              Text(DataApplication.author),
-              InkWell(
-                  onTap: () {
-                    launch(DataApplication.homePage);
-                  },
-                  child: Text(
-                    DataApplication.homePage,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 150),
+                  Image.asset(
+                    _iconAchievement,
+                    scale: 5,
+                  ),
+                  Text(
+                    getLocaleOfContext(context).app_name,
                     style: TextStyle(
-                        color: Colors.blueAccent,
-                        decoration: TextDecoration.underline),
-                  )),
+                      fontSize: Theme.of(context).textTheme.headline5!.fontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text('Версия: ${DataApplication.version}'),
+                ],
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(DataApplication.author),
+                  InkWell(
+                    onTap: () {
+                      launch(DataApplication.homePage);
+                    },
+                    child: Text(
+                      DataApplication.homePage,
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      launch(DataApplication.homePage);
+                    },
+                    child: Text(
+                      'Политика конфиденциальности',
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          decoration: TextDecoration.underline),
+                    ),
+                  ),
+                  SizedBox(height: 8)
+                ],
+              )
             ],
           ),
         ),
