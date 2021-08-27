@@ -41,7 +41,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
               : Image.memory(Uint8List.fromList(widget.imageBytes)),
           onPressed: () async {
             var galleryImage =
-                await _imagePicker.getImage(source: ImageSource.gallery);
+                await _imagePicker.pickImage(source: ImageSource.gallery);
             if (galleryImage != null) {
               var newImage = await galleryImage.readAsBytes();
               if (widget.imageBytes.isNotEmpty) {
