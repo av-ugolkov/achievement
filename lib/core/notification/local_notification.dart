@@ -10,8 +10,10 @@ class LocalNotification {
 
   final _openPayload = Event<Payload>();
 
-  static const String channel = 'Achievement';
+  static const String channelId = '0';
+  static const String channel = 'achievement';
   static const String channel_desc = 'channel description';
+  static const String icon = 'icon_achievement';
 
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
@@ -31,7 +33,7 @@ class LocalNotification {
   }
 
   Future<void> _initialize() async {
-    var initSettingAndroid = AndroidInitializationSettings('icon_achievement');
+    var initSettingAndroid = AndroidInitializationSettings(icon);
 
     var initSetting = InitializationSettings(android: initSettingAndroid);
 
@@ -80,8 +82,9 @@ class LocalNotification {
       DateTime scheduledDate,
       TypeRepition typeRepition,
       int achievementId) async {
-    var androidPlatformChannelSpecifics =
-        AndroidNotificationDetails('0', channel, channel_desc, playSound: true);
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        channelId, channel, channel_desc,
+        playSound: true);
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     var dateTimeUtc = scheduledDate.toUtc();
