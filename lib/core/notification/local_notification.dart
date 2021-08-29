@@ -32,10 +32,8 @@ class LocalNotification {
 
   Future<void> _initialize() async {
     var initSettingAndroid = AndroidInitializationSettings('icon_achievement');
-    var initSettingIOS = IOSInitializationSettings();
 
-    var initSetting = InitializationSettings(
-        android: initSettingAndroid, iOS: initSettingIOS);
+    var initSetting = InitializationSettings(android: initSettingAndroid);
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -84,10 +82,8 @@ class LocalNotification {
       int achievementId) async {
     var androidPlatformChannelSpecifics =
         AndroidNotificationDetails('0', channel, channel_desc, playSound: true);
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
     var dateTimeUtc = scheduledDate.toUtc();
     var tzSchedulerDate = tz.TZDateTime.utc(dateTimeUtc.year, dateTimeUtc.month,
         dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
@@ -98,26 +94,6 @@ class LocalNotification {
             UILocalNotificationDateInterpretation.wallClockTime,
         matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition),
         payload: jsonEncode(Payload('open', achievementId).toJson()));
-  }
-
-  static Future<void> periodicallyShow(
-    int id,
-    RepeatInterval repeatInterval, {
-    String? title,
-    String? body,
-  }) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '0', channel, channel_desc,
-      //icon: 'flutter_devs',
-      //largeIcon: DrawableResourceAndroidBitmap('flutter_devs'),
-    );
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
-    var platformChannelSpecifics = NotificationDetails(
-        android: androidPlatformChannelSpecifics,
-        iOS: iOSPlatformChannelSpecifics);
-    await _inst.flutterLocalNotificationsPlugin.periodicallyShow(
-        id, title, body, repeatInterval, platformChannelSpecifics,
-        androidAllowWhileIdle: true);
   }
 
   DateTimeComponents? _matchDateTimeComponents(TypeRepition typeRepition) {
