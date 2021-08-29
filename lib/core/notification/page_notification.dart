@@ -30,7 +30,6 @@ class PageNotification {
       BuildContext context, Payload payload) async {
     switch (payload.command) {
       case 'open':
-        log('start open');
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
@@ -39,7 +38,6 @@ class PageNotification {
             arguments: model);
         var newModel = result as AchievementModel;
         model.setModel(newModel);
-        //setState(() {});
         break;
       default:
         log('Error open achievement');
