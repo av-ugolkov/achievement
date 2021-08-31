@@ -1,6 +1,7 @@
 import 'package:achievement/core/data_application.dart';
 import 'package:achievement/core/notification/local_notification.dart';
 import 'package:achievement/core/page_routes.dart';
+import 'package:achievement/core/override_theme_data.dart';
 import 'package:achievement/ui/about_page/about_page.dart';
 import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
@@ -48,10 +49,7 @@ class MyApp extends StatelessWidget {
         RouteSettingsPage: (context) => SettingsPage(),
         RouteAboutPage: (context) => AboutPage()
       },
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: OverrideThemeData.of(context),
       home: AchievementsPage(),
     );
   }

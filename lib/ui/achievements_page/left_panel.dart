@@ -25,13 +25,14 @@ class _LeftPanelState extends State<LeftPanel> {
       child: ListView(
         children: <Widget>[
           DrawerHeader(
-              child: Icon(
-            Icons.accessibility_new,
-            size: _sizeHeaderIcon,
-            color: Colors.grey,
-          )),
+            child: Icon(
+              Icons.accessibility_new,
+              size: _sizeHeaderIcon,
+              color: Colors.grey,
+            ),
+          ),
           ListTile(
-            tileColor: _getBackgroundColorTile(AchievementState.active),
+            selected: _getSelected(AchievementState.active),
             leading: _getLeadingWidget(
               Icons.emoji_events_outlined,
               Colors.yellow[600],
@@ -42,7 +43,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgroundColorTile(AchievementState.finished),
+            selected: _getSelected(AchievementState.finished),
             leading: _getLeadingWidget(
               Icons.event_available_outlined,
               Colors.lightBlue,
@@ -53,7 +54,8 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgroundColorTile(AchievementState.done),
+            selected: _getSelected(AchievementState.done),
+            selectedTileColor: Colors.grey[600],
             leading: _getLeadingWidget(
               Icons.done_all_outlined,
               Colors.green,
@@ -64,7 +66,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgroundColorTile(AchievementState.fail),
+            selected: _getSelected(AchievementState.fail),
             leading: _getLeadingWidget(
               Icons.block_outlined,
               Colors.red,
@@ -75,7 +77,7 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            tileColor: _getBackgroundColorTile(AchievementState.archived),
+            selected: _getSelected(AchievementState.archived),
             leading: _getLeadingWidget(
               Icons.archive_outlined,
               Colors.grey,
@@ -95,12 +97,8 @@ class _LeftPanelState extends State<LeftPanel> {
     _closePage();
   }
 
-  Color? _getBackgroundColorTile(AchievementState state) {
-    if (widget.currentState == state) {
-      return Colors.grey[300];
-    } else {
-      return Colors.white24;
-    }
+  bool _getSelected(AchievementState state) {
+    return widget.currentState == state;
   }
 
   Icon _getLeadingWidget(IconData? iconData, Color? color) {
