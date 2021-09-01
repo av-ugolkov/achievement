@@ -26,7 +26,7 @@ class AboutPage extends StatelessWidget {
                   SizedBox(height: 150),
                   Image.asset(
                     _iconAchievement,
-                    scale: 5,
+                    scale: 4,
                   ),
                   Text(
                     getLocaleOfContext(context).app_name,
@@ -48,21 +48,18 @@ class AboutPage extends StatelessWidget {
                     },
                     child: Text(
                       DataApplication.homePage,
-                      style: TextStyle(
-                          color: Colors.blueAccent,
-                          decoration: TextDecoration.underline),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: Colors.blueAccent),
                     ),
                   ),
                   InkWell(
                     onTap: () {
                       launch(DataApplication.homePage);
                     },
-                    child: Text(
-                      'Политика конфиденциальности',
-                      style: TextStyle(
-                          color: Colors.blueAccent,
-                          decoration: TextDecoration.underline),
-                    ),
+                    child: Text('Политика конфиденциальности',
+                        style: Theme.of(context).textTheme.bodyText2),
                   ),
                   SizedBox(height: 8)
                 ],
