@@ -1,3 +1,4 @@
+import 'package:achievement/core/override_theme_data.dart';
 import 'package:flutter/material.dart';
 
 class DarkMode extends StatefulWidget {
@@ -10,6 +11,19 @@ class DarkMode extends StatefulWidget {
 class _DarkModeState extends State<DarkMode> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Row(
+        children: [
+          Text('Темный режим'),
+          Switch(
+              value: OverrideThemeData.of().dark,
+              onChanged: (value) {
+                setState(() {
+                  OverrideThemeData.of().dark = value;
+                });
+              }),
+        ],
+      ),
+    );
   }
 }

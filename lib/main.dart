@@ -49,7 +49,8 @@ class MyApp extends StatelessWidget {
         RouteSettingsPage: (context) => SettingsPage(),
         RouteAboutPage: (context) => AboutPage()
       },
-      theme: OverrideThemeData.of(context),
+      theme: ThemeData.light(), //OverrideThemeData.of().themeData,
+      darkTheme: ThemeData.dark(),
       home: AchievementsPage(),
     );
   }

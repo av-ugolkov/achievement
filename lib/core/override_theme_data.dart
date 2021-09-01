@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class OverrideThemeData {
@@ -5,14 +7,24 @@ class OverrideThemeData {
 
   static final OverrideThemeData _inst = OverrideThemeData._();
 
-  static ThemeData of(BuildContext context) {
-    return _inst.buildTheme();
+  static OverrideThemeData of() {
+    return _inst;
+  }
+
+  ThemeData _themeData = ThemeData.light();
+  ThemeData get themeData => _themeData;
+  bool _dark = false;
+  bool get dark => _dark;
+  set dark(bool value) {
+    _dark = value;
+    _themeData = _dark ? ThemeData.dark() : ThemeData.light();
+    log(_dark.toString());
   }
 
   ThemeData buildTheme() {
-    final base = 1 == 1 ? ThemeData.light() : ThemeData.dark();
-    return base;
-    return base.copyWith(
+    _themeData = _dark ? ThemeData.dark() : ThemeData.light();
+    return _themeData;
+    return _themeData.copyWith(
       colorScheme: _shrineColorScheme,
       accentColor: shrineBrown900,
       primaryColor: shrinePink100,
@@ -25,11 +37,11 @@ class OverrideThemeData {
         colorScheme: _shrineColorScheme,
         textTheme: ButtonTextTheme.normal,
       ),
-      primaryIconTheme: _customIconTheme(base.iconTheme),
-      textTheme: _buildShrineTextTheme(base.textTheme),
-      primaryTextTheme: _buildShrineTextTheme(base.primaryTextTheme),
-      accentTextTheme: _buildShrineTextTheme(base.accentTextTheme),
-      iconTheme: _customIconTheme(base.iconTheme),
+      primaryIconTheme: _customIconTheme(_themeData.iconTheme),
+      textTheme: _buildShrineTextTheme(_themeData.textTheme),
+      primaryTextTheme: _buildShrineTextTheme(_themeData.primaryTextTheme),
+      accentTextTheme: _buildShrineTextTheme(_themeData.accentTextTheme),
+      iconTheme: _customIconTheme(_themeData.iconTheme),
     );
   }
 
