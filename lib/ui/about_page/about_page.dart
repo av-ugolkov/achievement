@@ -30,10 +30,9 @@ class AboutPage extends StatelessWidget {
                   ),
                   Text(
                     getLocaleOfContext(context).app_name,
-                    style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.headline5!.fontSize,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
                   Text('Версия: ${DataApplication.version}'),
                 ],
@@ -58,8 +57,7 @@ class AboutPage extends StatelessWidget {
                     onTap: () {
                       launch(DataApplication.homePage);
                     },
-                    child: Text('Политика конфиденциальности',
-                        style: Theme.of(context).textTheme.bodyText2),
+                    child: Text('Политика конфиденциальности'),
                   ),
                   SizedBox(height: 8)
                 ],

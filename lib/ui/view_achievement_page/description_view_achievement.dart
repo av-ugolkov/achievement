@@ -11,7 +11,7 @@ class DescriptionViewAchievement extends StatelessWidget {
     return TextField(
       enabled: false,
       controller: descController,
-      style: TextStyle(fontSize: 18, color: Colors.black87),
+      style: Theme.of(context).textTheme.bodyText2,
       decoration: InputDecoration(
         disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(

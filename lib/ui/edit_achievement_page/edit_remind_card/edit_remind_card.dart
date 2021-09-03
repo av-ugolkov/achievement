@@ -40,24 +40,21 @@ class _EditRemindCardState extends State<EditRemindCard> {
   void initState() {
     super.initState();
 
+    _typeRepition = widget.remindModel.typeRepition;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     _listTypeRepition =
         TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
       return DropdownMenuItem<TypeRepition>(
           value: value,
           child: Text(
             _getStringRepition(value),
-            style: TextStyle(
-              color: Colors.black87,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.button,
           ));
     }).toList();
-    _typeRepition = widget.remindModel.typeRepition;
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return Card(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -103,7 +100,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
       return Text(
         widget.decoration!.errorText!,
         style: TextStyle(
-          color: Colors.red,
+          color: Theme.of(context).errorColor,
         ),
       );
     }

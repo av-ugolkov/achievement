@@ -42,11 +42,7 @@ class _EditRemindTimeBtnState extends State<EditRemindTimeBtn> {
         FormateDate.hour24Minute(widget.remindModel.remindDateTime.dateTime),
         textAlign: TextAlign.center,
         overflow: TextOverflow.visible,
-        style: TextStyle(
-          color: Colors.black87,
-          fontSize: 22,
-          fontWeight: FontWeight.bold,
-        ),
+        style: Theme.of(context).textTheme.button,
       ),
     );
   }
