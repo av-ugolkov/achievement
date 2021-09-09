@@ -29,6 +29,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       items: bottomNavigationItems,
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
+      showUnselectedLabels: false,
       onTap: (index) {
         setState(() {
           _currentIndex = index;
