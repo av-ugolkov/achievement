@@ -50,10 +50,7 @@ class _TitleTextState extends State<TitleText> {
           widget.header,
           maxLines: _maxLines,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.headline5,
         ),
       ),
     );

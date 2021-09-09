@@ -53,7 +53,7 @@ class _EditHeaderAchievementState extends State<EditHeaderAchievement> {
           },
         ),
       ),
-      style: TextStyle(fontSize: 18),
+      style: Theme.of(context).textTheme.headline5,
       cursorHeight: 22,
       validator: (value) {
         if (value!.isEmpty || value.length < 3) {

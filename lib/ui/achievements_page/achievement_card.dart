@@ -12,7 +12,7 @@ class AchievementCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 78,
+      height: 76,
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(),
       child: Row(
@@ -20,8 +20,13 @@ class AchievementCard extends StatelessWidget {
           Expanded(
             flex: 1,
             child: achievement.imagePath.isEmpty
-                ? IconPhotoWidget(size: 70)
-                : Image.file(File(achievement.imagePath)),
+                ? IconPhotoWidget(size: 60)
+                : Image.file(
+                    File(achievement.imagePath),
+                    width: 60,
+                    height: 60,
+                    fit: BoxFit.contain,
+                  ),
           ),
           Expanded(
             flex: 5,
@@ -41,14 +46,13 @@ class AchievementCard extends StatelessWidget {
                           maxLines: 1,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontSize: 24, fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.headline6,
                         ),
                         Text(
                           achievement.description,
                           maxLines: 2,
                           softWrap: true,
-                          style: TextStyle(fontSize: 12, color: Colors.black45),
+                          style: Theme.of(context).textTheme.caption,
                         ),
                       ],
                     ),
@@ -61,10 +65,9 @@ class AchievementCard extends StatelessWidget {
                         Text(
                           FormateDate.yearNumMonthDay(achievement.finishDate),
                           textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontSize: 10,
-                              fontStyle: FontStyle.italic,
-                              color: Colors.black45),
+                          style: Theme.of(context).textTheme.overline?.copyWith(
+                                fontStyle: FontStyle.italic,
+                              ),
                         ),
                       ]),
                 ],
