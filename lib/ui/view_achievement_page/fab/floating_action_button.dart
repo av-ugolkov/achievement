@@ -25,7 +25,7 @@ class _FABState extends State<FAB> {
 
   Widget _floatingActionButton() {
     _fab = ExpandableFab(
-      distance: 112.0,
+      distance: 70,
       children: [
         ActionButton(
           onPressed: () {

@@ -30,6 +30,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
+      unselectedItemColor: Theme.of(context).primaryColor.withOpacity(.6),
       onTap: (index) {
         setState(() {
           _currentIndex = index;
