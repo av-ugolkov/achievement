@@ -4,7 +4,6 @@ import 'package:yaml/yaml.dart';
 class DataApplication {
   static late String description;
   static late String version;
-  static late String author;
   static late String homePage;
 
   DataApplication() {
@@ -13,7 +12,6 @@ class DataApplication {
       var yaml = loadYaml(value) as Map<dynamic, dynamic>;
       description = yaml['description'].toString();
       version = yaml['version'].toString();
-      author = yaml['author'].toString();
       homePage = yaml['homepage'].toString();
     });
   }
