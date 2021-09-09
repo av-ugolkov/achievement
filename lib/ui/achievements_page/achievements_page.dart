@@ -9,7 +9,6 @@ import 'package:achievement/db/db_file.dart';
 import 'package:achievement/db/db_progress.dart';
 import 'package:achievement/db/db_remind.dart';
 import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
-import 'package:achievement/ui/achievements_page/left_panel.dart';
 import 'package:achievement/ui/achievements_page/list_achievement.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/core/notification/local_notification.dart';
@@ -17,6 +16,7 @@ import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/ui/common/loading_widgets.dart';
 import 'package:achievement/ui/common/popup_menu_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:achievement/ui/achievements_page/bottom_navigation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AchievementsPage extends StatefulWidget {
@@ -76,19 +76,19 @@ class _AchievementsPageState extends State<AchievementsPage> {
             child: _TitleAchievementPage(),
           ),
           actions: [PopupMenuWidget()]),
-      drawer: LeftPanel(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          PageManager.pushNamed(context, RouteEditAchievementPage).then((value) => setState(() {}));
+        },
+        child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomNavigation(
         currentState: _state,
         onChangeState: (value) {
           setState(() {
             state = value;
           });
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          PageManager.pushNamed(context, RouteEditAchievementPage).then((value) => setState(() {}));
-        },
-        child: Icon(Icons.add),
       ),
       body: InheritedAchievementPage(
         state: _state,
@@ -133,10 +133,6 @@ class _TitleAchievementPage extends StatelessWidget {
         return getLocaleCurrent().active;
       case AchievementState.finished:
         return getLocaleCurrent().finished;
-      case AchievementState.done:
-        return getLocaleCurrent().done;
-      case AchievementState.fail:
-        return getLocaleCurrent().fail;
       case AchievementState.archived:
         return getLocaleCurrent().archived;
       default:

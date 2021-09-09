@@ -36,22 +36,6 @@ class _FABState extends State<FAB> {
           color: Colors.grey,
         ),
         ActionButton(
-          onPressed: () {
-            _setAchievementState(AchievementState.fail);
-            _closePage();
-          },
-          icon: const Icon(Icons.block_outlined),
-          color: Colors.red,
-        ),
-        ActionButton(
-          onPressed: () {
-            _setAchievementState(AchievementState.done);
-            _closePage();
-          },
-          icon: const Icon(Icons.done),
-          color: Colors.green,
-        ),
-        ActionButton(
           onPressed: () async {
             _fab.hide();
             var result = await PageManager.pushNamed(

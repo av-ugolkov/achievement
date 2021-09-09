@@ -54,29 +54,6 @@ class _LeftPanelState extends State<LeftPanel> {
             },
           ),
           ListTile(
-            selected: _getSelected(AchievementState.done),
-            selectedTileColor: Colors.grey[600],
-            leading: _getLeadingWidget(
-              Icons.done_all_outlined,
-              Colors.green,
-            ),
-            title: Text(getLocaleOfContext(context).done),
-            onTap: () {
-              _setAchievementState(AchievementState.done);
-            },
-          ),
-          ListTile(
-            selected: _getSelected(AchievementState.fail),
-            leading: _getLeadingWidget(
-              Icons.block_outlined,
-              Colors.red,
-            ),
-            title: Text(getLocaleOfContext(context).fail),
-            onTap: () {
-              _setAchievementState(AchievementState.fail);
-            },
-          ),
-          ListTile(
             selected: _getSelected(AchievementState.archived),
             leading: _getLeadingWidget(
               Icons.archive_outlined,
