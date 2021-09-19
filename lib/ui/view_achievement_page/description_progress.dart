@@ -6,9 +6,9 @@ import 'package:achievement/data/model/progress_model.dart';
 import 'package:achievement/ui/view_achievement_page/field_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
+import 'package:date_time_progress/date_time_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/core/extensions.dart';
-import 'package:flutter_components/components/date_time_progress/date_time_progress.dart';
 
 class DescriptionProgress extends StatefulWidget {
   @override
