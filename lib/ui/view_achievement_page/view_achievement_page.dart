@@ -15,6 +15,7 @@ class ViewAchievementPage extends StatefulWidget {
 }
 
 class _ViewAchievementPageState extends State<ViewAchievementPage> {
+  static const double _spaceSeparator = 4;
   @override
   Widget build(BuildContext context) {
     var settings = ModalRoute.of(context)?.settings;
@@ -46,11 +47,11 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
             padding: EdgeInsets.all(10),
             children: [
               TitleViewAchievement(),
-              SizedBox(height: 3),
+              SizedBox(height: _spaceSeparator),
               DescriptionViewAchievement(),
-              SizedBox(height: 3),
+              SizedBox(height: _spaceSeparator),
               DescriptionProgress(),
-              SizedBox(height: 3),
+              SizedBox(height: _spaceSeparator),
               RemindsViewAchievement(),
             ],
           ),

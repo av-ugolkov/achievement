@@ -133,7 +133,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8e0f0bc4d60d5f33783186303347888247704355"
+      resolved-ref: bb630eb8a470105f82c6fcad60871a84af500979
       url: "https://github.com/av-ugolkov/heatmap_calendar.git"
     source: git
     version: "0.0.3"

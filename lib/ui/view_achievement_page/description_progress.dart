@@ -9,6 +9,7 @@ import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_
 import 'package:date_time_progress/date_time_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/core/extensions.dart';
+import 'package:heatmap_calendar/heatmap_calendar_month/heatmap_calendar_month.dart';
 
 class DescriptionProgress extends StatefulWidget {
   @override
@@ -70,7 +71,14 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
       progressDescription: _pd,
       child: Column(
         children: [
-          DateTimeProgress(
+          HeatMapCalendarMonth(
+            startDate: _achievementModel.createDate,
+            finishDate: _achievementModel.finishDate,
+            input: <DateTime, int>{},
+            colorThresholds: <int, Color>{},
+            cellHeight: 24,
+          ),
+          /*DateTimeProgress(
             start: _achievementModel.createDate,
             finish: _achievementModel.finishDate,
             current: _dateProgress,
@@ -93,7 +101,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
                 _currentDateTime = date;
               });
             },
-          ),
+          ),*/
           Padding(
             padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
             child: FieldDescriptionProgress(
