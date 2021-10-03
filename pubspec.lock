@@ -131,10 +131,12 @@ packages:
   heatmap_calendar:
     dependency: "direct main"
     description:
-      name: heatmap_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.8"
+      path: "."
+      ref: HEAD
+      resolved-ref: "8e0f0bc4d60d5f33783186303347888247704355"
+      url: "https://github.com/av-ugolkov/heatmap_calendar.git"
+    source: git
+    version: "0.0.3"
   http:
     dependency: transitive
     description:
@@ -260,7 +262,7 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.1"
+    version: "2.0.2"
   process:
     dependency: transitive
     description:
@@ -356,7 +358,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.11"
+    version: "6.0.12"
   url_launcher_linux:
     dependency: transitive
     description:
