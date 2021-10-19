@@ -133,17 +133,17 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: bb630eb8a470105f82c6fcad60871a84af500979
+      resolved-ref: "1f8ce89808864d4d13358300d8fe7b329820ea2f"
       url: "https://github.com/av-ugolkov/heatmap_calendar.git"
     source: git
-    version: "0.0.3"
+    version: "0.0.4"
   http:
     dependency: transitive
     description:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.3"
+    version: "0.13.4"
   http_parser:
     dependency: transitive
     description:
@@ -269,7 +269,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.3"
+    version: "4.2.4"
   sky_engine:
     dependency: transitive
     description: flutter
