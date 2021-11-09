@@ -13,14 +13,9 @@ class RemindsViewAchievement extends StatelessWidget {
     if (achievementModel.remindIds.isEmpty) {
       return Container();
     }
-    return Column(
-      children: [
-        Container(
-          child: (achievementModel.remindIds.isEmpty)
-              ? null
-              : _remindWidget(achievementModel.remindIds),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: _remindWidget(achievementModel.remindIds),
     );
   }
 

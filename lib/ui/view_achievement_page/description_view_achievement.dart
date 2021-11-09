@@ -8,14 +8,17 @@ class DescriptionViewAchievement extends StatelessWidget {
     var descController =
         TextEditingController(text: achievementModel.description);
 
-    return TextField(
-      enabled: false,
-      controller: descController,
-      style: Theme.of(context).textTheme.bodyText2,
-      decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: descController.text.isNotEmpty ? Colors.blue : Colors.grey,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextField(
+        enabled: false,
+        controller: descController,
+        style: Theme.of(context).textTheme.bodyText2,
+        decoration: InputDecoration(
+          disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: descController.text.isNotEmpty ? Colors.blue : Colors.grey,
+            ),
           ),
         ),
       ),

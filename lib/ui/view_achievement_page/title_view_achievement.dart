@@ -8,20 +8,23 @@ class TitleViewAchievement extends StatelessWidget {
   Widget build(BuildContext context) {
     var achievementModel = InheritedViewAchievementPage.of(context);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          width: 75,
-          height: 75,
-          child: achievementModel.imagePath.isEmpty
-              ? IconPhotoWidget(size: 75)
-              : Image.file(File(achievementModel.imagePath)),
-        ),
-        SizedBox(width: 4),
-        TitleText(header: achievementModel.header),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 75,
+            height: 75,
+            child: achievementModel.imagePath.isEmpty
+                ? IconPhotoWidget(size: 75)
+                : Image.file(File(achievementModel.imagePath)),
+          ),
+          SizedBox(width: 4),
+          TitleText(header: achievementModel.header),
+        ],
+      ),
     );
   }
 }
