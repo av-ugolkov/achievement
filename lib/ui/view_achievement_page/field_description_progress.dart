@@ -24,9 +24,21 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
 
   @override
   Widget build(BuildContext context) {
+    _dateNow = DateTime.now().getDate();
+    var progressDesc =
+        ProgressDescription(isDoAnythink: false, description: '');
+    if (_mapProgressDesc.containsKey(widget.keyDate)) {
+      var tempMap = _mapProgressDesc[widget.keyDate];
+      if (tempMap != null) {
+        progressDesc = tempMap;
+      }
+    } else {
+      _mapProgressDesc.putIfAbsent(widget.keyDate, () => progressDesc);
+    }
+    _isDoAnythink = progressDesc.isDoAnythink;
     return Column(children: [
       _buttonActiveProgressField(),
-      _fieldDescriptionProgress(),
+      _fieldDescriptionProgress(progressDesc.description),
     ]);
   }
 
@@ -43,21 +55,9 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
     _textEditingController.dispose();
   }
 
-  Widget _fieldDescriptionProgress() {
-    _dateNow = DateTime.now().getDate();
+  Widget _fieldDescriptionProgress(String description) {
     if (widget.currentDateTime.compareTo(_dateNow) <= 0) {
-      var progressDesc =
-          ProgressDescription(isDoAnythink: false, description: '');
-      if (_mapProgressDesc.containsKey(widget.keyDate)) {
-        var tempMap = _mapProgressDesc[widget.keyDate];
-        if (tempMap != null) {
-          progressDesc = tempMap;
-        }
-      } else {
-        _mapProgressDesc.putIfAbsent(widget.keyDate, () => progressDesc);
-      }
-      _isDoAnythink = progressDesc.isDoAnythink;
-      _textEditingController.text = progressDesc.description;
+      _textEditingController.text = description;
       return _fieldProgressDescription();
     } else {
       return Container();
