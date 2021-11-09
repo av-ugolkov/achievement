@@ -6,7 +6,6 @@ import 'package:achievement/data/model/progress_model.dart';
 import 'package:achievement/ui/view_achievement_page/field_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_description_progress.dart';
 import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_page.dart';
-import 'package:date_time_progress/date_time_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/core/extensions.dart';
 import 'package:heatmap_calendar/heatmap_calendar_month/heatmap_calendar_month.dart';
@@ -18,7 +17,6 @@ class DescriptionProgress extends StatefulWidget {
 
 class _DescriptionProgressState extends State<DescriptionProgress> {
   late DateTime _currentDateTime;
-  late DateTime _dateProgress;
   late AchievementModel _achievementModel;
   late Future<ProgressModel> _futureProgressModel;
   late Map<String, ProgressDescription> _pd;
@@ -28,7 +26,6 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
     super.initState();
 
     _currentDateTime = DateTime.now().getDate();
-    _dateProgress = _currentDateTime;
     _pd = {};
   }
 
@@ -58,7 +55,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
             if (_pd.isEmpty) {
               _pd = data.progressDescription;
             }
-            return _dateTimeProgress();
+            return _heatMapCalendarMonth();
           }
         }
         return Container();
@@ -66,7 +63,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
     );
   }
 
-  Widget _dateTimeProgress() {
+  Widget _heatMapCalendarMonth() {
     return InheritedDescriptionProgress(
       progressDescription: _pd,
       child: Column(
@@ -75,39 +72,27 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
             startDate: _achievementModel.createDate,
             finishDate: _achievementModel.finishDate,
             input: <DateTime, int>{},
-            colorThresholds: <int, Color>{},
+            colorThresholds: <int, Color>{1: Colors.greenAccent},
             cellHeight: 24,
-          ),
-          /*DateTimeProgress(
-            start: _achievementModel.createDate,
-            finish: _achievementModel.finishDate,
-            current: _dateProgress,
-            showAlwaysThumb: true,
-            onChange: (dateTime) {
+            spaceMonth: 10,
+            onTapHeatMapDay: (dateTime) {
               var tempDate = dateTime;
               if (tempDate.hour > 12) {
                 tempDate = tempDate.add(Duration(days: 1));
               }
               if (tempDate.getDate() != _currentDateTime) {
                 setState(() {
-                  _dateProgress = dateTime;
                   _currentDateTime = tempDate.getDate();
                 });
               }
             },
-            onChanged: (date) {
-              setState(() {
-                _dateProgress = date;
-                _currentDateTime = date;
-              });
-            },
-          ),*/
+          ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(5, 10, 5, 0),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: FieldDescriptionProgress(
               currentDateTime: _currentDateTime,
             ),
-          )
+          ),
         ],
       ),
     );

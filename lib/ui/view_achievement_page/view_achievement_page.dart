@@ -44,7 +44,7 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
         body: InheritedViewAchievementPage(
           model: achievementModel,
           child: ListView(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.symmetric(vertical: 10),
             children: [
               TitleViewAchievement(),
               SizedBox(height: _spaceSeparator),
