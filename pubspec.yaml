@@ -24,6 +24,9 @@ dependencies:
   yaml: ^3.1.0
   url_launcher: ^6.0.9
   
+  date_time_progress:
+    git:
+      url: https://github.com/av-ugolkov/date_time_progress.git
   heatmap_calendar:
     git:
       url: https://github.com/av-ugolkov/heatmap_calendar.git
