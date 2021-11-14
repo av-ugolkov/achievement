@@ -133,10 +133,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "412bb728ef68db3118b0feccffcdc1ac0e88b49f"
+      resolved-ref: e0177cccd4bae6f435ed5b77e98cf8e1418ec2ad
       url: "https://github.com/av-ugolkov/heatmap_calendar.git"
     source: git
-    version: "0.0.5"
+    version: "0.0.6"
   http:
     dependency: transitive
     description:
@@ -220,7 +220,7 @@ packages:
       name: path_provider_linux
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.1"
   path_provider_macos:
     dependency: transitive
     description:
@@ -241,7 +241,7 @@ packages:
       name: path_provider_windows
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3"
+    version: "2.0.4"
   pedantic:
     dependency: "direct dev"
     description:
@@ -407,7 +407,7 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.10"
+    version: "2.3.0"
   xdg_directories:
     dependency: transitive
     description:
