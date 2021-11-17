@@ -50,15 +50,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2"
-  date_time_progress:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "97446eaed24706ab91099a28060c60bfe8065c12"
-      url: "https://github.com/av-ugolkov/date_time_progress.git"
-    source: git
-    version: "0.0.1"
   fake_async:
     dependency: transitive
     description:

@@ -20,9 +20,6 @@ dependencies:
   flutter_local_notifications: ^8.1.1+1
   url_launcher: ^6.0.9
   
-  date_time_progress:
-    git:
-      url: https://github.com/av-ugolkov/date_time_progress.git
   heatmap_calendar:
     git:
       url: https://github.com/av-ugolkov/heatmap_calendar.git
