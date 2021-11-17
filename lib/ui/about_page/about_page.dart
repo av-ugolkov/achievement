@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
-  static const String _iconAchievement = 'android/app/src/main/res/drawable/icon_achievement.png';
+  static const String _iconAchievement = 'assets/icons/icon_achievement.png';
 
   const AboutPage({Key? key}) : super(key: key);
 
@@ -46,8 +46,10 @@ class AboutPage extends StatelessWidget {
                     },
                     child: Text(
                       DataApplication.homePage,
-                      style:
-                          Theme.of(context).textTheme.bodyText1?.copyWith(color: Colors.blueAccent),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          ?.copyWith(color: Colors.blueAccent),
                     ),
                   ),
                   InkWell(
