@@ -8,6 +8,7 @@
 // ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
 // ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
 // ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
 
 import 'package:intl/intl.dart';
 import 'package:intl/message_lookup_by_library.dart';
@@ -28,16 +29,19 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Создать достижение"),
         "description": MessageLookupByLibrary.simpleMessage("Описание"),
         "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
+        "duration_achiev": MessageLookupByLibrary.simpleMessage("Длительность"),
         "error_header": MessageLookupByLibrary.simpleMessage(
             "Заголовок не может быть меньше 3 символов"),
         "error_remind_card":
             MessageLookupByLibrary.simpleMessage("Выбранная дата в прошлом"),
         "fail": MessageLookupByLibrary.simpleMessage("Проваленные"),
+        "finish_achiev": MessageLookupByLibrary.simpleMessage("Финиш ачивки"),
         "finished": MessageLookupByLibrary.simpleMessage("Законченные"),
         "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
         "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
         "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
         "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+        "start_achiev": MessageLookupByLibrary.simpleMessage("Старт ачивки"),
         "view_achievement_title":
             MessageLookupByLibrary.simpleMessage("Достижение"),
         "what_do_you_do":

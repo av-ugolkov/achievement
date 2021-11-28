@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `Duration`
+  String get duration_achiev {
+    return Intl.message(
+      'Duration',
+      name: 'duration_achiev',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The title cannot be less than 3 characters`
   String get error_header {
     return Intl.message(
@@ -135,6 +145,16 @@ class S {
     return Intl.message(
       'Fail',
       name: 'fail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Finish achiev`
+  String get finish_achiev {
+    return Intl.message(
+      'Finish achiev',
+      name: 'finish_achiev',
       desc: '',
       args: [],
     );
@@ -185,6 +205,16 @@ class S {
     return Intl.message(
       'Settings',
       name: 'settings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start achiev`
+  String get start_achiev {
+    return Intl.message(
+      'Start achiev',
+      name: 'start_achiev',
       desc: '',
       args: [],
     );
