@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NumberPickerPanel extends StatefulWidget {
   final int delta;
@@ -26,6 +29,9 @@ class _NumberPickerPanelState extends State<NumberPickerPanel> {
         keyboardType: TextInputType.number,
         maxLength: 10,
         textAlign: TextAlign.end,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         decoration: InputDecoration(
           isDense: true,
           counterText: '',
