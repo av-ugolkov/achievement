@@ -29,7 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Создать достижение"),
         "description": MessageLookupByLibrary.simpleMessage("Описание"),
         "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
-        "duration_achiev": MessageLookupByLibrary.simpleMessage("Длительность"),
+        "duration_achiev":
+            MessageLookupByLibrary.simpleMessage("Длительность в днях"),
         "error_header": MessageLookupByLibrary.simpleMessage(
             "Заголовок не может быть меньше 3 символов"),
         "error_remind_card":

@@ -29,7 +29,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Create achievement"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "done": MessageLookupByLibrary.simpleMessage("Done"),
-        "duration_achiev": MessageLookupByLibrary.simpleMessage("Duration"),
+        "duration_achiev":
+            MessageLookupByLibrary.simpleMessage("Duration in days"),
         "error_header": MessageLookupByLibrary.simpleMessage(
             "The title cannot be less than 3 characters"),
         "error_remind_card":

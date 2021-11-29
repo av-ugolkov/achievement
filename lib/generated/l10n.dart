@@ -110,10 +110,10 @@ class S {
     );
   }
 
-  /// `Duration`
+  /// `Duration in days`
   String get duration_achiev {
     return Intl.message(
-      'Duration',
+      'Duration in days',
       name: 'duration_achiev',
       desc: '',
       args: [],

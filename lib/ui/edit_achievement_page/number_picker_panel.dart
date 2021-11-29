@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -23,11 +21,11 @@ class _NumberPickerPanelState extends State<NumberPickerPanel> {
     final textEditingController =
         TextEditingController(text: widget.delta.toString());
     return SizedBox(
-      width: 50,
+      width: 70,
       child: TextFormField(
         controller: textEditingController,
         keyboardType: TextInputType.number,
-        maxLength: 10,
+        maxLength: 5,
         textAlign: TextAlign.end,
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.digitsOnly
