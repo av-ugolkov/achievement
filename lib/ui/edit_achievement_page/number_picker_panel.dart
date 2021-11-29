@@ -17,12 +17,12 @@ class NumberPickerPanel extends StatefulWidget {
 class _NumberPickerPanelState extends State<NumberPickerPanel> {
   @override
   Widget build(BuildContext context) {
-    final _textEditingController =
+    final textEditingController =
         TextEditingController(text: widget.delta.toString());
     return SizedBox(
       width: 50,
       child: TextFormField(
-        controller: _textEditingController,
+        controller: textEditingController,
         keyboardType: TextInputType.number,
         maxLength: 10,
         textAlign: TextAlign.end,
@@ -31,9 +31,8 @@ class _NumberPickerPanelState extends State<NumberPickerPanel> {
           counterText: '',
           border: UnderlineInputBorder(),
         ),
-        onEditingComplete: () {
-          widget.onEditComplete.call(int.parse(_textEditingController.text));
-          FocusScope.of(context).unfocus();
+        onFieldSubmitted: (value) {
+          widget.onEditComplete.call(int.parse(value));
         },
       ),
     );
