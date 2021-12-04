@@ -1,7 +1,7 @@
 name: achievement
 description: A new Flutter project.
 homepage: https://github.com/av-ugolkov
-version: 0.211128.1320
+version: 0.211201.2321
 
 publish_to: 'none'
 
@@ -19,7 +19,9 @@ dependencies:
   image_picker: ^0.8.3+3
   flutter_local_notifications: ^8.1.1+1
   url_launcher: ^6.0.9
-  
+  firebase_analytics: ^8.3.4
+  firebase_crashlytics: ^2.4.0
+
   heatmap_calendar:
     git:
       url: https://github.com/av-ugolkov/heatmap_calendar.git
