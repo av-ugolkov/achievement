@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 class FirebaseController {
   static void init() async {
     if (kDebugMode) {
-      await Future.sync(() => log('init firebase'));
+      await Future.sync(() => log('fake init firebase'));
     } else {
       await Firebase.initializeApp(
         name: 'com.ugolkov.achievement',
