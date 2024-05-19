@@ -12,7 +12,6 @@ import 'package:achievement/core/utils.dart' as utils;
 import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:path/path.dart' as path;
 import 'package:achievement/core/extensions.dart';
 import 'edit_remind_card/form_edit_remind_card.dart';
@@ -48,10 +47,9 @@ class EditAchievementPage extends StatelessWidget {
       _model.setModel(model);
     }
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (didPop) async {
         PageManager.pop(context);
-        return false;
       },
       child: Scaffold(
         key: _scaffoldKey,

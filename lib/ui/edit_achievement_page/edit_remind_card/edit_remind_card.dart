@@ -51,7 +51,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
           value: value,
           child: Text(
             _getStringRepition(value),
-            style: Theme.of(context).textTheme.button,
+            style: Theme.of(context).textTheme.labelLarge,
           ));
     }).toList();
 
@@ -100,7 +100,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
       return Text(
         widget.decoration!.errorText!,
         style: TextStyle(
-          color: Theme.of(context).errorColor,
+          color: Theme.of(context).colorScheme.error,
         ),
       );
     }

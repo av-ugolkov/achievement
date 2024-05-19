@@ -39,7 +39,7 @@ class _EditRemindDayBtnState extends State<EditRemindDayBtn> {
             },
             child: Text(
               FormateDate.weekDayName(DateTime(1, 1, day, 12, 0)),
-              style: Theme.of(context).textTheme.button,
+              style: Theme.of(context).textTheme.labelLarge,
             ),
           ),
         )

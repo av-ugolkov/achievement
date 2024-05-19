@@ -43,7 +43,7 @@ class _EditRemindDateBtnState extends State<EditRemindDateBtn> {
         FormateDate.yearNumMonthDay(widget.remindModel.remindDateTime.dateTime),
         textAlign: TextAlign.center,
         overflow: TextOverflow.visible,
-        style: Theme.of(context).textTheme.button,
+        style: Theme.of(context).textTheme.labelLarge,
       ),
     );
   }

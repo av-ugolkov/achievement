@@ -13,7 +13,7 @@ class DescriptionViewAchievement extends StatelessWidget {
       child: TextField(
         enabled: false,
         controller: descController,
-        style: Theme.of(context).textTheme.bodyText2,
+        style: Theme.of(context).textTheme.bodyMedium,
         decoration: InputDecoration(
           disabledBorder: OutlineInputBorder(
             borderSide: BorderSide(

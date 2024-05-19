@@ -21,10 +21,9 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
     var settings = ModalRoute.of(context)?.settings;
     var achievementModel = settings!.arguments as AchievementModel;
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      onPopInvoked: (didPop) async {
         PageManager.pop(context, achievementModel);
-        return false;
       },
       child: Scaffold(
         appBar: AppBar(

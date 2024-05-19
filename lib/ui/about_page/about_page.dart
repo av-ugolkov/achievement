@@ -1,7 +1,7 @@
 import 'package:achievement/bridge/localization.dart';
 import 'package:achievement/core/data_application.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AboutPage extends StatelessWidget {
   static const String _iconAchievement = 'assets/icons/icon_achievement.png';
@@ -29,7 +29,7 @@ class AboutPage extends StatelessWidget {
                   ),
                   Text(
                     getLocaleOfContext(context).app_name,
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                   ),
@@ -42,19 +42,19 @@ class AboutPage extends StatelessWidget {
                   Text('makedonskiy07@gmail.com'),
                   InkWell(
                     onTap: () {
-                      launch(DataApplication.homePage);
+                      launchUrlString(DataApplication.homePage);
                     },
                     child: Text(
                       DataApplication.homePage,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText1
+                          .bodyLarge
                           ?.copyWith(color: Colors.blueAccent),
                     ),
                   ),
                   InkWell(
                     onTap: () {
-                      launch(DataApplication.homePage);
+                      launchUrlString(DataApplication.homePage);
                     },
                     child: Text('Политика конфиденциальности'),
                   ),

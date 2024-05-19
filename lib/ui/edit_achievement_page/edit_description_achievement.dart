@@ -30,7 +30,7 @@ class _EditDescriptionAchievementState
         hintText: getLocaleOfContext(context).description,
         contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
       ),
-      style: Theme.of(context).textTheme.subtitle1,
+      style: Theme.of(context).textTheme.titleMedium,
       cursorHeight: 18,
     );
   }

@@ -46,13 +46,13 @@ class AchievementCard extends StatelessWidget {
                           maxLines: 1,
                           softWrap: true,
                           overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.headline6,
+                          style: Theme.of(context).textTheme.titleLarge,
                         ),
                         Text(
                           achievement.description,
                           maxLines: 2,
                           softWrap: true,
-                          style: Theme.of(context).textTheme.caption,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
@@ -65,7 +65,7 @@ class AchievementCard extends StatelessWidget {
                         Text(
                           FormateDate.yearNumMonthDay(achievement.finishDate),
                           textAlign: TextAlign.end,
-                          style: Theme.of(context).textTheme.overline?.copyWith(
+                          style: Theme.of(context).textTheme.labelSmall?.copyWith(
                                 fontStyle: FontStyle.italic,
                               ),
                         ),

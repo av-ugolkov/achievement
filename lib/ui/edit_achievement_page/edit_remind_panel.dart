@@ -39,7 +39,7 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
           children: [
             Text(
               getLocaleOfContext(context).remind,
-              style: Theme.of(context).textTheme.button,
+              style: Theme.of(context).textTheme.labelLarge,
             ),
             Switch(
               value: _isRemind,
