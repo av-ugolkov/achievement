@@ -1,7 +1,7 @@
 name: achievement
 description: A new Flutter project.
 homepage: https://github.com/av-ugolkov
-version: 0.211110.2237
+version: 0.241219.0042
 
 publish_to: 'none'
 
@@ -16,8 +16,8 @@ dependencies:
 
   sqflite: ^2.0.0+3
   path_provider: ^2.0.6
-  image_picker: ^0.8.3+3
-  flutter_local_notifications: ^8.1.1+1
+  image_picker: ^1.1.2
+  flutter_local_notifications: ^18.0.1
   url_launcher: ^6.0.9
   
   heatmap_calendar:

@@ -35,7 +35,6 @@ class _PopupMenuWidgetState extends State<PopupMenuWidget> {
           case _TypeMenu.about:
             PageManager.pushNamed(context, RouteAboutPage);
             break;
-          default:
         }
       },
     );

@@ -22,7 +22,7 @@ class _ViewAchievementPageState extends State<ViewAchievementPage> {
     var achievementModel = settings!.arguments as AchievementModel;
 
     return PopScope(
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         PageManager.pop(context, achievementModel);
       },
       child: Scaffold(

@@ -43,10 +43,15 @@ class LocalNotification {
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     if (notificationAppLaunchDetails != null &&
         notificationAppLaunchDetails.didNotificationLaunchApp) {
-      await onSelectNotification(notificationAppLaunchDetails.payload);
+      await onSelectNotification(
+          notificationAppLaunchDetails.notificationResponse?.payload);
     }
-    await flutterLocalNotificationsPlugin.initialize(initSetting,
-        onSelectNotification: onSelectNotificationCallback);
+    await flutterLocalNotificationsPlugin.initialize(
+      initSetting,
+      onDidReceiveNotificationResponse: (response) {
+        onSelectNotificationCallback(response.payload);
+      },
+    );
   }
 
   Future<void> onSelectNotification(String? payload) async {
@@ -83,8 +88,8 @@ class LocalNotification {
       TypeRepition typeRepition,
       int achievementId) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        channelId, channel, channel_desc,
-        playSound: true);
+        channelId, channel,
+        channelDescription: channel_desc, playSound: true);
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     var dateTimeUtc = scheduledDate.toUtc();
@@ -92,7 +97,7 @@ class LocalNotification {
         dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
     await _inst.flutterLocalNotificationsPlugin.zonedSchedule(
         id, title, body, tzSchedulerDate, platformChannelSpecifics,
-        androidAllowWhileIdle: true,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.wallClockTime,
         matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition),

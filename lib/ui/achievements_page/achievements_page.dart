@@ -45,8 +45,9 @@ class _AchievementsPageState extends State<AchievementsPage> {
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
-        var result =
-            await PageManager.pushNamed(context, RouteViewAchievementPage, arguments: model);
+        var result = await PageManager.pushNamed(
+            context, RouteViewAchievementPage,
+            arguments: model);
         var newModel = result as AchievementModel;
         model.setModel(newModel);
         setState(() {});
@@ -78,7 +79,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
           actions: [PopupMenuWidget()]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          PageManager.pushNamed(context, RouteEditAchievementPage).then((value) => setState(() {}));
+          PageManager.pushNamed(context, RouteEditAchievementPage)
+              .then((value) => setState(() {}));
         },
         child: Icon(Icons.add),
       ),
@@ -135,8 +137,6 @@ class _TitleAchievementPage extends StatelessWidget {
         return getLocaleCurrent().finished;
       case AchievementState.archived:
         return getLocaleCurrent().archived;
-      default:
-        throw Exception('Not found AchievementState');
     }
   }
 }

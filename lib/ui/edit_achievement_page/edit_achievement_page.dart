@@ -48,7 +48,7 @@ class EditAchievementPage extends StatelessWidget {
     }
 
     return PopScope(
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         PageManager.pop(context);
       },
       child: Scaffold(

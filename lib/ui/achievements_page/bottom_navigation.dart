@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class BottomNavigation extends StatefulWidget {
   final AchievementState currentState;
   final ValueChanged<AchievementState> onChangeState;
-  const BottomNavigation({Key? key, required this.currentState, required this.onChangeState})
+  const BottomNavigation(
+      {Key? key, required this.currentState, required this.onChangeState})
       : super(key: key);
 
   @override
@@ -18,11 +19,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
   Widget build(BuildContext context) {
     final bottomNavigationItems = [
       BottomNavigationBarItem(
-          icon: Icon(Icons.emoji_events_outlined), label: getLocaleOfContext(context).active),
+          icon: Icon(Icons.emoji_events_outlined),
+          label: getLocaleOfContext(context).active),
       BottomNavigationBarItem(
-          icon: Icon(Icons.event_available_outlined), label: getLocaleOfContext(context).finished),
+          icon: Icon(Icons.event_available_outlined),
+          label: getLocaleOfContext(context).finished),
       BottomNavigationBarItem(
-          icon: Icon(Icons.archive_outlined), label: getLocaleOfContext(context).archived),
+          icon: Icon(Icons.archive_outlined),
+          label: getLocaleOfContext(context).archived),
     ];
 
     return BottomNavigationBar(
@@ -30,7 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       currentIndex: _currentIndex,
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
-      unselectedItemColor: Theme.of(context).primaryColor.withOpacity(.6),
+      unselectedItemColor: Theme.of(context).primaryColor.withValues(alpha: .6),
       onTap: (index) {
         setState(() {
           _currentIndex = index;
