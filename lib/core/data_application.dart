@@ -8,7 +8,7 @@ class DataApplication {
 
   DataApplication() {
     rootBundle.loadString('pubspec.yaml').then((value) {
-      var yaml = value.split('\r\n');
+      var yaml = value.split('\n').where((e) => e.isNotEmpty).toList();
       description = _getTextFromYaml(yaml, 'description');
       version = _getTextFromYaml(yaml, 'version');
       homePage = _getTextFromYaml(yaml, 'homepage');
