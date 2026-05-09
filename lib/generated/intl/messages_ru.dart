@@ -22,32 +22,39 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "active": MessageLookupByLibrary.simpleMessage("Активные"),
-        "app_name": MessageLookupByLibrary.simpleMessage("Достигатор"),
-        "archived": MessageLookupByLibrary.simpleMessage("Архивные"),
-        "create_achievement":
-            MessageLookupByLibrary.simpleMessage("Создать достижение"),
-        "description": MessageLookupByLibrary.simpleMessage("Описание"),
-        "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
-        "duration_achiev":
-            MessageLookupByLibrary.simpleMessage("Длительность в днях"),
-        "error_header": MessageLookupByLibrary.simpleMessage(
-            "Заголовок не может быть меньше 3 символов"),
-        "error_remind_card":
-            MessageLookupByLibrary.simpleMessage("Выбранная дата в прошлом"),
-        "fail": MessageLookupByLibrary.simpleMessage("Проваленные"),
-        "finish_achiev": MessageLookupByLibrary.simpleMessage("Финиш ачивки"),
-        "finished": MessageLookupByLibrary.simpleMessage("Законченные"),
-        "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
-        "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
-        "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
-        "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
-        "start_achiev": MessageLookupByLibrary.simpleMessage("Старт ачивки"),
-        "view_achievement_title":
-            MessageLookupByLibrary.simpleMessage("Достижение"),
-        "what_do_you_do":
-            MessageLookupByLibrary.simpleMessage("Ты делал что либо?"),
-        "what_do_you_do_or_not_do": MessageLookupByLibrary.simpleMessage(
-            "Что делал или почему ни чего не делал")
-      };
+    "active": MessageLookupByLibrary.simpleMessage("Активные"),
+    "app_name": MessageLookupByLibrary.simpleMessage("Достигатор"),
+    "archived": MessageLookupByLibrary.simpleMessage("Архивные"),
+    "create_achievement": MessageLookupByLibrary.simpleMessage(
+      "Создать достижение",
+    ),
+    "description": MessageLookupByLibrary.simpleMessage("Описание"),
+    "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
+    "duration_achiev": MessageLookupByLibrary.simpleMessage(
+      "Длительность в днях",
+    ),
+    "error_header": MessageLookupByLibrary.simpleMessage(
+      "Заголовок не может быть меньше 3 символов",
+    ),
+    "error_remind_card": MessageLookupByLibrary.simpleMessage(
+      "Выбранная дата в прошлом",
+    ),
+    "fail": MessageLookupByLibrary.simpleMessage("Проваленные"),
+    "finish_achiev": MessageLookupByLibrary.simpleMessage("Финиш ачивки"),
+    "finished": MessageLookupByLibrary.simpleMessage("Законченные"),
+    "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
+    "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
+    "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
+    "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
+    "start_achiev": MessageLookupByLibrary.simpleMessage("Старт ачивки"),
+    "view_achievement_title": MessageLookupByLibrary.simpleMessage(
+      "Достижение",
+    ),
+    "what_do_you_do": MessageLookupByLibrary.simpleMessage(
+      "Ты делал что либо?",
+    ),
+    "what_do_you_do_or_not_do": MessageLookupByLibrary.simpleMessage(
+      "Что делал или почему ни чего не делал",
+    ),
+  };
 }

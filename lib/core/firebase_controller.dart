@@ -25,7 +25,7 @@ class FirebaseController {
   }
 
   static FirebaseAnalyticsObserver createObserver() {
-    var analytics = FirebaseAnalytics();
+    var analytics = FirebaseAnalytics.instance;
     var observer = FirebaseAnalyticsObserver(analytics: analytics);
     return observer;
   }
