@@ -89,10 +89,10 @@ class S {
     return Intl.message('Done', name: 'done', desc: '', args: []);
   }
 
-  /// `Duration`
+  /// `Duration in days`
   String get duration_achiev {
     return Intl.message(
-      'Duration',
+      'Duration in days',
       name: 'duration_achiev',
       desc: '',
       args: [],

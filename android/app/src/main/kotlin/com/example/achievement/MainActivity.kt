@@ -1,4 +1,4 @@
-package com.example.achievement
+package com.ugolkov.achievement
 
 import io.flutter.embedding.android.FlutterActivity
 

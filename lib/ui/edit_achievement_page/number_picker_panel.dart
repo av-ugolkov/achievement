@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class NumberPickerPanel extends StatefulWidget {
   final int delta;
@@ -15,25 +16,34 @@ class NumberPickerPanel extends StatefulWidget {
 }
 
 class _NumberPickerPanelState extends State<NumberPickerPanel> {
+  final _textEditingController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _textEditingController.value =
+        TextEditingValue(text: widget.delta.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
-    final _textEditingController =
-        TextEditingController(text: widget.delta.toString());
     return SizedBox(
-      width: 50,
+      width: 70,
       child: TextFormField(
         controller: _textEditingController,
         keyboardType: TextInputType.number,
-        maxLength: 10,
+        maxLength: 5,
         textAlign: TextAlign.end,
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly
+        ],
         decoration: InputDecoration(
           isDense: true,
           counterText: '',
           border: UnderlineInputBorder(),
         ),
-        onEditingComplete: () {
-          widget.onEditComplete.call(int.parse(_textEditingController.text));
-          FocusScope.of(context).unfocus();
+        onChanged: (value) {
+          widget.onEditComplete.call(int.parse(value));
         },
       ),
     );

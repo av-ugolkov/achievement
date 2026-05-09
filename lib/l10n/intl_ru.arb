@@ -6,7 +6,7 @@
   "create_achievement": "Создать достижение",
   "description": "Описание",
   "done": "Выполнные",
-  "duration_achiev": "Длительность",
+  "duration_achiev": "Длительность в днях",
   "error_header": "Заголовок не может быть меньше 3 символов",
   "error_remind_card": "Выбранная дата в прошлом",
   "fail": "Проваленные",

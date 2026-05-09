@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1087083017957",
+    "project_id": "achievement-dc79f",
+    "storage_bucket": "achievement-dc79f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1087083017957:android:160daff30995acc3d1460c",
+        "android_client_info": {
+          "package_name": "com.ugolkov.achievement"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1087083017957-q3phv3ijoouoohb9rb9igu66art2668a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzrHcu4TQK8Ji31Bnyr8faDQwEanONPDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1087083017957-q3phv3ijoouoohb9rb9igu66art2668a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

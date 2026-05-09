@@ -3,7 +3,7 @@ import 'package:achievement/db/db_achievement.dart';
 import 'package:achievement/core/enums.dart';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/core/page_routes.dart';
-import 'expandable_fab.dart';
+import 'package:achievement/ui/view_achievement_page/fab/action_button.dart';
 import 'package:flutter/material.dart';
 
 class FAB extends StatefulWidget {
@@ -16,18 +16,13 @@ class FAB extends StatefulWidget {
 }
 
 class _FABState extends State<FAB> {
-  late ExpandableFab _fab;
-
   @override
   Widget build(BuildContext context) {
-    return _floatingActionButton();
-  }
-
-  Widget _floatingActionButton() {
-    _fab = ExpandableFab(
-      distance: 70,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         ActionButton(
+          radius: 45,
           onPressed: () {
             _setAchievementState(AchievementState.archived);
             _closePage();
@@ -35,9 +30,9 @@ class _FABState extends State<FAB> {
           icon: const Icon(Icons.archive_outlined),
           color: Colors.grey,
         ),
+        SizedBox(height: 10),
         ActionButton(
           onPressed: () async {
-            _fab.hide();
             var result = await PageManager.pushNamed(
               context,
               RouteEditAchievementPage,
@@ -54,11 +49,9 @@ class _FABState extends State<FAB> {
         ),
       ],
     );
-    return _fab;
   }
 
   void _closePage() {
-    _fab.hide();
     PageManager.pop(context, widget.model);
   }
 

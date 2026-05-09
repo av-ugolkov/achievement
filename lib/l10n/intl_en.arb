@@ -6,7 +6,7 @@
   "create_achievement": "Create achievement",
   "description": "Description",
   "done": "Done",
-  "duration_achiev": "Duration",
+  "duration_achiev": "Duration in days",
   "error_header": "The title cannot be less than 3 characters",
   "error_remind_card": "Selected date in the past",
   "fail": "Fail",
