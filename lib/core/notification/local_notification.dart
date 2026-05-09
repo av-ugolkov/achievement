@@ -47,7 +47,7 @@ class LocalNotification {
           notificationAppLaunchDetails.notificationResponse?.payload);
     }
     await flutterLocalNotificationsPlugin.initialize(
-      initSetting,
+      settings: initSetting,
       onDidReceiveNotificationResponse: (response) {
         onSelectNotificationCallback(response.payload);
       },
@@ -96,10 +96,8 @@ class LocalNotification {
     var tzSchedulerDate = tz.TZDateTime.utc(dateTimeUtc.year, dateTimeUtc.month,
         dateTimeUtc.day, dateTimeUtc.hour, dateTimeUtc.minute);
     await _inst.flutterLocalNotificationsPlugin.zonedSchedule(
-        id, title, body, tzSchedulerDate, platformChannelSpecifics,
+        id: id, title: title, body: body, scheduledDate: tzSchedulerDate, notificationDetails: platformChannelSpecifics,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.wallClockTime,
         matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition),
         payload: jsonEncode(Payload('open', achievementId).toJson()));
   }
@@ -128,7 +126,7 @@ class LocalNotification {
   }
 
   static Future<void> cancelNotification(int id) async {
-    await _inst.flutterLocalNotificationsPlugin.cancel(id);
+    await _inst.flutterLocalNotificationsPlugin.cancel(id: id);
   }
 
   static Future<void> cancelAllNotification() async {

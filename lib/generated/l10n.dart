@@ -18,8 +18,10 @@ class S {
   static S? _current;
 
   static S get current {
-    assert(_current != null,
-        'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.');
+    assert(
+      _current != null,
+      'No instance of S was loaded. Try to initialize the S delegate before accessing S.current.',
+    );
     return _current!;
   }
 
@@ -41,8 +43,10 @@ class S {
 
   static S of(BuildContext context) {
     final instance = S.maybeOf(context);
-    assert(instance != null,
-        'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?');
+    assert(
+      instance != null,
+      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+    );
     return instance!;
   }
 
@@ -52,32 +56,17 @@ class S {
 
   /// `Active`
   String get active {
-    return Intl.message(
-      'Active',
-      name: 'active',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Active', name: 'active', desc: '', args: []);
   }
 
   /// `Achievement`
   String get app_name {
-    return Intl.message(
-      'Achievement',
-      name: 'app_name',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Achievement', name: 'app_name', desc: '', args: []);
   }
 
   /// `Archived`
   String get archived {
-    return Intl.message(
-      'Archived',
-      name: 'archived',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Archived', name: 'archived', desc: '', args: []);
   }
 
   /// `Create achievement`
@@ -92,22 +81,12 @@ class S {
 
   /// `Description`
   String get description {
-    return Intl.message(
-      'Description',
-      name: 'description',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Description', name: 'description', desc: '', args: []);
   }
 
   /// `Done`
   String get done {
-    return Intl.message(
-      'Done',
-      name: 'done',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Done', name: 'done', desc: '', args: []);
   }
 
   /// `Duration`
@@ -142,12 +121,7 @@ class S {
 
   /// `Fail`
   String get fail {
-    return Intl.message(
-      'Fail',
-      name: 'fail',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Fail', name: 'fail', desc: '', args: []);
   }
 
   /// `Finish achiev`
@@ -162,52 +136,27 @@ class S {
 
   /// `Finished`
   String get finished {
-    return Intl.message(
-      'Finished',
-      name: 'finished',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Finished', name: 'finished', desc: '', args: []);
   }
 
   /// `Header`
   String get header {
-    return Intl.message(
-      'Header',
-      name: 'header',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Header', name: 'header', desc: '', args: []);
   }
 
   /// `Remind`
   String get remind {
-    return Intl.message(
-      'Remind',
-      name: 'remind',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Remind', name: 'remind', desc: '', args: []);
   }
 
   /// `Repeat`
   String get repeat {
-    return Intl.message(
-      'Repeat',
-      name: 'repeat',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Repeat', name: 'repeat', desc: '', args: []);
   }
 
   /// `Settings`
   String get settings {
-    return Intl.message(
-      'Settings',
-      name: 'settings',
-      desc: '',
-      args: [],
-    );
+    return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
 
   /// `Start achiev`

@@ -6,7 +6,7 @@ version: 0.241219.0042
 publish_to: 'none'
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: ^3.11.5
 
 dependencies:
   flutter:
@@ -17,18 +17,19 @@ dependencies:
   sqflite: ^2.0.0+3
   path_provider: ^2.0.6
   image_picker: ^1.1.2
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^21.0.0
   url_launcher: ^6.0.9
   
   heatmap_calendar:
     git:
       url: https://github.com/av-ugolkov/heatmap_calendar.git
-  intl: ^0.19.0
+  intl: ^0.20.2
+  cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.11.0
+  flutter_lints: ^6.0.0
 
 flutter_intl:
   enabled: true
