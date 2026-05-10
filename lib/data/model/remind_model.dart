@@ -14,27 +14,23 @@ class RemindModel extends RemindEntity {
       ));
 
   RemindModel({
-    required int id,
-    required RemindDateTime remindDateTime,
-    TypeRepition typeRepition = TypeRepition.none,
-  }) : super(
-          id: id,
-          typeRepition: typeRepition,
-          remindDateTime: remindDateTime,
-        );
+    required super.id,
+    required super.remindDateTime,
+    super.typeRepetition,
+  });
 
   factory RemindModel.fromJson(Map<String, dynamic> map) {
     return RemindModel(
         id: map['id'] as int,
         remindDateTime: RemindDateTime.fromJson(
             jsonDecode(map['dateTime'] as String) as Map<String, dynamic>),
-        typeRepition: TypeRepition.values[map['typeRepition'] as int]);
+        typeRepetition: TypeRepetition.values[map['typeRepetition'] as int]);
   }
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    map['typeRepition'] = typeRepition.index;
+    map['typeRepetition'] = typeRepetition.index;
     map['dateTime'] = jsonEncode(remindDateTime.toJson());
     return map;
   }

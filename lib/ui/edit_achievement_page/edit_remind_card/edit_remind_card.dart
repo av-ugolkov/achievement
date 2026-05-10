@@ -13,7 +13,8 @@ class EditRemindCard extends StatefulWidget {
   final ValueChanged<DateTime>? onChanged;
   final InputDecoration? decoration;
 
-  EditRemindCard({
+  const EditRemindCard({
+    super.key,
     required this.remindModel,
     required this.dateTimeRange,
     this.onChanged,
@@ -21,14 +22,14 @@ class EditRemindCard extends StatefulWidget {
   });
 
   @override
-  _EditRemindCardState createState() => _EditRemindCardState();
+  State<EditRemindCard> createState() => _EditRemindCardState();
 }
 
 class _EditRemindCardState extends State<EditRemindCard> {
-  TypeRepition _typeRepition = TypeRepition.none;
-  late List<DropdownMenuItem<TypeRepition>> _listTypeRepition;
+  TypeRepetition _typeRepetition = TypeRepetition.none;
+  late List<DropdownMenuItem<TypeRepetition>> _listTypeRepetition;
 
-  DateTime get _12am => DateTime(1, 1, 1, 12, 0);
+  DateTime get _afternoon => DateTime(1, 1, 1, 12, 0);
   DateTime get _getTimeAdd12Hours => DateTime.now().add(Duration(hours: 12));
 
   bool get _hasError =>
@@ -40,17 +41,17 @@ class _EditRemindCardState extends State<EditRemindCard> {
   void initState() {
     super.initState();
 
-    _typeRepition = widget.remindModel.typeRepition;
+    _typeRepetition = widget.remindModel.typeRepetition;
   }
 
   @override
   Widget build(BuildContext context) {
-    _listTypeRepition =
-        TypeRepition.values.map<DropdownMenuItem<TypeRepition>>((value) {
-      return DropdownMenuItem<TypeRepition>(
+    _listTypeRepetition =
+        TypeRepetition.values.map<DropdownMenuItem<TypeRepetition>>((value) {
+      return DropdownMenuItem<TypeRepetition>(
           value: value,
           child: Text(
-            _getStringRepition(value),
+            _getStringRepetition(value),
             style: Theme.of(context).textTheme.labelLarge,
           ));
     }).toList();
@@ -60,17 +61,17 @@ class _EditRemindCardState extends State<EditRemindCard> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             height: 36,
-            child: DropdownButton<TypeRepition>(
-              value: _typeRepition,
-              onChanged: (TypeRepition? value) {
+            child: DropdownButton<TypeRepetition>(
+              value: _typeRepetition,
+              onChanged: (TypeRepetition? value) {
                 setState(() {
-                  _typeRepition = value ?? TypeRepition.none;
-                  widget.remindModel.typeRepition = _typeRepition;
-                  if (_typeRepition == TypeRepition.week) {
+                  _typeRepetition = value ?? TypeRepetition.none;
+                  widget.remindModel.typeRepetition = _typeRepetition;
+                  if (_typeRepetition == TypeRepetition.week) {
                     widget.remindModel.remindDateTime =
-                        RemindDateTime.fromDateTime(dateTime: _12am);
+                        RemindDateTime.fromDateTime(dateTime: _afternoon);
                   } else {
                     widget.remindModel.remindDateTime =
                         RemindDateTime.fromDateTime(
@@ -79,14 +80,14 @@ class _EditRemindCardState extends State<EditRemindCard> {
                   }
                 });
               },
-              items: _listTypeRepition,
+              items: _listTypeRepetition,
             ),
           ),
-          Container(
+          SizedBox(
             height: 36,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: _getRemindView(_typeRepition),
+              children: _getRemindView(_typeRepetition),
             ),
           ),
           _getShowErrorText(),
@@ -107,18 +108,18 @@ class _EditRemindCardState extends State<EditRemindCard> {
     return Container();
   }
 
-  List<Widget> _getRemindView(TypeRepition typeRepition) {
-    switch (typeRepition) {
-      case TypeRepition.day:
-        return _getDayRepition();
-      case TypeRepition.week:
-        return _getWeekRepition();
+  List<Widget> _getRemindView(TypeRepetition typeRepetition) {
+    switch (typeRepetition) {
+      case TypeRepetition.day:
+        return _getDayRepetition();
+      case TypeRepetition.week:
+        return _getWeekRepetition();
       default:
-        return _getNoneRepition();
+        return _getNoneRepetition();
     }
   }
 
-  List<Widget> _getNoneRepition() {
+  List<Widget> _getNoneRepetition() {
     return <Widget>[
       EditRemindDateBtn(
         remindModel: widget.remindModel,
@@ -133,7 +134,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
     ];
   }
 
-  List<Widget> _getDayRepition() {
+  List<Widget> _getDayRepetition() {
     return <Widget>[
       EditRemindTimeBtn(
         remindModel: widget.remindModel,
@@ -143,7 +144,7 @@ class _EditRemindCardState extends State<EditRemindCard> {
     ];
   }
 
-  List<Widget> _getWeekRepition() {
+  List<Widget> _getWeekRepetition() {
     return <Widget>[
       EditRemindDayBtn(remindModel: widget.remindModel),
       EditRemindTimeBtn(
@@ -158,11 +159,11 @@ class _EditRemindCardState extends State<EditRemindCard> {
     widget.onChanged?.call(value);
   }
 
-  String _getStringRepition(TypeRepition typeRepition) {
-    switch (typeRepition) {
-      case TypeRepition.day:
+  String _getStringRepetition(TypeRepetition typeRepetition) {
+    switch (typeRepetition) {
+      case TypeRepetition.day:
         return 'каждый день';
-      case TypeRepition.week:
+      case TypeRepetition.week:
         return 'каждую неделю';
       default:
         return 'без повтора';

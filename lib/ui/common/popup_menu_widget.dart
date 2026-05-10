@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 enum _TypeMenu { settings, about }
 
 class PopupMenuWidget extends StatefulWidget {
-  const PopupMenuWidget({Key? key}) : super(key: key);
+  const PopupMenuWidget({super.key});
 
   @override
-  _PopupMenuWidgetState createState() => _PopupMenuWidgetState();
+  State<PopupMenuWidget> createState() => _PopupMenuWidgetState();
 }
 
 class _PopupMenuWidgetState extends State<PopupMenuWidget> {
@@ -30,10 +30,10 @@ class _PopupMenuWidgetState extends State<PopupMenuWidget> {
       onSelected: (value) {
         switch (value) {
           case _TypeMenu.settings:
-            PageManager.pushNamed(context, RouteSettingsPage);
+            PageManager.pushNamed(context, routeSettingsPage);
             break;
           case _TypeMenu.about:
-            PageManager.pushNamed(context, RouteAboutPage);
+            PageManager.pushNamed(context, routeAboutPage);
             break;
         }
       },

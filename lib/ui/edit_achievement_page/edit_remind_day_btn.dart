@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class EditRemindDayBtn extends StatefulWidget {
   final RemindModel remindModel;
 
-  EditRemindDayBtn({required this.remindModel});
+  const EditRemindDayBtn({super.key, required this.remindModel});
 
   @override
-  _EditRemindDayBtnState createState() => _EditRemindDayBtnState();
+  State<EditRemindDayBtn> createState() => _EditRemindDayBtnState();
 }
 
 class _EditRemindDayBtnState extends State<EditRemindDayBtn> {

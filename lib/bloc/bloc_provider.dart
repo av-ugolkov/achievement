@@ -5,11 +5,10 @@ class BlocProvider<T extends BlocBase> extends StatefulWidget {
   final T bloc;
   final Widget child;
 
-  BlocProvider({Key? key, required this.child, required this.bloc})
-      : super(key: key);
+  const BlocProvider({super.key, required this.child, required this.bloc});
 
   @override
-  _BlocProviderState<T> createState() => _BlocProviderState<T>();
+  State<BlocProvider> createState() => _BlocProviderState<T>();
 
   static T of<T extends BlocBase>(BuildContext context) {
     var provider = context.findAncestorWidgetOfExactType<BlocProvider<T>>();

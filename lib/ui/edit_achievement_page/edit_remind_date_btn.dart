@@ -8,14 +8,14 @@ class EditRemindDateBtn extends StatefulWidget {
   final RemindModel remindModel;
   final ValueChanged<DateTime>? onChangeDate;
 
-  EditRemindDateBtn({
+  const EditRemindDateBtn({super.key,
     required this.remindModel,
     required this.dateTimeRange,
     this.onChangeDate,
   });
 
   @override
-  _EditRemindDateBtnState createState() => _EditRemindDateBtnState();
+  State<EditRemindDateBtn> createState() => _EditRemindDateBtnState();
 }
 
 class _EditRemindDateBtnState extends State<EditRemindDateBtn> {

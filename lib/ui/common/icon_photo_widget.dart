@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class IconPhotoWidget extends StatelessWidget {
   final double size;
-  const IconPhotoWidget({Key? key, this.size = 50}) : super(key: key);
+  const IconPhotoWidget({super.key, this.size = 50});
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,7 @@ import 'package:sqflite/sqflite.dart';
 
 @immutable
 class DbFile {
-  DbFile._();
+  const DbFile._();
 
   static final DbFile db = DbFile._();
   static late Database _database;
@@ -28,7 +28,7 @@ class DbFile {
 
   Future<String> _getPathDB() async {
     var dir = await getApplicationDocumentsDirectory();
-    var path = dir.path + '/Achievement.db';
+    var path = '${dir.path}/Achievement.db';
     return path;
   }
 

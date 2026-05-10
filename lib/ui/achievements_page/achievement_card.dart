@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class AchievementCard extends StatelessWidget {
   final AchievementModel achievement;
 
-  AchievementCard({required this.achievement});
+  const AchievementCard({super.key, required this.achievement});
 
   @override
   Widget build(BuildContext context) {

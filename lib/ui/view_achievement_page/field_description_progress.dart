@@ -6,10 +6,10 @@ import 'package:achievement/core/extensions.dart';
 
 class FieldDescriptionProgress extends StatefulWidget {
   final DateTime currentDateTime;
-  FieldDescriptionProgress({required this.currentDateTime});
+  const FieldDescriptionProgress({super.key, required this.currentDateTime});
 
   @override
-  _FieldDescriptionProgressState createState() =>
+  State<FieldDescriptionProgress> createState() =>
       _FieldDescriptionProgressState();
 
   String get keyDate => currentDateTime.getDate().toIso8601String();

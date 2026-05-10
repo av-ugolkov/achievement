@@ -6,13 +6,13 @@ class NumberPickerPanel extends StatefulWidget {
   final Function(int) onEditComplete;
 
   const NumberPickerPanel({
-    Key? key,
+    super.key,
     required this.delta,
     required this.onEditComplete,
-  }) : super(key: key);
+  });
 
   @override
-  _NumberPickerPanelState createState() => _NumberPickerPanelState();
+  State<NumberPickerPanel> createState() => _NumberPickerPanelState();
 }
 
 class _NumberPickerPanelState extends State<NumberPickerPanel> {

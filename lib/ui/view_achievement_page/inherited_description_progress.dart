@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 class InheritedDescriptionProgress extends InheritedWidget {
   final Map<String, ProgressDescription> progressDescription;
 
-  InheritedDescriptionProgress(
-      {required this.progressDescription, required Widget child})
-      : super(child: child);
+  const InheritedDescriptionProgress(
+      {super.key, required this.progressDescription, required super.child});
 
   @override
   bool updateShouldNotify(covariant InheritedDescriptionProgress oldWidget) {

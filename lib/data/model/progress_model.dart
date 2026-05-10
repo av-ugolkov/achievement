@@ -6,12 +6,9 @@ class ProgressModel extends ProgressEntity {
       ProgressModel(id: -1, progressDescription: {});
 
   ProgressModel({
-    required int id,
-    required Map<String, ProgressDescription> progressDescription,
-  }) : super(
-          id: id,
-          progressDescription: progressDescription,
-        );
+    required super.id,
+    required super.progressDescription,
+  });
 
   factory ProgressModel.fromJson(Map<String, dynamic> map) {
     var mapValue = map['progressDescription'] as String;

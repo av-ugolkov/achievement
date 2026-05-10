@@ -7,12 +7,12 @@ class ActionButton extends StatelessWidget {
   final double radius;
 
   const ActionButton({
-    Key? key,
+    super.key,
     this.onPressed,
     required this.icon,
     this.color,
     this.radius = 56,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

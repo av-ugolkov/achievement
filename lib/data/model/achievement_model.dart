@@ -11,25 +11,16 @@ class AchievementModel extends AchievementEntity {
       );
 
   AchievementModel({
-    required int id,
-    required String header,
-    required DateTime createDate,
-    required DateTime finishDate,
-    AchievementState state = AchievementState.active,
-    String description = '',
-    String imagePath = '',
-    List<int> remindIds = const [],
-    int progressId = -1,
-  }) : super(
-            id: id,
-            header: header,
-            createDate: createDate,
-            finishDate: finishDate,
-            state: state,
-            description: description,
-            imagePath: imagePath,
-            remindIds: remindIds,
-            progressId: progressId);
+    required super.id,
+    required super.header,
+    required super.createDate,
+    required super.finishDate,
+    super.state,
+    super.description,
+    super.imagePath,
+    super.remindIds,
+    super.progressId,
+  });
 
   factory AchievementModel.fromJson(Map<String, dynamic> map) {
     var ids = jsonDecode(map['remind_ids'] as String) as List<dynamic>;

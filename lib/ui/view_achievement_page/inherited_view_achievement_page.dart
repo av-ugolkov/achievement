@@ -4,8 +4,7 @@ import 'package:flutter/widgets.dart';
 class InheritedViewAchievementPage extends InheritedWidget {
   final AchievementModel model;
 
-  InheritedViewAchievementPage({required this.model, required Widget child})
-      : super(child: child);
+  const InheritedViewAchievementPage({super.key, required this.model, required super.child});
 
   @override
   bool updateShouldNotify(covariant InheritedViewAchievementPage oldWidget) {

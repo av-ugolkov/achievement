@@ -8,13 +8,13 @@ class EditHeaderAchievement extends StatefulWidget {
   final TextEditingController headerEditingController;
   final List<int> imageBytes;
 
-  EditHeaderAchievement({
+  const EditHeaderAchievement({super.key,
     required this.headerEditingController,
     required this.imageBytes,
   });
 
   @override
-  _EditHeaderAchievementState createState() => _EditHeaderAchievementState();
+  State<EditHeaderAchievement> createState() => _EditHeaderAchievementState();
 }
 
 class _EditHeaderAchievementState extends State<EditHeaderAchievement> {

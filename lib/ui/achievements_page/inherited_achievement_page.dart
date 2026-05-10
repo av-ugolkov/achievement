@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class InheritedAchievementPage extends InheritedWidget {
   final AchievementState state;
 
-  InheritedAchievementPage({required this.state, required Widget child})
-      : super(child: child);
+  const InheritedAchievementPage({super.key, required this.state, required super.child});
 
   @override
   bool updateShouldNotify(covariant InheritedAchievementPage oldWidget) {

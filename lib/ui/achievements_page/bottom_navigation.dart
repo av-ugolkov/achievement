@@ -6,11 +6,10 @@ class BottomNavigation extends StatefulWidget {
   final AchievementState currentState;
   final ValueChanged<AchievementState> onChangeState;
   const BottomNavigation(
-      {Key? key, required this.currentState, required this.onChangeState})
-      : super(key: key);
+      {super.key, required this.currentState, required this.onChangeState});
 
   @override
-  _BottomNavigationState createState() => _BottomNavigationState();
+  State<BottomNavigation> createState() => _BottomNavigationState();
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {

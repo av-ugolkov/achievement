@@ -8,15 +8,13 @@ class FormEditRemindCard extends FormField<DateTime> {
   final ChangedDateTimeRange dateTimeRange;
 
   FormEditRemindCard({
-    Key? key,
+    super.key,
     required this.remindModel,
     required this.dateTimeRange,
     ValueChanged<DateTime>? onChanged,
-    FormFieldValidator<DateTime>? validator,
+    super.validator,
     InputDecoration? decoration = const InputDecoration(),
   }) : super(
-          key: key,
-          validator: validator,
           initialValue: remindModel.remindDateTime.dateTime,
           builder: (FormFieldState<DateTime> field) {
             final effectiveDecoration = (decoration ?? const InputDecoration())
@@ -39,7 +37,7 @@ class FormEditRemindCard extends FormField<DateTime> {
         );
 
   @override
-  _FormRemindCardState createState() => _FormRemindCardState();
+  FormFieldState<DateTime> createState() => _FormRemindCardState();
 }
 
 class _FormRemindCardState extends FormFieldState<DateTime> {

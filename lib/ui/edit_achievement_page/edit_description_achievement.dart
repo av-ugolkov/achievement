@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class EditDescriptionAchievement extends StatefulWidget {
   final TextEditingController descriptionEditController;
 
-  EditDescriptionAchievement({required this.descriptionEditController});
+  const EditDescriptionAchievement({super.key, required this.descriptionEditController});
 
   @override
-  _EditDescriptionAchievementState createState() =>
+  State<EditDescriptionAchievement> createState() =>
       _EditDescriptionAchievementState();
 }
 

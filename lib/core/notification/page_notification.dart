@@ -34,7 +34,7 @@ class PageNotification {
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
         var result = await PageManager.pushNamed(
-            context, RouteViewAchievementPage,
+            context, routeViewAchievementPage,
             arguments: model);
         var newModel = result as AchievementModel;
         model.setModel(newModel);

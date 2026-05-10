@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class InheritedEditAchievementPage extends InheritedWidget {
   final List<EditRemindCard> remindCards;
 
-  InheritedEditAchievementPage({
+  const InheritedEditAchievementPage({super.key,
     required this.remindCards,
-    required Widget child,
-  }) : super(child: child);
+    required super.child,
+  });
 
   @override
   bool updateShouldNotify(covariant InheritedEditAchievementPage oldWidget) {

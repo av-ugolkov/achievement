@@ -1,5 +1,5 @@
-const String RouteAchievementPage = '/achievement';
-const String RouteEditAchievementPage = '/edit_achievement';
-const String RouteViewAchievementPage = '/view_achievement';
-const String RouteSettingsPage = '/settings';
-const String RouteAboutPage = '/about';
+const String routeAchievementPage = '/achievement';
+const String routeEditAchievementPage = '/edit_achievement';
+const String routeViewAchievementPage = '/view_achievement';
+const String routeSettingsPage = '/settings';
+const String routeAboutPage = '/about';

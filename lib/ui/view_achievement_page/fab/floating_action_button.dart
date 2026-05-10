@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 class FAB extends StatefulWidget {
   final AchievementModel model;
   final VoidCallback onUpdateModel;
-  FAB({required this.model, required this.onUpdateModel});
+  const FAB({super.key, required this.model, required this.onUpdateModel});
 
   @override
-  _FABState createState() => _FABState();
+  State<FAB> createState() => _FABState();
 }
 
 class _FABState extends State<FAB> {
@@ -35,7 +35,7 @@ class _FABState extends State<FAB> {
           onPressed: () async {
             var result = await PageManager.pushNamed(
               context,
-              RouteEditAchievementPage,
+              routeEditAchievementPage,
               arguments: widget.model,
             );
             if (result != null) {

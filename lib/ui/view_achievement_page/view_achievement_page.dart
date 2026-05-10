@@ -10,8 +10,10 @@ import 'package:achievement/ui/view_achievement_page/title_view_achievement.dart
 import 'package:flutter/material.dart';
 
 class ViewAchievementPage extends StatefulWidget {
+  const ViewAchievementPage({super.key});
+
   @override
-  _ViewAchievementPageState createState() => _ViewAchievementPageState();
+  State<ViewAchievementPage> createState() => _ViewAchievementPageState();
 }
 
 class _ViewAchievementPageState extends State<ViewAchievementPage> {

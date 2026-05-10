@@ -12,7 +12,7 @@ class LocalNotification {
 
   static const String channelId = '0';
   static const String channel = 'achievement';
-  static const String channel_desc = 'channel description';
+  static const String channelDesc = 'channel description';
   static const String icon = 'icon_achievement';
 
   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
@@ -85,11 +85,11 @@ class LocalNotification {
       String title,
       String body,
       DateTime scheduledDate,
-      TypeRepition typeRepition,
+      TypeRepetition typeRepetition,
       int achievementId) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         channelId, channel,
-        channelDescription: channel_desc, playSound: true);
+        channelDescription: channelDesc, playSound: true);
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     var dateTimeUtc = scheduledDate.toUtc();
@@ -98,15 +98,15 @@ class LocalNotification {
     await _inst.flutterLocalNotificationsPlugin.zonedSchedule(
         id: id, title: title, body: body, scheduledDate: tzSchedulerDate, notificationDetails: platformChannelSpecifics,
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepition),
+        matchDateTimeComponents: _inst._matchDateTimeComponents(typeRepetition),
         payload: jsonEncode(Payload('open', achievementId).toJson()));
   }
 
-  DateTimeComponents? _matchDateTimeComponents(TypeRepition typeRepition) {
-    switch (typeRepition) {
-      case TypeRepition.day:
+  DateTimeComponents? _matchDateTimeComponents(TypeRepetition typeRepetition) {
+    switch (typeRepetition) {
+      case TypeRepetition.day:
         return DateTimeComponents.time;
-      case TypeRepition.week:
+      case TypeRepetition.week:
         return DateTimeComponents.dayOfWeekAndTime;
       default:
         return null;

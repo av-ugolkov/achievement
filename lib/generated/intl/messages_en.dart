@@ -30,7 +30,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "description": MessageLookupByLibrary.simpleMessage("Description"),
     "done": MessageLookupByLibrary.simpleMessage("Done"),
-    "duration_achiev": MessageLookupByLibrary.simpleMessage("Duration in days"),
+    "duration_achievement": MessageLookupByLibrary.simpleMessage(
+      "Duration in days",
+    ),
     "error_header": MessageLookupByLibrary.simpleMessage(
       "The title cannot be less than 3 characters",
     ),
@@ -38,13 +40,17 @@ class MessageLookup extends MessageLookupByLibrary {
       "Selected date in the past",
     ),
     "fail": MessageLookupByLibrary.simpleMessage("Fail"),
-    "finish_achiev": MessageLookupByLibrary.simpleMessage("Finish achiev"),
+    "finish_achievement": MessageLookupByLibrary.simpleMessage(
+      "Finish achievement",
+    ),
     "finished": MessageLookupByLibrary.simpleMessage("Finished"),
     "header": MessageLookupByLibrary.simpleMessage("Header"),
     "remind": MessageLookupByLibrary.simpleMessage("Remind"),
     "repeat": MessageLookupByLibrary.simpleMessage("Repeat"),
     "settings": MessageLookupByLibrary.simpleMessage("Settings"),
-    "start_achiev": MessageLookupByLibrary.simpleMessage("Start achiev"),
+    "start_achievement": MessageLookupByLibrary.simpleMessage(
+      "Start achievement",
+    ),
     "view_achievement_title": MessageLookupByLibrary.simpleMessage(
       "Achievement",
     ),

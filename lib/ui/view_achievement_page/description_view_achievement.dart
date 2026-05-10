@@ -2,6 +2,8 @@ import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_
 import 'package:flutter/material.dart';
 
 class DescriptionViewAchievement extends StatelessWidget {
+  const DescriptionViewAchievement({super.key});
+
   @override
   Widget build(BuildContext context) {
     var achievementModel = InheritedViewAchievementPage.of(context);

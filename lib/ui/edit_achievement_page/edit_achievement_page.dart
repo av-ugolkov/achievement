@@ -33,7 +33,7 @@ class EditAchievementPage extends StatelessWidget {
 
   final AchievementModel _model = AchievementModel.empty;
 
-  EditAchievementPage() {
+  EditAchievementPage({super.key}) {
     var dateNow = DateTime.now().getDate();
     _dateRangeAchievement.start = dateNow;
     _dateRangeAchievement.end = dateNow.add(Duration(days: 1));
@@ -196,7 +196,7 @@ class EditAchievementPage extends StatelessWidget {
           _headerEditController.text,
           _descriptionEditController.text,
           remind.remindModel.remindDateTime.dateTime,
-          remind.remindModel.typeRepition,
+          remind.remindModel.typeRepetition,
           achievementId);
     }
   }

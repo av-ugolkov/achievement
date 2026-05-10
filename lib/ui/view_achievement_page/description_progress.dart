@@ -11,8 +11,10 @@ import 'package:achievement/core/extensions.dart';
 import 'package:heatmap_calendar/heatmap_calendar_month/heatmap_calendar_month.dart';
 
 class DescriptionProgress extends StatefulWidget {
+  const DescriptionProgress({super.key});
+
   @override
-  _DescriptionProgressState createState() => _DescriptionProgressState();
+  State<DescriptionProgress> createState() => _DescriptionProgressState();
 }
 
 class _DescriptionProgressState extends State<DescriptionProgress> {

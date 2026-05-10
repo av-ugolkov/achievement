@@ -4,6 +4,8 @@ import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_
 import 'package:flutter/material.dart';
 
 class TitleViewAchievement extends StatelessWidget {
+  const TitleViewAchievement({super.key});
+
   @override
   Widget build(BuildContext context) {
     var achievementModel = InheritedViewAchievementPage.of(context);
@@ -14,7 +16,7 @@ class TitleViewAchievement extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          SizedBox(
             width: 75,
             height: 75,
             child: achievementModel.imagePath.isEmpty
@@ -32,10 +34,10 @@ class TitleViewAchievement extends StatelessWidget {
 class TitleText extends StatefulWidget {
   final String header;
 
-  const TitleText({Key? key, required this.header}) : super(key: key);
+  const TitleText({super.key, required this.header});
 
   @override
-  _TitleTextState createState() => _TitleTextState();
+  State<TitleText> createState() => _TitleTextState();
 }
 
 class _TitleTextState extends State<TitleText> {

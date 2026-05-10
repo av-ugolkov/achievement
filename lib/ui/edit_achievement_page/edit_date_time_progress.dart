@@ -9,13 +9,13 @@ class EditDateTimeProgress extends StatefulWidget {
   final List<FormEditRemindCard> remindCards;
   final ChangedDateTimeRange dateRangeAchievement;
 
-  EditDateTimeProgress({
+  const EditDateTimeProgress({super.key,
     required this.remindCards,
     required this.dateRangeAchievement,
   });
 
   @override
-  _EditDateTimeProgressState createState() => _EditDateTimeProgressState();
+  State<EditDateTimeProgress> createState() => _EditDateTimeProgressState();
 }
 
 class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
@@ -25,7 +25,7 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _rowDateTime(getLocaleOfContext(context).start_achiev,
+        _rowDateTime(getLocaleOfContext(context).start_achievement,
             widget.dateRangeAchievement.start, () async {
           FocusScope.of(context).unfocus();
           var selectDate = await showDatePicker(
@@ -49,7 +49,7 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
           });
         }),
         _rowDateTime(
-          getLocaleOfContext(context).finish_achiev,
+          getLocaleOfContext(context).finish_achievement,
           widget.dateRangeAchievement.end,
           () async {
             FocusScope.of(context).unfocus();
@@ -78,7 +78,7 @@ class _EditDateTimeProgressState extends State<EditDateTimeProgress> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              getLocaleOfContext(context).duration_achiev,
+              getLocaleOfContext(context).duration_achievement,
             ),
             NumberPickerPanel(
               delta: widget.dateRangeAchievement.end

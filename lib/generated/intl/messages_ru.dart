@@ -30,7 +30,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "description": MessageLookupByLibrary.simpleMessage("Описание"),
     "done": MessageLookupByLibrary.simpleMessage("Выполнные"),
-    "duration_achiev": MessageLookupByLibrary.simpleMessage(
+    "duration_achievement": MessageLookupByLibrary.simpleMessage(
       "Длительность в днях",
     ),
     "error_header": MessageLookupByLibrary.simpleMessage(
@@ -40,13 +40,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Выбранная дата в прошлом",
     ),
     "fail": MessageLookupByLibrary.simpleMessage("Проваленные"),
-    "finish_achiev": MessageLookupByLibrary.simpleMessage("Финиш ачивки"),
+    "finish_achievement": MessageLookupByLibrary.simpleMessage("Финиш ачивки"),
     "finished": MessageLookupByLibrary.simpleMessage("Законченные"),
     "header": MessageLookupByLibrary.simpleMessage("Заголовок"),
     "remind": MessageLookupByLibrary.simpleMessage("Напоминать"),
     "repeat": MessageLookupByLibrary.simpleMessage("Повтор"),
     "settings": MessageLookupByLibrary.simpleMessage("Настройки"),
-    "start_achiev": MessageLookupByLibrary.simpleMessage("Старт ачивки"),
+    "start_achievement": MessageLookupByLibrary.simpleMessage("Старт ачивки"),
     "view_achievement_title": MessageLookupByLibrary.simpleMessage(
       "Достижение",
     ),

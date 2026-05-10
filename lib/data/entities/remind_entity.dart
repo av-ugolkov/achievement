@@ -3,13 +3,13 @@ import 'package:achievement/core/formate_date.dart';
 
 class RemindEntity {
   late int id;
-  late TypeRepition typeRepition;
+  late TypeRepetition typeRepetition;
   late RemindDateTime remindDateTime;
 
   RemindEntity(
       {required this.id,
       required this.remindDateTime,
-      this.typeRepition = TypeRepition.none});
+      this.typeRepetition = TypeRepetition.none});
 }
 
 class RemindDateTime {

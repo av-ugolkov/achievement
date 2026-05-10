@@ -10,13 +10,13 @@ class EditRemindPanel extends StatefulWidget {
   final List<FormEditRemindCard> remindCards;
   final ChangedDateTimeRange dateRangeAchievement;
 
-  EditRemindPanel({
+  const EditRemindPanel({super.key,
     required this.remindCards,
     required this.dateRangeAchievement,
   });
 
   @override
-  _EditRemindPanelState createState() => _EditRemindPanelState();
+  State<EditRemindPanel> createState() => _EditRemindPanelState();
 }
 
 class _EditRemindPanelState extends State<EditRemindPanel> {
@@ -56,13 +56,13 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                     );
                     var remindModel = RemindModel(
                         id: -1,
-                        typeRepition: TypeRepition.none,
+                        typeRepetition: TypeRepetition.none,
                         remindDateTime: remindDateTime);
                     var newRemindCard = FormEditRemindCard(
                       remindModel: remindModel,
                       dateTimeRange: widget.dateRangeAchievement,
                       validator: (value) {
-                        if (remindModel.typeRepition != TypeRepition.week &&
+                        if (remindModel.typeRepetition != TypeRepetition.week &&
                             value!.isBefore(DateTime.now())) {
                           return getLocaleOfContext(context).error_remind_card;
                         }
@@ -77,8 +77,8 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
                         remindModel: remindCard.remindModel,
                         dateTimeRange: widget.dateRangeAchievement,
                         validator: (value) {
-                          if (remindCard.remindModel.typeRepition !=
-                                  TypeRepition.week &&
+                          if (remindCard.remindModel.typeRepetition !=
+                                  TypeRepetition.week &&
                               value!.isBefore(DateTime.now())) {
                             return getLocaleOfContext(context)
                                 .error_remind_card;
@@ -111,7 +111,7 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
         background: Container(
           color: Colors.red,
           alignment: Alignment.centerRight,
-          child: Container(
+          child: SizedBox(
             width: 70,
             child: Icon(
               Icons.delete,
@@ -124,45 +124,43 @@ class _EditRemindPanelState extends State<EditRemindPanel> {
         child: card,
       );
     }).toList();
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: cards,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: cards,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.add_circle_outlined,
+            size: 32,
           ),
-          IconButton(
-            icon: Icon(
-              Icons.add_circle_outlined,
-              size: 32,
-            ),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              setState(() {
-                var remindDateTime = RemindDateTime.fromDateTime(
-                  dateTime: _getTimeAdd12Hours,
-                );
-                var remindModel = RemindModel(
-                    id: -1,
-                    typeRepition: TypeRepition.none,
-                    remindDateTime: remindDateTime);
-                var newRemindCard = FormEditRemindCard(
-                    remindModel: remindModel,
-                    dateTimeRange: widget.dateRangeAchievement,
-                    validator: (value) {
-                      if (remindModel.typeRepition != TypeRepition.week &&
-                          value!.isBefore(DateTime.now())) {
-                        return getLocaleOfContext(context).error_remind_card;
-                      }
-                      return null;
-                    });
-                widget.remindCards.add(newRemindCard);
-              });
-            },
-          ),
-        ],
-      ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            setState(() {
+              var remindDateTime = RemindDateTime.fromDateTime(
+                dateTime: _getTimeAdd12Hours,
+              );
+              var remindModel = RemindModel(
+                  id: -1,
+                  typeRepetition: TypeRepetition.none,
+                  remindDateTime: remindDateTime);
+              var newRemindCard = FormEditRemindCard(
+                  remindModel: remindModel,
+                  dateTimeRange: widget.dateRangeAchievement,
+                  validator: (value) {
+                    if (remindModel.typeRepetition != TypeRepetition.week &&
+                        value!.isBefore(DateTime.now())) {
+                      return getLocaleOfContext(context).error_remind_card;
+                    }
+                    return null;
+                  });
+              widget.remindCards.add(newRemindCard);
+            });
+          },
+        ),
+      ],
     );
   }
 

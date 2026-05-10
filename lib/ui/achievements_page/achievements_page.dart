@@ -20,8 +20,10 @@ import 'package:achievement/ui/achievements_page/bottom_navigation.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AchievementsPage extends StatefulWidget {
+  const AchievementsPage({super.key});
+
   @override
-  _AchievementsPageState createState() => _AchievementsPageState();
+  State<AchievementsPage> createState() => _AchievementsPageState();
 }
 
 class _AchievementsPageState extends State<AchievementsPage> {
@@ -46,7 +48,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
         var result = await PageManager.pushNamed(
-            context, RouteViewAchievementPage,
+            context, routeViewAchievementPage,
             arguments: model);
         var newModel = result as AchievementModel;
         model.setModel(newModel);
@@ -79,7 +81,7 @@ class _AchievementsPageState extends State<AchievementsPage> {
           actions: [PopupMenuWidget()]),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          PageManager.pushNamed(context, RouteEditAchievementPage)
+          PageManager.pushNamed(context, routeEditAchievementPage)
               .then((value) => setState(() {}));
         },
         child: Icon(Icons.add),
@@ -105,10 +107,8 @@ class _AchievementsPageState extends State<AchievementsPage> {
                   return ListAchievement();
                 }
               } else if (snapshot.hasError) {
-                return Container(
-                  child: Center(
-                    child: Text(snapshot.error.toString()),
-                  ),
+                return Center(
+                  child: Text(snapshot.error.toString()),
                 );
               }
               return const Loading();

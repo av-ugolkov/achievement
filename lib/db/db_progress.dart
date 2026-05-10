@@ -21,12 +21,12 @@ class DbProgress {
   Future<int> getLastId() async {
     final list = await DbFile.db.query(_nameTable);
     var id = 0;
-    list.forEach((progress) {
+    for (var progress in list) {
       var progressId = progress['id'] as int;
       if (progressId >= id) {
         id = progressId + 1;
       }
-    });
+    }
     return id;
   }
 

@@ -6,6 +6,8 @@ import 'package:achievement/ui/view_achievement_page/inherited_view_achievement_
 import 'package:flutter/material.dart';
 
 class RemindsViewAchievement extends StatelessWidget {
+  const RemindsViewAchievement({super.key});
+
   @override
   Widget build(BuildContext context) {
     var achievementModel = InheritedViewAchievementPage.of(context);
@@ -50,7 +52,7 @@ class RemindsViewAchievement extends StatelessWidget {
               Text(_getStringRepition(model)),
               const Text(' в '),
               Text(
-                  '${FormateDate.hour24Minute(model.remindDateTime.dateTime)}'),
+                  FormateDate.hour24Minute(model.remindDateTime.dateTime)),
             ],
           )
         ],
@@ -59,10 +61,10 @@ class RemindsViewAchievement extends StatelessWidget {
   }
 
   String _getStringRepition(RemindModel model) {
-    switch (model.typeRepition) {
-      case TypeRepition.day:
+    switch (model.typeRepetition) {
+      case TypeRepetition.day:
         return 'каждый день';
-      case TypeRepition.week:
+      case TypeRepetition.week:
         return 'каждую неделю ${FormateDate.weekDayName(model.remindDateTime.dateTime)}';
       default:
         return model.remindDateTime.date;

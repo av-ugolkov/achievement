@@ -8,26 +8,26 @@ class DbRemind {
   final String _nameTable = 'RemindDB';
 
   final String _id = 'id';
-  final String _typeRepition = 'typeRepition';
+  final String _typeRepetition = 'typeRepetition';
   final String _dateTime = 'dateTime';
 
   static final DbRemind db = DbRemind._();
 
   Future<void> createTable(Database db) async {
     await db.execute(
-      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRepition INTEGER, $_dateTime TEXT)',
+      'CREATE TABLE $_nameTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_typeRepetition INTEGER, $_dateTime TEXT)',
     );
   }
 
   Future<int> getLastId() async {
     final list = await DbFile.db.query(_nameTable);
     var id = 0;
-    list.forEach((remind) {
+    for (var remind in list) {
       var remindId = remind['id'] as int;
       if (remindId >= id) {
         id = remindId + 1;
       }
-    });
+    }
     return id;
   }
 

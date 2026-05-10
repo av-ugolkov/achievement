@@ -90,10 +90,10 @@ class S {
   }
 
   /// `Duration in days`
-  String get duration_achiev {
+  String get duration_achievement {
     return Intl.message(
       'Duration in days',
-      name: 'duration_achiev',
+      name: 'duration_achievement',
       desc: '',
       args: [],
     );
@@ -124,11 +124,11 @@ class S {
     return Intl.message('Fail', name: 'fail', desc: '', args: []);
   }
 
-  /// `Finish achiev`
-  String get finish_achiev {
+  /// `Finish achievement`
+  String get finish_achievement {
     return Intl.message(
-      'Finish achiev',
-      name: 'finish_achiev',
+      'Finish achievement',
+      name: 'finish_achievement',
       desc: '',
       args: [],
     );
@@ -159,11 +159,11 @@ class S {
     return Intl.message('Settings', name: 'settings', desc: '', args: []);
   }
 
-  /// `Start achiev`
-  String get start_achiev {
+  /// `Start achievement`
+  String get start_achievement {
     return Intl.message(
-      'Start achiev',
-      name: 'start_achiev',
+      'Start achievement',
+      name: 'start_achievement',
       desc: '',
       args: [],
     );

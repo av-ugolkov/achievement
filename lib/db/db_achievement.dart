@@ -42,37 +42,37 @@ class DbAchievement {
   }*/
 
   Future<List<AchievementModel>> getList() async {
-    final achievemntMapList = await DbFile.db.query(_nameTable);
+    final achievementMapList = await DbFile.db.query(_nameTable);
     final achievementsList = <AchievementModel>[];
-    achievemntMapList.forEach((achievement) {
+    for (var achievement in achievementMapList) {
       achievementsList.add(AchievementModel.fromJson(achievement));
-    });
+    }
     return achievementsList;
   }
 
   Future<List<AchievementModel>> getAchievementsByState({
     AchievementState state = AchievementState.active,
   }) async {
-    final achievemntMapList = await DbFile.db.query(_nameTable);
+    final achievementMapList = await DbFile.db.query(_nameTable);
     final achievementsList = <AchievementModel>[];
-    achievemntMapList.forEach((achievement) {
+    for (var achievement in achievementMapList) {
       var achievementModel = AchievementModel.fromJson(achievement);
       if (achievementModel.state == state) {
         achievementsList.add(achievementModel);
       }
-    });
+    }
     return achievementsList;
   }
 
   Future<int> getLastId() async {
     final list = await DbFile.db.query(_nameTable);
     var id = 0;
-    list.forEach((achievement) {
-      var achievId = achievement['id'] as int;
-      if (achievId >= id) {
-        id = achievId + 1;
+    for (var achievement in list) {
+      var achievementId = achievement['id'] as int;
+      if (achievementId >= id) {
+        id = achievementId + 1;
       }
-    });
+    }
     return id;
   }
 

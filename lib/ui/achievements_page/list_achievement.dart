@@ -10,8 +10,10 @@ import 'package:achievement/ui/common/loading_widgets.dart';
 import 'package:flutter/material.dart';
 
 class ListAchievement extends StatefulWidget {
+  const ListAchievement({super.key});
+
   @override
-  _ListAchievementState createState() => _ListAchievementState();
+  State<ListAchievement> createState() => _ListAchievementState();
 }
 
 class _ListAchievementState extends State<ListAchievement> {
@@ -82,7 +84,7 @@ class _ListAchievementState extends State<ListAchievement> {
   }
 
   void _openViewAchievementPage(AchievementModel model) async {
-    var result = await PageManager.pushNamed(context, RouteViewAchievementPage,
+    var result = await PageManager.pushNamed(context, routeViewAchievementPage,
         arguments: model);
     var newModel = result as AchievementModel;
     model.setModel(newModel);

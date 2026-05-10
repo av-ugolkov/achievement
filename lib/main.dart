@@ -34,6 +34,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,10 +51,10 @@ class MyApp extends StatelessWidget {
       title: 'Achievement',
       initialRoute: '/',
       routes: {
-        RouteEditAchievementPage: (context) => EditAchievementPage(),
-        RouteViewAchievementPage: (context) => ViewAchievementPage(),
-        RouteSettingsPage: (context) => SettingsPage(),
-        RouteAboutPage: (context) => AboutPage()
+        routeEditAchievementPage: (context) => EditAchievementPage(),
+        routeViewAchievementPage: (context) => ViewAchievementPage(),
+        routeSettingsPage: (context) => SettingsPage(),
+        routeAboutPage: (context) => AboutPage()
       },
       navigatorObservers: <NavigatorObserver>[
         if (kReleaseMode) FirebaseController.createObserver()
