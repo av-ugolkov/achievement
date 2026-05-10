@@ -18,7 +18,7 @@ class FieldDescriptionProgress extends StatefulWidget {
 class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
   late DateTime _dateNow;
 
-  bool _isDoAnythink = false;
+  bool _isDoAnything = false;
   final TextEditingController _textEditingController = TextEditingController();
   Map<String, ProgressDescription> _mapProgressDesc = {};
 
@@ -26,7 +26,7 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
   Widget build(BuildContext context) {
     _dateNow = DateTime.now().getDate();
     var progressDesc =
-        ProgressDescription(isDoAnythink: false, description: '');
+        ProgressDescription(isDoAnything: false, description: '');
     if (_mapProgressDesc.containsKey(widget.keyDate)) {
       var tempMap = _mapProgressDesc[widget.keyDate];
       if (tempMap != null) {
@@ -35,7 +35,7 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
     } else {
       _mapProgressDesc.putIfAbsent(widget.keyDate, () => progressDesc);
     }
-    _isDoAnythink = progressDesc.isDoAnythink;
+    _isDoAnything = progressDesc.isDoAnything;
     return Column(children: [
       _buttonActiveProgressField(),
       _fieldDescriptionProgress(progressDesc.description),
@@ -80,7 +80,7 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
       ),
       onTap: () {
         setState(() {
-          _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
+          _mapProgressDesc[widget.keyDate]?.isDoAnything = _isDoAnything;
         });
       },
       onChanged: (value) {
@@ -95,11 +95,11 @@ class _FieldDescriptionProgressState extends State<FieldDescriptionProgress> {
       children: [
         Text(getLocaleOfContext(context).what_do_you_do),
         Switch(
-          value: _isDoAnythink,
+          value: _isDoAnything,
           onChanged: (value) {
             setState(() {
-              _isDoAnythink = !_isDoAnythink;
-              _mapProgressDesc[widget.keyDate]?.isDoAnythink = _isDoAnythink;
+              _isDoAnything = !_isDoAnything;
+              _mapProgressDesc[widget.keyDate]?.isDoAnything = _isDoAnything;
             });
           },
         )
