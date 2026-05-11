@@ -21,7 +21,7 @@ class PageNotification {
   }
 
   void _openPayload(Payload? payload) {
-    if (payload != null) {
+    if (payload != null && _context.mounted) {
       _onOpenPayloadMixin(_context, payload);
     }
   }

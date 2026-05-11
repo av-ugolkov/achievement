@@ -6,7 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 class FirebaseController {
-  static void init() async {
+  static Future<void> init() async {
     if (kDebugMode) {
       await Future.sync(() => log('fake init firebase'));
     } else {

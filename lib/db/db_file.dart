@@ -76,4 +76,9 @@ class DbFile {
       {String? where, List<dynamic>? whereArgs}) async {
     return await _database.delete(table, where: where, whereArgs: whereArgs);
   }
+
+  @visibleForTesting
+  static void initForTest(Database database) {
+    _database = database;
+  }
 }

@@ -28,8 +28,8 @@ class DbProgress {
   }
 
   Future<ProgressModel> insert(ProgressModel progressModel) async {
-    progressModel.id =
-        await DbFile.db.insert(_nameTable, progressModel.toJson());
+    final map = progressModel.toJson()..remove(_id);
+    progressModel.id = await DbFile.db.insert(_nameTable, map);
     return progressModel;
   }
 

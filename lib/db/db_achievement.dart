@@ -29,20 +29,6 @@ class DbAchievement {
     );
   }
 
-  /*void _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    await db.execute("ALTER TABLE $_nameTable ADD COLUMN test INTEGER");
-
-    await db.setVersion(newVersion);
-  }*/
-
-  /*void _downgradeDB(Database db, int oldVersion, int newVersion) async {
-    await db.execute(
-      'CREATE TABLE $_achievemntTable($_id INTEGER PRIMARY KEY AUTOINCREMENT, $_header TEXT, $_description TEXT, $_imagePath TEXT, $_createDate INTEGER, $_finishDate INTEGER)',
-    );
-
-    await db.setVersion(newVersion);
-  }*/
-
   Future<List<AchievementModel>> getList() async {
     final achievementMapList = await DbFile.db.query(_nameTable);
     final achievementsList = <AchievementModel>[];
@@ -55,19 +41,21 @@ class DbAchievement {
   Future<List<AchievementModel>> getAchievementsByState({
     AchievementState state = AchievementState.active,
   }) async {
-    final achievementMapList = await DbFile.db.query(_nameTable);
+    final achievementMapList = await DbFile.db.query(
+      _nameTable,
+      where: '$_state = ?',
+      whereArgs: <int>[state.index],
+    );
     final achievementsList = <AchievementModel>[];
     for (var achievement in achievementMapList) {
-      var achievementModel = AchievementModel.fromJson(achievement);
-      if (achievementModel.state == state) {
-        achievementsList.add(achievementModel);
-      }
+      achievementsList.add(AchievementModel.fromJson(achievement));
     }
     return achievementsList;
   }
 
   Future<AchievementModel> insert(AchievementModel achievement) async {
-    achievement.id = await DbFile.db.insert(_nameTable, achievement.toJson());
+    final map = achievement.toJson()..remove(_id);
+    achievement.id = await DbFile.db.insert(_nameTable, map);
     return achievement;
   }
 

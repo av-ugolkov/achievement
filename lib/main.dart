@@ -22,7 +22,7 @@ void main() {
     var docsDir = await getApplicationDocumentsDirectory();
     utils.docsDir = docsDir;
 
-    FirebaseController.init();
+    await FirebaseController.init();
 
     runApp(MyApp());
   }

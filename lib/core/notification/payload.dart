@@ -17,6 +17,6 @@ class Payload {
 
   @override
   String toString() {
-    return '{commamnd: $command; id: $achievementId}';
+    return '{command: $command; id: $achievementId}';
   }
 }

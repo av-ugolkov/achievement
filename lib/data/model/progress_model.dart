@@ -15,7 +15,7 @@ class ProgressModel extends ProgressEntity {
     var newP = jsonDecode(mapValue) as Map<String, dynamic>;
     var progressDescription = <String, ProgressDescription>{};
     for (var entity in newP.entries) {
-      var value = jsonDecode(entity.value.toString()) as Map<String, dynamic>;
+      var value = jsonDecode(entity.value as String) as Map<String, dynamic>;
       var progDesc = ProgressDescription.fromJson(value);
       progressDescription.putIfAbsent(entity.key, () => progDesc);
     }

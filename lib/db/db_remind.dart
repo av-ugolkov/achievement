@@ -44,7 +44,8 @@ class DbRemind {
   }
 
   Future<RemindModel> insert(RemindModel remindModel) async {
-    remindModel.id = await DbFile.db.insert(_nameTable, remindModel.toJson());
+    final map = remindModel.toJson()..remove(_id);
+    remindModel.id = await DbFile.db.insert(_nameTable, map);
     return remindModel;
   }
 
