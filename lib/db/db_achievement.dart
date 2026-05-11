@@ -3,6 +3,8 @@ import 'package:achievement/data/model/achievement_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db_file.dart';
+import 'db_remind.dart';
+import 'db_progress.dart';
 
 class DbAchievement {
   DbAchievement._();
@@ -64,18 +66,6 @@ class DbAchievement {
     return achievementsList;
   }
 
-  Future<int> getLastId() async {
-    final list = await DbFile.db.query(_nameTable);
-    var id = 0;
-    for (var achievement in list) {
-      var achievementId = achievement['id'] as int;
-      if (achievementId >= id) {
-        id = achievementId + 1;
-      }
-    }
-    return id;
-  }
-
   Future<AchievementModel> insert(AchievementModel achievement) async {
     achievement.id = await DbFile.db.insert(_nameTable, achievement.toJson());
     return achievement;
@@ -87,6 +77,17 @@ class DbAchievement {
   }
 
   Future<int> delete(int id) async {
+    final list = await DbFile.db
+        .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
+    if (list.isNotEmpty) {
+      final achievement = AchievementModel.fromJson(list[0]);
+      for (var remindId in achievement.remindIds) {
+        await DbRemind.db.delete(remindId);
+      }
+      if (achievement.progressId != -1) {
+        await DbProgress.db.delete(achievement.progressId);
+      }
+    }
     return await DbFile.db
         .delete(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
   }

@@ -19,18 +19,6 @@ class DbRemind {
     );
   }
 
-  Future<int> getLastId() async {
-    final list = await DbFile.db.query(_nameTable);
-    var id = 0;
-    for (var remind in list) {
-      var remindId = remind['id'] as int;
-      if (remindId >= id) {
-        id = remindId + 1;
-      }
-    }
-    return id;
-  }
-
   Future<RemindModel> getRemind(int id) async {
     if (id == -1) return RemindModel.empty;
 

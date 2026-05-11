@@ -103,8 +103,7 @@ class _DescriptionProgressState extends State<DescriptionProgress> {
   Future<void> _saveProgress() async {
     var progressModel = await _futureProgressModel;
     if (progressModel.id == -1) {
-      var id = await DbProgress.db.getLastId();
-      progressModel = ProgressModel(id: id, progressDescription: _pd);
+      progressModel = ProgressModel(id: -1, progressDescription: _pd);
       await DbProgress.db.insert(progressModel);
 
       _achievementModel.progressId = progressModel.id;

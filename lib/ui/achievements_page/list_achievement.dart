@@ -17,33 +17,43 @@ class ListAchievement extends StatefulWidget {
 }
 
 class _ListAchievementState extends State<ListAchievement> {
+  late Future<List<AchievementModel>> _futureAchievements;
+  bool _initialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _initialized = true;
+      _futureAchievements = _loadAchievements();
+    }
+  }
+
+  Future<List<AchievementModel>> _loadAchievements() async {
+    final state = InheritedAchievementPage.of(context);
+    final items = await DbAchievement.db.getAchievementsByState(state: state);
+    if (state == AchievementState.active || state == AchievementState.finished) {
+      for (var item in items) {
+        final newState = item.finishDate.isAfter(DateTime.now())
+            ? AchievementState.active
+            : AchievementState.finished;
+        if (item.state != newState) {
+          item.state = newState;
+          await DbAchievement.db.update(item);
+        }
+      }
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = InheritedAchievementPage.of(context);
-    var futureAchievements =
-        DbAchievement.db.getAchievementsByState(state: state);
     return FutureBuilder<List<AchievementModel>>(
-      future: futureAchievements,
+      future: _futureAchievements,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data!.isNotEmpty) {
-            var achievements = <AchievementModel>[];
-            if (state == AchievementState.active ||
-                state == AchievementState.finished) {
-              for (var item in snapshot.data!) {
-                if (item.finishDate.isAfter(DateTime.now())) {
-                  item.state = AchievementState.active;
-                  DbAchievement.db.update(item);
-                } else if (item.finishDate.isBefore(DateTime.now())) {
-                  item.state = AchievementState.finished;
-                  DbAchievement.db.update(item);
-                }
-                achievements.add(item);
-              }
-            } else {
-              achievements.addAll(snapshot.data!);
-            }
-
+          final achievements = snapshot.data ?? [];
+          if (achievements.isNotEmpty) {
             return ListView.builder(
                 itemCount: achievements.length,
                 itemBuilder: (context, index) {
@@ -88,7 +98,9 @@ class _ListAchievementState extends State<ListAchievement> {
         arguments: model);
     if (result is AchievementModel) {
       model.setModel(result);
-      setState(() {});
+      setState(() {
+        _futureAchievements = _loadAchievements();
+      });
     }
   }
 }

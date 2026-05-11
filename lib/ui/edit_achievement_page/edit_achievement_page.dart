@@ -16,7 +16,14 @@ import 'package:path/path.dart' as path;
 import 'package:achievement/core/extensions.dart';
 import 'edit_remind_card/form_edit_remind_card.dart';
 
-class EditAchievementPage extends StatelessWidget {
+class EditAchievementPage extends StatefulWidget {
+  const EditAchievementPage({super.key});
+
+  @override
+  State<EditAchievementPage> createState() => _EditAchievementPageState();
+}
+
+class _EditAchievementPageState extends State<EditAchievementPage> {
   final ChangedDateTimeRange _dateRangeAchievement = ChangedDateTimeRange(
     start: DateTime.now(),
     end: DateTime.now(),
@@ -24,8 +31,8 @@ class EditAchievementPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final _headerEditController = TextEditingController();
-  final _descriptionEditController = TextEditingController();
+  late final TextEditingController _headerEditController;
+  late final TextEditingController _descriptionEditController;
   final _imageBytes = <int>[];
   final _remindCards = <FormEditRemindCard>[];
 
@@ -33,20 +40,42 @@ class EditAchievementPage extends StatelessWidget {
 
   final AchievementModel _model = AchievementModel.empty;
 
-  EditAchievementPage({super.key}) {
+  bool _initialized = false;
+  Future<AchievementModel>? _loadFuture;
+
+  @override
+  void initState() {
+    super.initState();
     var dateNow = DateTime.now().getDate();
     _dateRangeAchievement.start = dateNow;
-    _dateRangeAchievement.end = dateNow.add(Duration(days: 1));
+    _dateRangeAchievement.end = dateNow.add(const Duration(days: 1));
+    _headerEditController = TextEditingController();
+    _descriptionEditController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_initialized) {
+      _initialized = true;
+      var settings = ModalRoute.of(context)?.settings;
+      if (settings != null && settings.arguments != null) {
+        var model = settings.arguments as AchievementModel;
+        _model.setModel(model);
+      }
+      _loadFuture = _loadModel(_model);
+    }
+  }
+
+  @override
+  void dispose() {
+    _headerEditController.dispose();
+    _descriptionEditController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var settings = ModalRoute.of(context)?.settings;
-    if (settings != null && settings.arguments != null) {
-      var model = settings.arguments as AchievementModel;
-      _model.setModel(model);
-    }
-
     return PopScope(
       onPopInvokedWithResult: (didPop, result) async {
         PageManager.pop(context);
@@ -56,7 +85,7 @@ class EditAchievementPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(getLocaleOfContext(context).create_achievement),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               PageManager.pop(context);
             },
@@ -66,10 +95,10 @@ class EditAchievementPage extends StatelessWidget {
           onPressed: () {
             _submitForm(context);
           },
-          child: Icon(Icons.check),
+          child: const Icon(Icons.check),
         ),
         body: FutureBuilder(
-          future: _loadModel(_model),
+          future: _loadFuture,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return _body();
@@ -135,22 +164,9 @@ class EditAchievementPage extends StatelessWidget {
 
   void _submitForm(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      var id = _model.id == -1 ? await DbAchievement.db.getLastId() : _model.id;
-
-      var imagePath = '';
-      if (_imageBytes.isNotEmpty) {
-        imagePath =
-            path.join(utils.docsDir.path, '${id}_${_imageBytes.hashCode}');
-        var file = File(imagePath);
-        await file.writeAsBytes(_imageBytes.toList());
-        await file.create();
-      }
       if (_hasRemind) {
-        var lastIndex = await DbRemind.db.getLastId();
         for (var remind in _remindCards) {
           if (remind.remindModel.id == -1) {
-            remind.remindModel.id = lastIndex;
-            ++lastIndex;
             await DbRemind.db.insert(remind.remindModel);
           } else {
             await DbRemind.db.update(remind.remindModel);
@@ -158,24 +174,54 @@ class EditAchievementPage extends StatelessWidget {
         }
       }
 
-      var achievement = AchievementModel(
-        id: id,
-        header: _headerEditController.text,
-        createDate: _dateRangeAchievement.start,
-        finishDate: _dateRangeAchievement.end,
-        description: _descriptionEditController.text,
-        imagePath: imagePath,
-        remindIds: _remindCards.map((value) {
-          return value.remindModel.id;
-        }).toList(),
-        progressId: _model.progressId,
-      );
-      _createNotifications(id);
       if (_model.id == -1) {
+        var achievement = AchievementModel(
+          id: -1,
+          header: _headerEditController.text,
+          createDate: _dateRangeAchievement.start,
+          finishDate: _dateRangeAchievement.end,
+          description: _descriptionEditController.text,
+          imagePath: '',
+          remindIds: _remindCards.map((value) {
+            return value.remindModel.id;
+          }).toList(),
+          progressId: _model.progressId,
+        );
         await DbAchievement.db.insert(achievement);
+        if (_imageBytes.isNotEmpty) {
+          var imagePath = path.join(
+              utils.docsDir.path, '${achievement.id}_${_imageBytes.hashCode}');
+          var file = File(imagePath);
+          await file.writeAsBytes(_imageBytes.toList());
+          await file.create();
+          achievement.imagePath = imagePath;
+          await DbAchievement.db.update(achievement);
+        }
+        _createNotifications(achievement.id);
         if (!context.mounted) return;
         _closePage(context);
       } else {
+        var imagePath = '';
+        if (_imageBytes.isNotEmpty) {
+          imagePath = path.join(
+              utils.docsDir.path, '${_model.id}_${_imageBytes.hashCode}');
+          var file = File(imagePath);
+          await file.writeAsBytes(_imageBytes.toList());
+          await file.create();
+        }
+        var achievement = AchievementModel(
+          id: _model.id,
+          header: _headerEditController.text,
+          createDate: _dateRangeAchievement.start,
+          finishDate: _dateRangeAchievement.end,
+          description: _descriptionEditController.text,
+          imagePath: imagePath,
+          remindIds: _remindCards.map((value) {
+            return value.remindModel.id;
+          }).toList(),
+          progressId: _model.progressId,
+        );
+        _createNotifications(_model.id);
         if (!context.mounted) return;
         _closePage(context, achievement);
       }
