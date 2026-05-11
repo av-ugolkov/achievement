@@ -44,17 +44,16 @@ class _AchievementsPageState extends State<AchievementsPage> {
   Future<void> onLoadPayload(Payload payload) async {
     switch (payload.command) {
       case 'open':
+        final navigator = Navigator.of(context);
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
-        if (context.mounted) {
-          var result = await PageManager.pushNamed(
-              context, routeViewAchievementPage,
-              arguments: model);
-          if (result is AchievementModel) {
-            model.setModel(result);
-            setState(() {});
-          }
+        if (!mounted) return;
+        var result = await navigator.pushNamed(routeViewAchievementPage,
+            arguments: model);
+        if (result is AchievementModel) {
+          model.setModel(result);
+          setState(() {});
         }
         break;
       default:
