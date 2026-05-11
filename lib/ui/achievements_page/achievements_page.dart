@@ -47,12 +47,15 @@ class _AchievementsPageState extends State<AchievementsPage> {
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
-        var result = await PageManager.pushNamed(
-            context, routeViewAchievementPage,
-            arguments: model);
-        var newModel = result as AchievementModel;
-        model.setModel(newModel);
-        setState(() {});
+        if (context.mounted) {
+          var result = await PageManager.pushNamed(
+              context, routeViewAchievementPage,
+              arguments: model);
+          if (result is AchievementModel) {
+            model.setModel(result);
+            setState(() {});
+          }
+        }
         break;
       default:
         log('Error open achievement');

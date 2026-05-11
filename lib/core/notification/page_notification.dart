@@ -33,6 +33,7 @@ class PageNotification {
         var achievements = await DbAchievement.db.getList();
         var model = achievements[payload.achievementId];
         LocalNotification.clearPayload();
+        if (!context.mounted) return;
         var result = await PageManager.pushNamed(
             context, routeViewAchievementPage,
             arguments: model);
