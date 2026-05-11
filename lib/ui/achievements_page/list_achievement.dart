@@ -86,8 +86,9 @@ class _ListAchievementState extends State<ListAchievement> {
   void _openViewAchievementPage(AchievementModel model) async {
     var result = await PageManager.pushNamed(context, routeViewAchievementPage,
         arguments: model);
-    var newModel = result as AchievementModel;
-    model.setModel(newModel);
-    setState(() {});
+    if (result is AchievementModel) {
+      model.setModel(result);
+      setState(() {});
+    }
   }
 }

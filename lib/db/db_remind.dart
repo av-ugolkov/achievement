@@ -36,8 +36,8 @@ class DbRemind {
 
     final list = await DbFile.db
         .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-    var remind = RemindModel.fromJson(list[id]);
-    return remind;
+    if (list.isEmpty) return RemindModel.empty;
+    return RemindModel.fromJson(list[0]);
   }
 
   Future<List<RemindModel>> getReminds(List<int> ids) async {
@@ -49,7 +49,8 @@ class DbRemind {
       }
       final list = await DbFile.db
           .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-      reminds.add(RemindModel.fromJson(list[id]));
+      if (list.isEmpty) continue;
+      reminds.add(RemindModel.fromJson(list[0]));
     }
     return reminds;
   }

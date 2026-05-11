@@ -1,3 +1,7 @@
+# Firebase credentials (read from native files, not Dart code)
+google-services.json
+GoogleService-Info.plist
+
 # Miscellaneous
 *.class
 *.log

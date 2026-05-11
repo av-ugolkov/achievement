@@ -31,14 +31,19 @@ class PageNotification {
     switch (payload.command) {
       case 'open':
         var achievements = await DbAchievement.db.getList();
-        var model = achievements[payload.achievementId];
+        final model = achievements.firstWhere(
+          (a) => a.id == payload.achievementId,
+          orElse: () => AchievementModel.empty,
+        );
+        if (model == AchievementModel.empty) return;
         LocalNotification.clearPayload();
         if (!context.mounted) return;
         var result = await PageManager.pushNamed(
             context, routeViewAchievementPage,
             arguments: model);
-        var newModel = result as AchievementModel;
-        model.setModel(newModel);
+        if (result is AchievementModel) {
+          model.setModel(result);
+        }
         break;
       default:
         log('Error open achievement');

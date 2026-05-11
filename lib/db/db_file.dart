@@ -46,7 +46,16 @@ class DbFile {
       String? orderBy,
       int? limit,
       int? offset}) async {
-    return await _database.query(table);
+    return await _database.query(table,
+        distinct: distinct,
+        columns: columns,
+        where: where,
+        whereArgs: whereArgs,
+        groupBy: groupBy,
+        having: having,
+        orderBy: orderBy,
+        limit: limit,
+        offset: offset);
   }
 
   Future<int> insert(String table, Map<String, dynamic> map) async {

@@ -10,15 +10,7 @@ class FirebaseController {
     if (kDebugMode) {
       await Future.sync(() => log('fake init firebase'));
     } else {
-      await Firebase.initializeApp(
-        name: 'com.ugolkov.achievement',
-        options: const FirebaseOptions(
-          apiKey: 'AIzaSyBzrHcu4TQK8Ji31Bnyr8faDQwEanONPDE',
-          appId: '1:1087083017957:android:160daff30995acc3d1460c',
-          messagingSenderId: '1087083017957',
-          projectId: 'achievement-dc79f',
-        ),
-      );
+      await Firebase.initializeApp();
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     }
   }

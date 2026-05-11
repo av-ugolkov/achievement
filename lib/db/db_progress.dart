@@ -35,8 +35,8 @@ class DbProgress {
 
     final list = await DbFile.db
         .query(_nameTable, where: '$_id = ?', whereArgs: <int>[id]);
-    var progress = ProgressModel.fromJson(list[id]);
-    return progress;
+    if (list.isEmpty) return ProgressModel.empty;
+    return ProgressModel.fromJson(list[0]);
   }
 
   Future<ProgressModel> insert(ProgressModel progressModel) async {
