@@ -37,7 +37,10 @@ class _BlockerPageState extends State<BlockerPage> {
     final progress = _thresholdMinutes > 0
         ? (_usageMinutes / _thresholdMinutes).clamp(0.0, 1.0)
         : 0.0;
-    final remaining = (_thresholdMinutes - _usageMinutes).clamp(0, _thresholdMinutes);
+    final remaining = (_thresholdMinutes - _usageMinutes).clamp(
+      0,
+      _thresholdMinutes,
+    );
 
     return Scaffold(
       body: SafeArea(
