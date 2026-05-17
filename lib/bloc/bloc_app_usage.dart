@@ -105,7 +105,7 @@ class BlocAppUsage extends BlocBase {
     return apps
         .where((a) =>
             _watchlist.containsKey(a.packageName) &&
-            a.usageMinutes < 1440)
+            a.usageMinutes < _thresholdMinutes)
         .toList();
   }
 }
