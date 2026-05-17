@@ -23,6 +23,18 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "active": MessageLookupByLibrary.simpleMessage("Активные"),
+    "appUsageEmpty": MessageLookupByLibrary.simpleMessage(
+      "Нет данных об использовании за сегодня",
+    ),
+    "appUsageNoDataIOS": MessageLookupByLibrary.simpleMessage(
+      "Статистика использования приложений недоступна на iOS",
+    ),
+    "appUsagePermissionDenied": MessageLookupByLibrary.simpleMessage(
+      "Включите доступ к статистике использования в настройках телефона",
+    ),
+    "appUsageTitle": MessageLookupByLibrary.simpleMessage(
+      "Использование приложений",
+    ),
     "app_name": MessageLookupByLibrary.simpleMessage("Достигатор"),
     "archived": MessageLookupByLibrary.simpleMessage("Архивные"),
     "create_achievement": MessageLookupByLibrary.simpleMessage(

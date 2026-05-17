@@ -17,6 +17,7 @@ import 'package:achievement/ui/common/loading_widgets.dart';
 import 'package:achievement/ui/common/popup_menu_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:achievement/ui/achievements_page/bottom_navigation.dart';
+import 'package:achievement/ui/app_usage_page/app_usage_page.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AchievementsPage extends StatefulWidget {
@@ -28,6 +29,8 @@ class AchievementsPage extends StatefulWidget {
 
 class _AchievementsPageState extends State<AchievementsPage> {
   late AchievementState _state;
+  bool _showAppUsage = false;
+
   set state(AchievementState value) {
     if (_state == value) return;
     _state = value;
@@ -76,27 +79,39 @@ class _AchievementsPageState extends State<AchievementsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: InheritedAchievementPage(
-            state: _state,
-            child: _TitleAchievementPage(),
-          ),
-          actions: [PopupMenuWidget()]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          PageManager.pushNamed(context, routeEditAchievementPage)
-              .then((value) => setState(() {}));
-        },
-        child: Icon(Icons.add),
-      ),
+          title: _showAppUsage
+              ? Text(getLocaleCurrent().appUsageTitle)
+              : InheritedAchievementPage(
+                  state: _state,
+                  child: _TitleAchievementPage(),
+                ),
+          actions: _showAppUsage ? [] : [PopupMenuWidget()]),
+      floatingActionButton: _showAppUsage
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                PageManager.pushNamed(context, routeEditAchievementPage)
+                    .then((value) => setState(() {}));
+              },
+              child: Icon(Icons.add),
+            ),
       bottomNavigationBar: BottomNavigation(
         currentState: _state,
         onChangeState: (value) {
           setState(() {
+            _showAppUsage = false;
             state = value;
           });
         },
+        onAppUsageTap: () {
+          setState(() {
+            _showAppUsage = true;
+          });
+        },
       ),
-      body: InheritedAchievementPage(
+      body: _showAppUsage
+          ? const AppUsagePage()
+          : InheritedAchievementPage(
         state: _state,
         child: FutureBuilder(
           future: _initDB(),

@@ -64,6 +64,41 @@ class S {
     return Intl.message('Achievement', name: 'app_name', desc: '', args: []);
   }
 
+  /// `No usage data for today`
+  String get appUsageEmpty {
+    return Intl.message(
+      'No usage data for today',
+      name: 'appUsageEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App usage stats are not available on iOS`
+  String get appUsageNoDataIOS {
+    return Intl.message(
+      'App usage stats are not available on iOS',
+      name: 'appUsageNoDataIOS',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enable Usage Access permission in phone settings`
+  String get appUsagePermissionDenied {
+    return Intl.message(
+      'Please enable Usage Access permission in phone settings',
+      name: 'appUsagePermissionDenied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App Usage`
+  String get appUsageTitle {
+    return Intl.message('App Usage', name: 'appUsageTitle', desc: '', args: []);
+  }
+
   /// `Archived`
   String get archived {
     return Intl.message('Archived', name: 'archived', desc: '', args: []);

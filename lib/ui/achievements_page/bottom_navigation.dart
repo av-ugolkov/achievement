@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 class BottomNavigation extends StatefulWidget {
   final AchievementState currentState;
   final ValueChanged<AchievementState> onChangeState;
-  const BottomNavigation(
-      {super.key, required this.currentState, required this.onChangeState});
+  final VoidCallback? onAppUsageTap;
+  const BottomNavigation({
+    super.key,
+    required this.currentState,
+    required this.onChangeState,
+    this.onAppUsageTap,
+  });
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -26,6 +31,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
       BottomNavigationBarItem(
           icon: Icon(Icons.archive_outlined),
           label: getLocaleOfContext(context).archived),
+      BottomNavigationBarItem(
+          icon: Icon(Icons.bar_chart_outlined),
+          label: getLocaleOfContext(context).appUsageTitle),
     ];
 
     return BottomNavigationBar(
@@ -46,6 +54,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
               break;
             case 2:
               _setAchievementState(AchievementState.archived);
+              break;
+            case 3:
+              widget.onAppUsageTap?.call();
               break;
           }
         });
