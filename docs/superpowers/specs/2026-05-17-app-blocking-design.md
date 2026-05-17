@@ -136,4 +136,9 @@ BlockerPage shown:
 
 ## Dependencies to Add
 
-- `shared_preferences: ^2.x` — for SharedPreferences access from Dart side
+- `shared_preferences: ^2.x` — for SharedPreferences access from Dart side (not yet in pubspec.yaml)
+
+## Package Names
+
+- Achievement app: `com.ugolkov.achievement` — Kotlin service must ignore this package
+- Achievement app usage: extracted from `fetchTodayUsage()` result by matching package name `com.ugolkov.achievement`, then filtered out of the displayed list in `AppUsagePage`
