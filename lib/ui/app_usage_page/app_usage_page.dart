@@ -1,8 +1,15 @@
+import 'dart:async';
+
 import 'package:achievement/bloc/bloc_app_usage.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
 import 'package:achievement/data/model/app_usage_model.dart';
 import 'package:achievement/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+const _blockerChannel = MethodChannel('com.ugolkov.achievement/blocker');
+
+const _thresholdOptions = [15, 30, 60, 90, 120];
 
 class AppUsagePage extends StatelessWidget {
   const AppUsagePage({super.key});
@@ -25,11 +32,73 @@ class _AppUsageBody extends StatefulWidget {
 
 class _AppUsageBodyState extends State<_AppUsageBody> {
   late BlocAppUsage _bloc;
+  Timer? _watchTimer;
+  bool _accessibilityEnabled = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = BlocProvider.of<BlocAppUsage>(context);
+    _watchTimer ??= Timer.periodic(const Duration(minutes: 1), _onTimerTick);
+    _checkAccessibility();
+  }
+
+  @override
+  void dispose() {
+    _watchTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _checkAccessibility() async {
+    try {
+      final enabled = await _blockerChannel
+          .invokeMethod<bool>('isAccessibilityEnabled') ?? false;
+      if (mounted) setState(() => _accessibilityEnabled = enabled);
+    } catch (_) {}
+  }
+
+  Future<void> _openAccessibilitySettings() async {
+    try {
+      await _blockerChannel.invokeMethod('openAccessibilitySettings');
+    } catch (_) {}
+  }
+
+  Future<void> _onTimerTick(Timer _) async {
+    _checkAccessibility();
+    final underThreshold = await _bloc.checkWatchedUnderThreshold();
+    if (!mounted || underThreshold.isEmpty) return;
+    _showWatchAlert(underThreshold);
+  }
+
+  void _showWatchAlert(List<AppUsageModel> apps) {
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Наблюдаемые приложения'),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: apps
+                .map(
+                  (a) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 2),
+                    child: Text(
+                      '${a.appName}: ${_formatMinutes(a.usageMinutes)}',
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: const Text('Закрыть'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -67,12 +136,37 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
           );
         }
         if (state is AppUsageStateLoaded) {
-          if (state.apps.isEmpty) {
-            return Center(child: Text(S.of(context).appUsageEmpty));
-          }
-          return ListView.builder(
-            itemCount: state.apps.length,
-            itemBuilder: (context, index) => _AppTile(model: state.apps[index]),
+          return Column(
+            children: [
+              _AccessibilityBanner(
+                enabled: _accessibilityEnabled,
+                onEnable: _openAccessibilitySettings,
+              ),
+              _ThresholdSelector(
+                value: state.thresholdMinutes,
+                onChanged: _bloc.setThreshold,
+              ),
+              if (state.apps.isEmpty)
+                Expanded(
+                  child: Center(child: Text(S.of(context).appUsageEmpty)),
+                )
+              else
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: state.apps.length,
+                    itemBuilder: (context, index) {
+                      final model = state.apps[index];
+                      return _AppTile(
+                        model: model,
+                        isWatched:
+                            state.watchedPackages.contains(model.packageName),
+                        onToggleWatch: () =>
+                            _bloc.toggleWatch(model.packageName, model.appName),
+                      );
+                    },
+                  ),
+                ),
+            ],
           );
         }
         return const SizedBox.shrink();
@@ -81,16 +175,93 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   }
 }
 
+class _AccessibilityBanner extends StatelessWidget {
+  final bool enabled;
+  final VoidCallback onEnable;
+
+  const _AccessibilityBanner({required this.enabled, required this.onEnable});
+
+  @override
+  Widget build(BuildContext context) {
+    if (enabled) return const SizedBox.shrink();
+    return MaterialBanner(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      content: const Text(
+        'Включи сервис специальных возможностей для блокировки приложений',
+      ),
+      actions: [
+        TextButton(
+          onPressed: onEnable,
+          child: const Text('Включить'),
+        ),
+      ],
+    );
+  }
+}
+
+class _ThresholdSelector extends StatelessWidget {
+  final int value;
+  final void Function(int) onChanged;
+
+  const _ThresholdSelector({required this.value, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    final safeValue = _thresholdOptions.contains(value) ? value : 60;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          const Text('Порог для разблокировки:'),
+          const SizedBox(width: 12),
+          DropdownButton<int>(
+            value: safeValue,
+            items: _thresholdOptions
+                .map((m) => DropdownMenuItem(
+                      value: m,
+                      child: Text('$m мин'),
+                    ))
+                .toList(),
+            onChanged: (v) {
+              if (v != null) onChanged(v);
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _AppTile extends StatelessWidget {
   final AppUsageModel model;
-  const _AppTile({required this.model});
+  final bool isWatched;
+  final VoidCallback onToggleWatch;
+
+  const _AppTile({
+    required this.model,
+    required this.isWatched,
+    required this.onToggleWatch,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: _buildIcon(),
       title: Text(model.appName),
-      trailing: Text(_formatMinutes(model.usageMinutes)),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(_formatMinutes(model.usageMinutes)),
+          IconButton(
+            icon: Icon(
+              isWatched ? Icons.block : Icons.block_outlined,
+              color: isWatched ? Colors.redAccent : null,
+            ),
+            tooltip: isWatched ? 'Снять блокировку' : 'Заблокировать',
+            onPressed: onToggleWatch,
+          ),
+        ],
+      ),
     );
   }
 
@@ -101,11 +272,11 @@ class _AppTile extends StatelessWidget {
     }
     return const Icon(Icons.apps, size: 40);
   }
+}
 
-  String _formatMinutes(int minutes) {
-    final hours = minutes ~/ 60;
-    final mins = minutes % 60;
-    if (hours > 0) return '$hours ч $mins м';
-    return '$mins м';
-  }
+String _formatMinutes(int minutes) {
+  final hours = minutes ~/ 60;
+  final mins = minutes % 60;
+  if (hours > 0) return '$hours ч $mins м';
+  return '$mins м';
 }
