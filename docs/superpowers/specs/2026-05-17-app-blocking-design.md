@@ -1,4 +1,4 @@
-# App Blocking Feature — Design Spec
+ht# App Blocking Feature — Design Spec
 
 **Date:** 2026-05-17  
 **Branch:** check_app
