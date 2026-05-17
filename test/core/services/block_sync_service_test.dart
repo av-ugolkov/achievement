@@ -10,10 +10,16 @@ void main() {
 
   test('writeBlockList stores JSON-encoded list', () async {
     final svc = BlockSyncService();
-    await svc.writeBlockList(['com.google.android.youtube', 'com.facebook.katana']);
+    await svc.writeBlockList([
+      'com.google.android.youtube',
+      'com.facebook.katana',
+    ]);
     final prefs = await SharedPreferences.getInstance();
     final stored = prefs.getString('block_list');
-    expect(jsonDecode(stored!), ['com.google.android.youtube', 'com.facebook.katana']);
+    expect(jsonDecode(stored!), [
+      'com.google.android.youtube',
+      'com.facebook.katana',
+    ]);
   });
 
   test('writeThreshold stores int', () async {
