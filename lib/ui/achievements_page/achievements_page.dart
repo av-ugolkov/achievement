@@ -5,9 +5,13 @@ import 'package:achievement/core/notification/payload.dart';
 import 'package:achievement/core/page_manager.dart';
 import 'package:achievement/data/model/achievement_model.dart';
 import 'package:achievement/db/db_achievement.dart';
+import 'package:achievement/db/db_block_session.dart';
+import 'package:achievement/db/db_blocked_app.dart';
 import 'package:achievement/db/db_file.dart';
 import 'package:achievement/db/db_progress.dart';
 import 'package:achievement/db/db_remind.dart';
+import 'package:achievement/db/db_unlock_condition.dart';
+import 'package:achievement/db/db_usage_log.dart';
 import 'package:achievement/ui/achievements_page/inherited_achievement_page.dart';
 import 'package:achievement/ui/achievements_page/list_achievement.dart';
 import 'package:achievement/core/page_routes.dart';
@@ -70,6 +74,18 @@ class _AchievementsPageState extends State<AchievementsPage> {
         await DbAchievement.db.createTable(db);
         await DbRemind.db.createTable(db);
         await DbProgress.db.createTable(db);
+        await DbBlockedApp.db.createTable(db);
+        await DbUnlockCondition.db.createTable(db);
+        await DbBlockSession.db.createTable(db);
+        await DbUsageLog.db.createTable(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await DbBlockedApp.db.createTable(db);
+          await DbUnlockCondition.db.createTable(db);
+          await DbBlockSession.db.createTable(db);
+          await DbUsageLog.db.createTable(db);
+        }
       },
     );
     return database;

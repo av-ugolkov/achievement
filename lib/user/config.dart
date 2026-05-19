@@ -1,4 +1,4 @@
 class Config {
-  static const int version = 1;
+  static const int version = 2;
   static String locale = 'ru';
 }
