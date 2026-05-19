@@ -1,5 +1,6 @@
-import 'package:achievement/db/db_file.dart';
 import 'package:sqflite/sqflite.dart';
+import 'db_file.dart';
+import 'package:achievement/data/model/unlock_condition_model.dart';
 
 class DbUnlockCondition {
   DbUnlockCondition._();
@@ -19,16 +20,16 @@ class DbUnlockCondition {
     );
   }
 
-  Future<Map<String, dynamic>?> getActive() async {
+  Future<UnlockConditionModel?> getActive() async {
     final rows = await DbFile.db.query(_table,
         where: 'is_active = ?', whereArgs: [1], limit: 1);
     if (rows.isEmpty) return null;
-    return rows.first;
+    return UnlockConditionModel.fromMap(rows.first);
   }
 
-  Future<void> upsert(Map<String, dynamic> conditionMap) async {
+  Future<void> upsert(UnlockConditionModel model) async {
     await DbFile.db.update(_table, {'is_active': 0});
-    final map = Map<String, dynamic>.from(conditionMap)..remove('id');
+    final map = model.toMap()..remove('id');
     await DbFile.db.insert(_table, map);
   }
 }
