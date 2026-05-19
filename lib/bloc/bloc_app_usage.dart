@@ -48,6 +48,9 @@ class BlocAppUsage extends BlocBase {
   Future<void> _init() async {
     _watchlist = await AppUsageService().loadWatchlist();
     _thresholdMinutes = await BlockSyncService().readThreshold();
+    // Sync watchlist to SharedPreferences so the native accessibility service
+    // can read it even if the user never toggled an app this session.
+    await BlockSyncService().writeBlockList(_watchlist.keys.toList());
     _eventController.add(AppUsageEvent.load);
   }
 

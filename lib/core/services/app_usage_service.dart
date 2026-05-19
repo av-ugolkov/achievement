@@ -6,6 +6,7 @@ import 'package:installed_apps/installed_apps.dart';
 import 'package:achievement/core/utils.dart';
 import 'package:achievement/data/model/app_usage_model.dart';
 import 'package:achievement/core/services/block_sync_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppUsageService {
   static String get _watchlistPath => '${docsDir.path}/watchlist.json';
@@ -50,6 +51,16 @@ class AppUsageService {
     try {
       final now = DateTime.now();
       final startOfDay = DateTime(now.year, now.month, now.day);
+
+      // Reset usage if the stored date is from a previous day.
+      final prefs = await SharedPreferences.getInstance();
+      final storedDay = prefs.getString('flutter.achievement_usage_day');
+      final todayStr =
+          '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+      if (storedDay != todayStr) {
+        await prefs.setString('flutter.achievement_usage_day', todayStr);
+        await BlockSyncService().writeAchievementUsage(0);
+      }
 
       final usageInfos = await AppUsage().getAppUsage(startOfDay, now);
       if (usageInfos.isEmpty) return [];

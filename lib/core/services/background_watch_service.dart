@@ -1,4 +1,5 @@
 import 'package:achievement/core/services/app_usage_service.dart';
+import 'package:achievement/core/services/block_sync_service.dart';
 import 'package:achievement/core/utils.dart' as utils;
 import 'package:app_usage/app_usage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -16,6 +17,12 @@ void callbackDispatcher() {
 
       final service = AppUsageService();
       final watchlist = await service.loadWatchlist();
+
+      // Always sync block_list and achievement usage so the accessibility
+      // service has fresh data even when the app is not open.
+      await BlockSyncService().writeBlockList(watchlist.keys.toList());
+      await service.fetchTodayUsage();
+
       if (watchlist.isEmpty) return true;
 
       final now = DateTime.now();
