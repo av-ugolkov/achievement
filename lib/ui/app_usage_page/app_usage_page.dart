@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:achievement/bloc/bloc_app_usage.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
+import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/data/model/app_usage_model.dart';
 import 'package:achievement/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 const _blockerChannel = MethodChannel('com.ugolkov.achievement/blocker');
-
-const _thresholdOptions = [15, 30, 60, 90, 120];
 
 class AppUsagePage extends StatelessWidget {
   const AppUsagePage({super.key});
@@ -138,13 +137,33 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
         if (state is AppUsageStateLoaded) {
           return Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.block),
+                        label: const Text('Заблок. приложения'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, routeAppPickerPage),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: OutlinedButton.icon(
+                        icon: const Icon(Icons.lock_open),
+                        label: const Text('Условие'),
+                        onPressed: () => Navigator.pushNamed(
+                            context, routeConditionConfigPage),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               _AccessibilityBanner(
                 enabled: _accessibilityEnabled,
                 onEnable: _openAccessibilitySettings,
-              ),
-              _ThresholdSelector(
-                value: state.thresholdMinutes,
-                onChanged: _bloc.setThreshold,
               ),
               if (state.apps.isEmpty)
                 Expanded(
@@ -195,39 +214,6 @@ class _AccessibilityBanner extends StatelessWidget {
           child: const Text('Включить'),
         ),
       ],
-    );
-  }
-}
-
-class _ThresholdSelector extends StatelessWidget {
-  final int value;
-  final void Function(int) onChanged;
-
-  const _ThresholdSelector({required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    final safeValue = _thresholdOptions.contains(value) ? value : 60;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          const Text('Порог для разблокировки:'),
-          const SizedBox(width: 12),
-          DropdownButton<int>(
-            value: safeValue,
-            items: _thresholdOptions
-                .map((m) => DropdownMenuItem(
-                      value: m,
-                      child: Text('$m мин'),
-                    ))
-                .toList(),
-            onChanged: (v) {
-              if (v != null) onChanged(v);
-            },
-          ),
-        ],
-      ),
     );
   }
 }
