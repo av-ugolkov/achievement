@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:achievement/bloc/bloc_app_usage.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
+import 'package:achievement/bloc/bloc_unlock_progress.dart';
 import 'package:achievement/core/page_routes.dart';
 import 'package:achievement/data/model/app_usage_model.dart';
 import 'package:achievement/generated/l10n.dart';
@@ -33,18 +34,21 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   late BlocAppUsage _bloc;
   Timer? _watchTimer;
   bool _accessibilityEnabled = false;
+  BlocUnlockProgress? _progressBloc;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = BlocProvider.of<BlocAppUsage>(context);
     _watchTimer ??= Timer.periodic(const Duration(minutes: 1), _onTimerTick);
+    _progressBloc ??= BlocUnlockProgress();
     _checkAccessibility();
   }
 
   @override
   void dispose() {
     _watchTimer?.cancel();
+    _progressBloc?.dispose();
     super.dispose();
   }
 
@@ -63,6 +67,7 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   }
 
   Future<void> _onTimerTick(Timer _) async {
+    _progressBloc?.inEvent.add(UnlockProgressEvent.refresh);
     _checkAccessibility();
     final underThreshold = await _bloc.checkWatchedUnderThreshold();
     if (!mounted || underThreshold.isEmpty) return;
@@ -161,6 +166,7 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
                   ],
                 ),
               ),
+              _UnlockConditionCard(bloc: _progressBloc!),
               _AccessibilityBanner(
                 enabled: _accessibilityEnabled,
                 onEnable: _openAccessibilitySettings,
@@ -265,4 +271,149 @@ String _formatMinutes(int minutes) {
   final mins = minutes % 60;
   if (hours > 0) return '$hours ч $mins м';
   return '$mins м';
+}
+
+class _UnlockConditionCard extends StatelessWidget {
+  final BlocUnlockProgress bloc;
+
+  const _UnlockConditionCard({required this.bloc});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<UnlockProgressState>(
+      stream: bloc.outState,
+      builder: (context, snapshot) {
+        final state = snapshot.data;
+        if (state is UnlockProgressTracking) {
+          if (!state.hasCondition) return _buildEmpty();
+          if (state.unlocked) return _buildUnlocked(state);
+          return _buildInProgress(state);
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget _buildEmpty() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: const Row(
+        children: [
+          Icon(Icons.lock_open, color: Colors.grey, size: 20),
+          SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Условие разблокировки не задано',
+                  style: TextStyle(color: Colors.grey, fontSize: 12)),
+              Text('Нажми «Условие» чтобы настроить',
+                  style: TextStyle(color: Colors.grey, fontSize: 11)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildInProgress(UnlockProgressTracking state) {
+    final progress = state.thresholdMinutes == 0
+        ? 1.0
+        : (state.usageMinutes / state.thresholdMinutes).clamp(0.0, 1.0);
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0x146366F1),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0x336366F1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      state.targetAppName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 13),
+                    ),
+                    Text(
+                      'Проведи ${state.thresholdMinutes} мин для разблокировки',
+                      style:
+                          const TextStyle(fontSize: 11, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                '${state.usageMinutes}/${state.thresholdMinutes} м',
+                style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF6366F1),
+                    fontSize: 12),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: progress,
+            backgroundColor: const Color(0x33E0E7FF),
+            valueColor:
+                const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+            borderRadius: BorderRadius.circular(3),
+            minHeight: 6,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUnlocked(UnlockProgressTracking state) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0x1410B981),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0x4D10B981)),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.check_circle,
+              color: Color(0xFF10B981), size: 22),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Заблокированные приложения разблокированы',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF065F46),
+                      fontSize: 12),
+                ),
+                Text(
+                  '${state.targetAppName} · ${state.thresholdMinutes} мин засчитано',
+                  style: const TextStyle(
+                      fontSize: 10, color: Color(0xFF6EE7B7)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
