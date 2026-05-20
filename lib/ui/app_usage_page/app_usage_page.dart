@@ -34,21 +34,26 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   late BlocAppUsage _bloc;
   Timer? _watchTimer;
   bool _accessibilityEnabled = false;
-  BlocUnlockProgress? _progressBloc;
+  late BlocUnlockProgress _progressBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _progressBloc = BlocUnlockProgress();
+  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _bloc = BlocProvider.of<BlocAppUsage>(context);
     _watchTimer ??= Timer.periodic(const Duration(minutes: 1), _onTimerTick);
-    _progressBloc ??= BlocUnlockProgress();
     _checkAccessibility();
   }
 
   @override
   void dispose() {
     _watchTimer?.cancel();
-    _progressBloc?.dispose();
+    _progressBloc.dispose();
     super.dispose();
   }
 
@@ -67,7 +72,7 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   }
 
   Future<void> _onTimerTick(Timer _) async {
-    _progressBloc?.inEvent.add(UnlockProgressEvent.refresh);
+    _progressBloc.inEvent.add(UnlockProgressEvent.refresh);
     _checkAccessibility();
     final underThreshold = await _bloc.checkWatchedUnderThreshold();
     if (!mounted || underThreshold.isEmpty) return;
@@ -166,7 +171,7 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
                   ],
                 ),
               ),
-              _UnlockConditionCard(bloc: _progressBloc!),
+              _UnlockConditionCard(bloc: _progressBloc),
               _AccessibilityBanner(
                 enabled: _accessibilityEnabled,
                 onEnable: _openAccessibilitySettings,
@@ -285,7 +290,7 @@ class _UnlockConditionCard extends StatelessWidget {
       builder: (context, snapshot) {
         final state = snapshot.data;
         if (state is UnlockProgressTracking) {
-          if (!state.hasCondition) return _buildEmpty();
+          if (!state.hasCondition) return _buildEmpty(context);
           if (state.unlocked) return _buildUnlocked(state);
           return _buildInProgress(state);
         }
@@ -294,29 +299,32 @@ class _UnlockConditionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildEmpty() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: const Row(
-        children: [
-          Icon(Icons.lock_open, color: Colors.grey, size: 20),
-          SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Условие разблокировки не задано',
-                  style: TextStyle(color: Colors.grey, fontSize: 12)),
-              Text('Нажми «Условие» чтобы настроить',
-                  style: TextStyle(color: Colors.grey, fontSize: 11)),
-            ],
-          ),
-        ],
+  Widget _buildEmpty(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pushNamed(routeConditionConfigPage),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade50,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: const Row(
+          children: [
+            Icon(Icons.lock_open, color: Colors.grey, size: 20),
+            SizedBox(width: 10),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Условие разблокировки не задано',
+                    style: TextStyle(color: Colors.grey, fontSize: 12)),
+                Text('Нажми «Условие» чтобы настроить',
+                    style: TextStyle(color: Colors.grey, fontSize: 11)),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
