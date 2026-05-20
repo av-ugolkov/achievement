@@ -9,6 +9,7 @@ import 'package:achievement/ui/achievements_page/achievements_page.dart';
 import 'package:achievement/ui/blocker_page/blocker_page.dart';
 import 'package:achievement/ui/edit_achievement_page/edit_achievement_page.dart';
 import 'package:achievement/ui/settings_page/settings_page.dart';
+import 'package:achievement/ui/app_picker_page/app_picker_page.dart';
 import 'package:achievement/ui/view_achievement_page/view_achievement_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -88,6 +89,7 @@ class MyApp extends StatelessWidget {
         routeSettingsPage: (context) => SettingsPage(),
         routeAboutPage: (context) => AboutPage(),
         '/blocker': (context) => const BlockerPage(),
+        routeAppPickerPage: (context) => const AppPickerPage(),
       },
       navigatorObservers: <NavigatorObserver>[
         if (kReleaseMode) FirebaseController.createObserver()
