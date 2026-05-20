@@ -5,6 +5,7 @@ import 'package:achievement/core/services/block_sync_service.dart';
 import 'package:achievement/data/model/unlock_condition_model.dart';
 import 'package:achievement/db/db_block_session.dart';
 import 'package:achievement/db/db_unlock_condition.dart';
+import 'package:flutter/foundation.dart';
 
 sealed class UnlockProgressState {}
 
@@ -90,6 +91,7 @@ class BlocUnlockProgress extends BlocBase {
         hasCondition: hasCondition,
       ));
     } catch (e) {
+      debugPrint('[BlocUnlockProgress] _handleRefresh error: $e');
       _inState.add(UnlockProgressTracking(
         usageMinutes: 0,
         thresholdMinutes: 60,

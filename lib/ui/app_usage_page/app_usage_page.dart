@@ -164,8 +164,11 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
                       child: OutlinedButton.icon(
                         icon: const Icon(Icons.lock_open),
                         label: const Text('Условие'),
-                        onPressed: () => Navigator.pushNamed(
-                            context, routeConditionConfigPage),
+                        onPressed: () async {
+                          await Navigator.pushNamed(
+                              context, routeConditionConfigPage);
+                          _progressBloc.inEvent.add(UnlockProgressEvent.refresh);
+                        },
                       ),
                     ),
                   ],
@@ -301,7 +304,10 @@ class _UnlockConditionCard extends StatelessWidget {
 
   Widget _buildEmpty(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pushNamed(routeConditionConfigPage),
+      onTap: () async {
+        await Navigator.of(context).pushNamed(routeConditionConfigPage);
+        bloc.inEvent.add(UnlockProgressEvent.refresh);
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),

@@ -34,6 +34,7 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
   Uint8List? _targetIcon;
   int _thresholdMinutes = 60;
   bool _initialized = false;
+  BlockingConfigState? _currentState;
 
   @override
   void didChangeDependencies() {
@@ -46,9 +47,10 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
   }
 
   Future<void> _loadInitialCondition() async {
-    // Wait for the first loaded state to pre-populate fields
-    await for (final state in _bloc.outState) {
-      if (state is BlockingConfigLoaded) {
+    _bloc.outState.listen((state) {
+      if (!mounted) return;
+      setState(() => _currentState = state);
+      if (state is BlockingConfigLoaded && _targetPackage == null) {
         final condition = state.activeCondition;
         if (condition is TimeInAppCondition) {
           setState(() {
@@ -57,15 +59,13 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
             _thresholdMinutes = condition.thresholdMinutes;
           });
         }
-        break;
       }
-    }
+    });
   }
 
   Future<void> _pickTargetApp() async {
-    // Get current blocked packages to exclude them
     Set<String> blockedPkgs = {};
-    final state = await _bloc.outState.first;
+    final state = _currentState;
     if (state is BlockingConfigLoaded) {
       blockedPkgs = state.blockedApps.map((a) => a.packageName).toSet();
     }
