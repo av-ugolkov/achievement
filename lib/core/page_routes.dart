@@ -5,3 +5,4 @@ const String routeSettingsPage = '/settings';
 const String routeAboutPage = '/about';
 const String routeAppPickerPage = '/app_picker';
 const String routeConditionConfigPage = '/condition_config';
+const String routeUnlockSuccessPage = '/unlock_success';
