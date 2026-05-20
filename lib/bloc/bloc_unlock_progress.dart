@@ -15,12 +15,14 @@ class UnlockProgressTracking extends UnlockProgressState {
   final int thresholdMinutes;
   final String targetAppName;
   final bool unlocked;
+  final bool hasCondition;
 
   UnlockProgressTracking({
     required this.usageMinutes,
     required this.thresholdMinutes,
     required this.targetAppName,
     required this.unlocked,
+    this.hasCondition = true,
   });
 }
 
@@ -68,11 +70,12 @@ class BlocUnlockProgress extends BlocBase {
       final threshold = await sync.readThreshold();
       final unlocked = await sync.isUnlockedToday();
 
-      // Determine target app name from active condition
-      String targetAppName = 'Achievement';
+      String targetAppName = '';
+      bool hasCondition = false;
       final condition = await DbUnlockCondition.db.getActive();
       if (condition is TimeInAppCondition) {
         targetAppName = condition.targetAppName;
+        hasCondition = true;
       }
 
       if (unlocked) {
@@ -84,13 +87,15 @@ class BlocUnlockProgress extends BlocBase {
         thresholdMinutes: threshold,
         targetAppName: targetAppName,
         unlocked: unlocked,
+        hasCondition: hasCondition,
       ));
     } catch (e) {
       _inState.add(UnlockProgressTracking(
         usageMinutes: 0,
         thresholdMinutes: 60,
-        targetAppName: 'Achievement',
+        targetAppName: '',
         unlocked: false,
+        hasCondition: false,
       ));
     }
   }
