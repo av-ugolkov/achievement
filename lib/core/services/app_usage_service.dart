@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:app_usage/app_usage.dart';
 import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';

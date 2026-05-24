@@ -1,11 +1,13 @@
 package com.ugolkov.achievement
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import java.time.LocalDate
 
 class MainActivity : FlutterActivity() {
     private val channelName = "com.ugolkov.achievement/blocker"
@@ -50,6 +52,12 @@ class MainActivity : FlutterActivity() {
                         val launcherIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
                         val activities = packageManager.queryIntentActivities(launcherIntent, 0)
                         result.success(activities.map { it.activityInfo.packageName }.distinct())
+                    }
+                    "getUnlockStatus" -> {
+                        val prefs = getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+                        val today = LocalDate.now().toString()
+                        val unlockedDay = prefs.getString("flutter.unlocked_day", "") ?: ""
+                        result.success(unlockedDay == today)
                     }
                     else -> result.notImplemented()
                 }

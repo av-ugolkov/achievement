@@ -3,6 +3,7 @@ package com.ugolkov.achievement
 import android.accessibilityservice.AccessibilityService
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityWindowInfo
 import org.json.JSONArray
@@ -31,7 +32,7 @@ class BlockAccessibilityService : AccessibilityService() {
         if (packageName == lastBlockedPackage && now - lastBlockTime < cooldownMs) return
 
         if (!isInBlockList(packageName)) return
-        if (achievementUsageMetThreshold()) return
+        if (unlockConditionMet()) return
 
         lastBlockedPackage = packageName
         lastBlockTime = now
@@ -59,13 +60,28 @@ class BlockAccessibilityService : AccessibilityService() {
         }
     }
 
-    private fun achievementUsageMetThreshold(): Boolean {
+    private fun unlockConditionMet(): Boolean {
         val prefs = getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
-        val storedDay = prefs.getString("flutter.achievement_usage_day", "") ?: ""
+        val unlockedDay = prefs.getString("flutter.unlocked_day", "") ?: ""
         val today = LocalDate.now().toString()
-        val usage = if (storedDay == today) prefs.getInt("flutter.achievement_usage_minutes", 0) else 0
+        if (unlockedDay == today) return true
+
+        val conditionType = prefs.getInt("flutter.unlock_condition_type", 0)
+        return when (conditionType) {
+            0 -> checkTimeInAppCondition(prefs, today)
+            else -> false
+        }
+    }
+
+    private fun checkTimeInAppCondition(prefs: SharedPreferences, today: String): Boolean {
+        val storedDay = prefs.getString("flutter.target_usage_day", "") ?: ""
+        val usage = if (storedDay == today) prefs.getInt("flutter.target_usage_minutes", 0) else 0
         val threshold = prefs.getInt("flutter.threshold_minutes", 60)
-        return usage >= threshold
+        val met = usage >= threshold
+        if (met) {
+            prefs.edit().putString("flutter.unlocked_day", today).apply()
+        }
+        return met
     }
 
     private fun launchBlocker(blockedPackage: String) {

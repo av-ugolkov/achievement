@@ -81,7 +81,13 @@ class BlocUnlockProgress extends BlocBase {
         hasCondition = true;
       }
 
-      if (unlocked) {
+      final conditionMet = hasCondition && usage >= threshold;
+      if (conditionMet && !unlocked) {
+        await sync.markUnlockedToday();
+      }
+      final isNowUnlocked = unlocked || conditionMet;
+
+      if (isNowUnlocked) {
         await DbBlockSession.db.markUnlocked();
       }
 
@@ -89,7 +95,7 @@ class BlocUnlockProgress extends BlocBase {
         usageMinutes: usage,
         thresholdMinutes: threshold,
         targetAppName: targetAppName,
-        unlocked: unlocked,
+        unlocked: isNowUnlocked,
         hasCondition: hasCondition,
       );
       currentState = state;
