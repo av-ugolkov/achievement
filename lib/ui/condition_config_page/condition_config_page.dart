@@ -82,6 +82,29 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
     );
   }
 
+  Future<void> _clearCondition() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Сбросить условие?'),
+        content: const Text('Условие разблокировки будет удалено.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: const Text('Отмена'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: const Text('Сбросить'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+    await _bloc.clearUnlockCondition();
+    if (mounted) Navigator.of(context).pop();
+  }
+
   Future<void> _save() async {
     if (_targetPackage == null || _targetAppName == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -102,7 +125,18 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Условие разблокировки')),
+      appBar: AppBar(
+        title: const Text('Условие разблокировки'),
+        actions: [
+          if (_currentState is BlockingConfigLoaded &&
+              (_currentState as BlockingConfigLoaded).activeCondition != null)
+            IconButton(
+              icon: const Icon(Icons.delete_outline),
+              tooltip: 'Сбросить условие',
+              onPressed: _clearCondition,
+            ),
+        ],
+      ),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:achievement/bloc/bloc_app_usage.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
@@ -16,6 +17,17 @@ class AppUsagePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isIOS) {
+      return const Center(
+        child: Padding(
+          padding: EdgeInsets.all(24),
+          child: Text(
+            'Блокировка приложений доступна только на Android.',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
     return BlocProvider<BlocAppUsage>(
       bloc: BlocAppUsage(),
       child: const _AppUsageBody(),

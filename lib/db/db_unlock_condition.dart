@@ -32,4 +32,8 @@ class DbUnlockCondition {
     final map = model.toMap()..remove('id');
     await DbFile.db.insert(_table, map);
   }
+
+  Future<void> clearActive() async {
+    await DbFile.db.update(_table, {'is_active': 0});
+  }
 }

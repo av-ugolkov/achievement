@@ -120,6 +120,13 @@ class BlocBlockingConfig extends BlocBase {
     _eventController.add(BlockingConfigEvent.refresh);
   }
 
+  Future<void> clearUnlockCondition() async {
+    await DbUnlockCondition.db.clearActive();
+    _activeCondition = null;
+    await BlockSyncService().clearCondition();
+    _eventController.add(BlockingConfigEvent.refresh);
+  }
+
   Future<void> markSessionUnlocked() async {
     await DbBlockSession.db.markUnlocked();
     await BlockSyncService().markUnlockedToday();

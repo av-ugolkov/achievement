@@ -82,4 +82,10 @@ class BlockSyncService {
     final today = '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
     await prefs.setString(_unlockedDayKey, today);
   }
+
+  Future<void> clearCondition() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_unlockConditionTypeKey);
+    await prefs.remove(_targetPackageKey);
+  }
 }
