@@ -102,13 +102,4 @@ class BlocAppUsage extends BlocBase {
     _inState.add(AppUsageStateLoaded(_lastApps, _watchlist.keys.toSet(), _thresholdMinutes));
   }
 
-  Future<List<AppUsageModel>> checkWatchedUnderThreshold() async {
-    if (_watchlist.isEmpty) return [];
-    final apps = await AppUsageService().fetchTodayUsage();
-    return apps
-        .where((a) =>
-            _watchlist.containsKey(a.packageName) &&
-            a.usageMinutes < _thresholdMinutes)
-        .toList();
-  }
 }

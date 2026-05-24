@@ -35,6 +35,8 @@ class BlocUnlockProgress extends BlocBase {
   final StreamController<UnlockProgressEvent> _eventController =
       StreamController<UnlockProgressEvent>();
 
+  UnlockProgressState? currentState;
+
   Sink<UnlockProgressEvent> get inEvent => _eventController.sink;
   Stream<UnlockProgressState> get outState => _stateController.stream;
 
@@ -83,22 +85,26 @@ class BlocUnlockProgress extends BlocBase {
         await DbBlockSession.db.markUnlocked();
       }
 
-      _inState.add(UnlockProgressTracking(
+      final state = UnlockProgressTracking(
         usageMinutes: usage,
         thresholdMinutes: threshold,
         targetAppName: targetAppName,
         unlocked: unlocked,
         hasCondition: hasCondition,
-      ));
+      );
+      currentState = state;
+      _inState.add(state);
     } catch (e) {
       debugPrint('[BlocUnlockProgress] _handleRefresh error: $e');
-      _inState.add(UnlockProgressTracking(
+      final state = UnlockProgressTracking(
         usageMinutes: 0,
         thresholdMinutes: 60,
         targetAppName: '',
         unlocked: false,
         hasCondition: false,
-      ));
+      );
+      currentState = state;
+      _inState.add(state);
     }
   }
 }

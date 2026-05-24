@@ -59,8 +59,9 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
 
   Future<void> _checkAccessibility() async {
     try {
-      final enabled = await _blockerChannel
-          .invokeMethod<bool>('isAccessibilityEnabled') ?? false;
+      final enabled =
+          await _blockerChannel.invokeMethod<bool>('isAccessibilityEnabled') ??
+          false;
       if (mounted) setState(() => _accessibilityEnabled = enabled);
     } catch (_) {}
   }
@@ -74,40 +75,6 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
   Future<void> _onTimerTick(Timer _) async {
     _progressBloc.inEvent.add(UnlockProgressEvent.refresh);
     _checkAccessibility();
-    final underThreshold = await _bloc.checkWatchedUnderThreshold();
-    if (!mounted || underThreshold.isEmpty) return;
-    _showWatchAlert(underThreshold);
-  }
-
-  void _showWatchAlert(List<AppUsageModel> apps) {
-    showDialog<void>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Наблюдаемые приложения'),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: apps
-                .map(
-                  (a) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Text(
-                      '${a.appName}: ${_formatMinutes(a.usageMinutes)}',
-                    ),
-                  ),
-                )
-                .toList(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(),
-            child: const Text('Закрыть'),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -148,30 +115,22 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        icon: const Icon(Icons.block),
-                        label: const Text('Заблок. приложения'),
-                        onPressed: () =>
-                            Navigator.pushNamed(context, routeAppPickerPage),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        icon: const Icon(Icons.lock_open),
-                        label: const Text('Условие'),
-                        onPressed: () async {
-                          await Navigator.pushNamed(
-                              context, routeConditionConfigPage);
-                          _progressBloc.inEvent.add(UnlockProgressEvent.refresh);
-                        },
-                      ),
-                    ),
-                  ],
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.lock_open),
+                  label: const Text('Условие'),
+                  onPressed: () async {
+                    await Navigator.pushNamed(
+                      context,
+                      routeConditionConfigPage,
+                    );
+                    _progressBloc.inEvent.add(
+                      UnlockProgressEvent.refresh,
+                    );
+                  },
                 ),
               ),
               _UnlockConditionCard(bloc: _progressBloc),
@@ -191,8 +150,9 @@ class _AppUsageBodyState extends State<_AppUsageBody> {
                       final model = state.apps[index];
                       return _AppTile(
                         model: model,
-                        isWatched:
-                            state.watchedPackages.contains(model.packageName),
+                        isWatched: state.watchedPackages.contains(
+                          model.packageName,
+                        ),
                         onToggleWatch: () =>
                             _bloc.toggleWatch(model.packageName, model.appName),
                       );
@@ -222,12 +182,7 @@ class _AccessibilityBanner extends StatelessWidget {
       content: const Text(
         'Включи сервис специальных возможностей для блокировки приложений',
       ),
-      actions: [
-        TextButton(
-          onPressed: onEnable,
-          child: const Text('Включить'),
-        ),
-      ],
+      actions: [TextButton(onPressed: onEnable, child: const Text('Включить'))],
     );
   }
 }
@@ -290,6 +245,7 @@ class _UnlockConditionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<UnlockProgressState>(
       stream: bloc.outState,
+      initialData: bloc.currentState,
       builder: (context, snapshot) {
         final state = snapshot.data;
         if (state is UnlockProgressTracking) {
@@ -323,10 +279,14 @@ class _UnlockConditionCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Условие разблокировки не задано',
-                    style: TextStyle(color: Colors.grey, fontSize: 12)),
-                Text('Нажми «Условие» чтобы настроить',
-                    style: TextStyle(color: Colors.grey, fontSize: 11)),
+                Text(
+                  'Условие разблокировки не задано',
+                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                ),
+                Text(
+                  'Нажми «Условие» чтобы настроить',
+                  style: TextStyle(color: Colors.grey, fontSize: 11),
+                ),
               ],
             ),
           ],
@@ -360,12 +320,13 @@ class _UnlockConditionCard extends StatelessWidget {
                     Text(
                       state.targetAppName,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 13),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 13,
+                      ),
                     ),
                     Text(
                       'Проведи ${state.thresholdMinutes} мин для разблокировки',
-                      style:
-                          const TextStyle(fontSize: 11, color: Colors.grey),
+                      style: const TextStyle(fontSize: 11, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -373,9 +334,10 @@ class _UnlockConditionCard extends StatelessWidget {
               Text(
                 '${state.usageMinutes}/${state.thresholdMinutes} м',
                 style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xFF6366F1),
-                    fontSize: 12),
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF6366F1),
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
@@ -383,8 +345,7 @@ class _UnlockConditionCard extends StatelessWidget {
           LinearProgressIndicator(
             value: progress,
             backgroundColor: const Color(0x33E0E7FF),
-            valueColor:
-                const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF6366F1)),
             borderRadius: BorderRadius.circular(3),
             minHeight: 6,
           ),
@@ -404,8 +365,7 @@ class _UnlockConditionCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle,
-              color: Color(0xFF10B981), size: 22),
+          const Icon(Icons.check_circle, color: Color(0xFF10B981), size: 22),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -414,14 +374,17 @@ class _UnlockConditionCard extends StatelessWidget {
                 const Text(
                   'Заблокированные приложения разблокированы',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF065F46),
-                      fontSize: 12),
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF065F46),
+                    fontSize: 12,
+                  ),
                 ),
                 Text(
                   '${state.targetAppName} · ${state.thresholdMinutes} мин засчитано',
                   style: const TextStyle(
-                      fontSize: 10, color: Color(0xFF6EE7B7)),
+                    fontSize: 10,
+                    color: Color(0xFF6EE7B7),
+                  ),
                 ),
               ],
             ),

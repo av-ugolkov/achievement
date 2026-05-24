@@ -46,6 +46,11 @@ class MainActivity : FlutterActivity() {
                         startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
                         result.success(null)
                     }
+                    "getLaunchablePackages" -> {
+                        val launcherIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+                        val activities = packageManager.queryIntentActivities(launcherIntent, 0)
+                        result.success(activities.map { it.activityInfo.packageName }.distinct())
+                    }
                     else -> result.notImplemented()
                 }
             }

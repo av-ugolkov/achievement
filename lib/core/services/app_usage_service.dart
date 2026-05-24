@@ -2,11 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:app_usage/app_usage.dart';
+import 'package:flutter/services.dart';
 import 'package:installed_apps/installed_apps.dart';
 import 'package:achievement/core/utils.dart';
 import 'package:achievement/data/model/app_usage_model.dart';
 import 'package:achievement/core/services/block_sync_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const _blockerChannel = MethodChannel('com.ugolkov.achievement/blocker');
 
 class AppUsageService {
   static String get _watchlistPath => '${docsDir.path}/watchlist.json';
@@ -33,6 +36,15 @@ class AppUsageService {
     await file.writeAsString(jsonEncode(watchlist));
   }
 
+
+  static Future<Set<String>> getLaunchablePackages() async {
+    try {
+      final list = await _blockerChannel.invokeListMethod<String>('getLaunchablePackages');
+      return list?.toSet() ?? {};
+    } catch (_) {
+      return {};
+    }
+  }
 
   Future<bool> hasPermission() async {
     if (Platform.isIOS) return false;
@@ -76,27 +88,26 @@ class AppUsageService {
 
       const kAchievementPackage = 'com.ugolkov.achievement';
       final achievementMinutes = usageMap[kAchievementPackage] ?? 0;
-      await BlockSyncService().writeAchievementUsage(achievementMinutes);
+      final sync = BlockSyncService();
+      await sync.writeAchievementUsage(achievementMinutes);
 
-      final installedApps = await InstalledApps.getInstalledApps(false, true);
-
-      final iconMap = <String, Uint8List>{};
-      final nameMap = <String, String>{};
-      for (final app in installedApps) {
-        nameMap[app.packageName] = app.name;
-        final icon = app.icon;
-        if (icon != null) iconMap[app.packageName] = icon;
+      final targetPackage = await sync.readTargetPackage();
+      if (targetPackage.isNotEmpty) {
+        await sync.writeTargetUsage(usageMap[targetPackage] ?? 0);
       }
 
+      final launchable = await AppUsageService.getLaunchablePackages();
+      final installedApps = await InstalledApps.getInstalledApps(false, true);
+
       final result = <AppUsageModel>[];
-      for (final entry in usageMap.entries) {
-        final name = nameMap[entry.key];
-        if (name == null) continue;
+      for (final app in installedApps) {
+        if (app.packageName == kAchievementPackage) continue;
+        if (!launchable.contains(app.packageName)) continue;
         result.add(AppUsageModel(
-          appName: name,
-          packageName: entry.key,
-          icon: iconMap[entry.key],
-          usageMinutes: entry.value,
+          appName: app.name,
+          packageName: app.packageName,
+          icon: app.icon,
+          usageMinutes: usageMap[app.packageName] ?? 0,
         ));
       }
 

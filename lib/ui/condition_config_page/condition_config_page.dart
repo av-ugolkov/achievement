@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:achievement/bloc/bloc_blocking_config.dart';
 import 'package:achievement/bloc/bloc_provider.dart';
+import 'package:achievement/core/services/app_usage_service.dart';
 import 'package:achievement/data/model/unlock_condition_model.dart';
 import 'package:flutter/material.dart';
 import 'package:installed_apps/app_info.dart';
@@ -64,18 +65,11 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
   }
 
   Future<void> _pickTargetApp() async {
-    Set<String> blockedPkgs = {};
-    final state = _currentState;
-    if (state is BlockingConfigLoaded) {
-      blockedPkgs = state.blockedApps.map((a) => a.packageName).toSet();
-    }
-
     if (!mounted) return;
     await showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (ctx) => _AppPickerSheet(
-        excludePackages: blockedPkgs,
         onSelected: (pkg, name, icon) {
           setState(() {
             _targetPackage = pkg;
@@ -184,11 +178,9 @@ class _ConditionConfigBodyState extends State<_ConditionConfigBody> {
 }
 
 class _AppPickerSheet extends StatefulWidget {
-  final Set<String> excludePackages;
   final void Function(String pkg, String name, Uint8List? icon) onSelected;
 
   const _AppPickerSheet({
-    required this.excludePackages,
     required this.onSelected,
   });
 
@@ -208,14 +200,17 @@ class _AppPickerSheetState extends State<_AppPickerSheet> {
   }
 
   Future<void> _loadApps() async {
-    final apps = await InstalledApps.getInstalledApps(false, true);
-    final filtered = apps
-        .where((a) => !widget.excludePackages.contains(a.packageName))
+    final launchable = await AppUsageService.getLaunchablePackages();
+    final allApps = await InstalledApps.getInstalledApps(false, true);
+    final apps = allApps
+        .where((a) =>
+            a.packageName != 'com.ugolkov.achievement' &&
+            launchable.contains(a.packageName))
         .toList();
-    filtered.sort((a, b) => a.name.compareTo(b.name));
+    apps.sort((a, b) => a.name.compareTo(b.name));
     if (!mounted) return;
     setState(() {
-      _apps = filtered;
+      _apps = apps;
       _loading = false;
     });
   }
